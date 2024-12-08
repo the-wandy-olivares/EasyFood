@@ -1,0 +1,39 @@
+# Archivos de bytecode
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Archivos temporales y logs
+*.log
+local_settings.py
+db.sqlite3
+
+# Archivos generados por el editor
+.idea/
+*.swp
+*.swo
+
+# Archivos de media (si usas un sistema de almacenamiento externo como S3)
+/media
+
+# Dependencias
+/venv
+/node_modules
+
+# Archivos de migraciones (opcional, si prefieres no versionarlos)
+# /<app_name>/migrations/
+
+# Archivos estáticos (opcional, si usas un sistema de almacenamiento externo como S3)
+# /static
+
+# Configuración específica del entorno
+.env
+/vn
+
+# Archivos de cobertura de código
+.coverage
+htmlcov/
+
+# Archivos generados por PyCharm
+.DS_Store
