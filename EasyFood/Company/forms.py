@@ -84,3 +84,12 @@ class Employee(forms.ModelForm):
                 'class': 'form-check-input',
             }),
         }
+
+
+
+class MenuSelection(forms.Form):
+    menu_items = forms.ModelMultipleChoiceField(
+        queryset= models.Menu.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label="Selecciona tus platos",
+    )

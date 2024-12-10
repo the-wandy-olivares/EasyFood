@@ -1,0 +1,46 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+<style>
+      .reports {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .reports svg   {
+            display: none;
+      }
+</style>
+      
+<section>
+
+      <div>
+            <h5>  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text-fill" viewBox="0 0 16 16">
+                  <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1m-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1m0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1"/>
+                </svg>  Reporte de facturación</h5>
+ 
+            <table class="w-100 mt-4">
+                <thead>
+                    <tr>
+                        <th>Empresas</th>
+                        <th>Total Facturado</th>
+                        <th>Total Pagado</th>
+                        <th>Total Pendiente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in report_data %}
+                    <tr>
+                        <td>{{ data.company.name }}</td>
+                        <td>{{ data.total_billed }}</td>
+                        <td>{{ data.total_paid }}</td>
+                        <td>{{ data.total_pending }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+      </div>
+
+</section>
+
+{% endblock  %}

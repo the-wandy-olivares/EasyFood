@@ -1,13 +1,15 @@
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView
+from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView, ListView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.utils.decorators import method_decorator
+from django.db.models import Sum
+
 
 
 
@@ -221,3 +223,73 @@ def Employee_Login(request):
             else:
                   messages.error(request, "Nombre de usuario o contraseña incorrectos.")
       return render(request, "company/login/logins.html")
+
+
+# Menu , Ordenes, Repodes y mas
+class OrderReport(TemplateView):
+      model = models.Order
+      # form_class = forms.Employee
+      template_name = "company/order/order-report.html"  # Tu plantilla personalizada
+      context_object_name = "employee" 
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['orders'] = models.Order.objects.filter(employee__user=self.request.user)
+            return context
+
+@method_decorator(Check_Role, name='dispatch')
+class Orders(TemplateView):
+    model = models.Order
+    template_name = "company/order/orders.html"
+    context_object_name = "employee"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Obtener los filtros de la URL
+        status_filter = self.request.GET.get('status', None)  # Filtro por estado (pendiente/completado)
+        date_filter = self.request.GET.get('date', None)  # Filtro por fecha (formato YYYY-MM-DD)
+
+        # Filtrar los pedidos según los criterios
+        orders = models.Order.objects.all()
+
+        # Filtrar por estado si se ha enviado el filtro
+        if status_filter:
+            orders = orders.filter(status=status_filter)
+
+        # Filtrar por fecha si se ha enviado el filtro
+        if date_filter:
+            try:
+                filter_date = timezone.datetime.strptime(date_filter, "%Y-%m-%d").date()
+                orders = orders.filter(date__date=filter_date)
+            except ValueError:
+                pass  # Si el formato de fecha es incorrecto, no aplicar el filtro
+
+        context['orders'] = orders  # Pasar los pedidos filtrados al contexto
+        return context
+
+
+class InvoiceReport(ListView):
+      model = models.Company
+      template_name = "company/finance/invoice-report.html"  
+      context_object_name = 'companys'
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            
+            # Obtenemos los datos de las facturas y pagos
+            report_data = []
+            for company in context['companys']:
+                  total_billed = company.invoices.aggregate(Sum('amount'))['amount__sum'] or 0
+                  total_paid = company.invoices.filter(paid=True).aggregate(Sum('amount'))['amount__sum'] or 0
+                  total_pending = total_billed - total_paid
+
+                  report_data.append({
+                  'company': company,
+                  'total_billed': total_billed,
+                  'total_paid': total_paid,
+                  'total_pending': total_pending,
+                  })
+
+            context['report_data'] = report_data
+            return context
