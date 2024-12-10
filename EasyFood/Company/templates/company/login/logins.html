@@ -334,11 +334,13 @@ button:hover .star-6 {
                         
                     </form>
                     
-                    {% if messages %}
+                  <div class="w-100 text-center mt-4">
+                        {% if messages %}
                         {% for message in messages %}
-                            <p>{{ message }}</p>
+                            <p class="text-danger"> ! {{ message }}</p>
                         {% endfor %}
                     {% endif %}
+                  </div>
             </div>
       </div>
 </section>

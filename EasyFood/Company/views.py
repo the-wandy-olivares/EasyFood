@@ -3,11 +3,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.utils.decorators import method_decorator
+
 
 
 # http://127.0.0.1:8000/company/logins
@@ -20,24 +21,27 @@ from Company import forms
 
 def Check_Role(view_func):
       def _wrapped_view(request, *args, **kwargs):
-            if request.user.username != 'admin' or 'untalwandy':
-                  if request.user.employee_profile.role == "ejecutivo":
-                        return view_func(request, *args, **kwargs)
+            if request.user.is_authenticated:
+                  if request.user.username != 'admin' or 'untalwandy':
+                        if request.user.employee_profile.role == "ejecutivo":
+                              return view_func(request, *args, **kwargs)
             return redirect('company:no-acces-to-view')  # Reemplaza 'some_view_name' con el nombre de la vista a redirigir
       return _wrapped_view
-
 
 
 class NoAcceso_to_View(TemplateView):
             template_name = "company/limitation-acces/no-acces-to-view.html"
 
             def get(self, request, *args, **kwargs):
-                  # if not request.user.is_authenticated:
-                  #       return redirect(reverse('customer:search-company'))
+                  if not request.user.is_authenticated:
+                        return redirect(reverse('company:logins'))
+
                   if request.user.username != 'admin' or 'untalwandy':
                               if request.user.employee_profile.role == "ejecutivo":
                                     return redirect('food:dashboard') 
                   return super().get(request, *args, **kwargs)    
+
+                  
                   
 @method_decorator(Check_Role, name='dispatch')
 class AdminCompany(TemplateView):
@@ -192,7 +196,10 @@ class UpdateEmploye(UpdateView):
       def get_success_url(self):
             return reverse_lazy('company:profile-company', kwargs={'pk': self.object.company.id})
       
-      
+      def logout_view(self, request):
+            logout(request)  # Cierra la sesión del usuario actual
+            return redirect('company:logins') 
+                  
       def get(self, request, *args, **kwargs):
             if not request.user.is_authenticated:
                   return redirect(reverse('company:logins'))
