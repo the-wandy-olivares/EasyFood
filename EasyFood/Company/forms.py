@@ -1,9 +1,9 @@
 from django import forms
-from .models import Company
+from Company import models
 
 class Company(forms.ModelForm):
     class Meta:
-        model = Company
+        model = models.Company
         fields = [
             'name',
             'tax_id',  'address',
@@ -16,9 +16,12 @@ class Company(forms.ModelForm):
             'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Direccion ejemplo: Santo Domingo, Santo Domingo Este, Calle Mendoza '}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numero de telefono'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo'}),
-            'representative': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter representative name'}),
-            'services': forms.CheckboxSelectMultiple(),
+            'representative': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Representante'}),
+            'services': forms.CheckboxSelectMultiple(attrs={'class': 'form-select-input'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'img': forms.ClearableFileInput(attrs={
+                'class': 'custom-file-input d-none' ,  # Personaliza el estilo si es necesario
+            }),
         }
         labels = {
             'name': 'Nombre de compania',
@@ -29,4 +32,55 @@ class Company(forms.ModelForm):
             'representative': 'Descripcion',
             'services': 'Servicios de contrato',
             'is_active': 'Vigente',
+        }
+
+
+
+class Employee(forms.ModelForm):
+    class Meta:
+        model = models.Employee
+        fields = [
+            'user',
+            'company',
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'role',
+            'is_active',
+            'username',
+            'genero',
+            'password',
+        ]
+        widgets = {
+            'user': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'company': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nombre',
+            }),
+            'password': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Contraseña',
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'username',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Apellidos',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control', 'placeholder': 'Correo electronico'
+            }),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numero de telefono'}),
+            'role': forms.Select(attrs={'class': 'form-control'}),             'genero': forms.Select(attrs={'class': 'form-control'}),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-check-input',
+            }),
         }

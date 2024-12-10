@@ -1,0 +1,82 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+            <section class="d-flex">
+                  <!--Editar-->
+              
+
+                  <a href="{% url "company:update-company"  company.id %}" class='btn  position-absolute text-white-50 start-0 top-0 mb-4 me-3 bg-transparent border-0'
+                  style='font-weight: bold; margin-top: 1rem; margin-left: 10.3rem; font-size: 12px;'>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi text-white-50 bi-brush-fill" viewBox="0 0 16 16">
+                        <path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.1 6.1 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.1 8.1 0 0 1-3.078.132 4 4 0 0 1-.562-.135 1.4 1.4 0 0 1-.466-.247.7.7 0 0 1-.204-.288.62.62 0 0 1 .004-.443c.095-.245.316-.38.461-.452.394-.197.625-.453.867-.826.095-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.201-.925 1.746-.896q.19.012.348.048c.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.176-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04"/>
+                      </svg> Editar 
+                  </a>
+                  <div data-aos='fade-in' class=' d-flex justify-content-center flex-wrap' style='width: 10rem; transition-delay: 0.2s  ;'>
+                        <div style='width: 160px; height: 160px; background-color: var(--bg-primary); 
+                        border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer;'
+                              class="d-flex flex-wrap align-content-center img-load justify-content-center mb-1 " >
+                              <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                        </div>
+                        <h5 class='w-100 text-center m-0 p-0  mt-2'>
+                              {{company.name}}
+                        </h5>
+                        <span style='font-size: 12px;' class='text-white-50'>
+                              {{company.tax_id}}
+                        </span>
+                  </div>
+
+                  <!--Lista de Empleados-->
+                  <section class=" w-100 m-1 position-relative ms-4 rounded-5 p-3" 
+                        style="background-color: var(--bg-prim);">
+                    
+                        <div class='position-absolute bottom-0 p-2 w-100 d-flex justify-content-end start-0'>
+                              <a href="{% url "company:create-employee"  company.id %}" class='btn border-0 rounded-5 p-2 pe-4 ps-4' style="background-color: var(--bg-secundary);" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle-fill text-white-50 m-0 bg-white bg-opacity-10 rounded-circle" style="color: var(--bg-primary) !important;" viewBox="0 0 16 16">
+                                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                                    </svg> <span style='font-weight:bold;' class='text-white' > Nuevo empleado  </span>
+                              </a>
+                        </div>
+                        <div>
+                     
+                        </div>
+                  </section>
+
+
+                  
+         
+            </section>
+            <section class='w-100 rounded-5 p-3 mt-4' 
+                  style='background-color: var(--bg-primary); height: 68%;'>
+                  {% if employee %}
+                  <strong class='mt-0'>
+                        <span class='text-white-50'>( {{count}} ) Lista de empleados</span>   
+                  </strong>
+                  <div style="width: 100%; height: 9rem; background-color: var(--bg-secdundary);" class="  p-3 mt-4 rounded-4 overflow-scroll"  >
+                        {% include "company/employee/list-employee.html" %}
+                  </div>
+                  {% endif %}
+
+                  {% if company.services.all %}
+                        <strong class='mt-0'>
+                              <span class='text-white-50'> Servicios contratados <span> 
+                        </strong>
+                        <div class='mt-4 overflow-scroll' style=' height: 9rem;'>
+                              {% for s in  company.services.all  %}
+                                   <li> {{s.name}}</li>
+                              {% endfor %}
+                        </div>
+                        {% else %}
+                        <strong class='mt-0'>
+                              <span class='text-white-50'> No hay servicios contratados <span> 
+                        </strong>
+                  {% endif %}
+                  
+            </section>
+
+                     
+            <a href="{% url "company:admin-company"  %}" class="position-absolute bottom-0 start-0 ms-3 mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                  </svg>
+            </a>
+            
+{% endblock  %}

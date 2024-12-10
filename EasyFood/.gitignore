@@ -16,7 +16,7 @@ db.sqlite3
 
 # Archivos de media (si usas un sistema de almacenamiento externo como S3)
 /media
-
+.vn
 # Dependencias
 /venv
 /node_modules

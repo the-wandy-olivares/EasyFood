@@ -1,0 +1,144 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+      <style>
+            .forms-inputs input, #id_address, #id_role, #id_genero
+            {
+                  background-color: var(--bg-primary);
+                  color: rgb(201, 201, 201); 
+                  border-radius: 1rem;
+                  padding: 0.7rem;
+                  width: 25rem; 
+                  border: none;
+                  margin: 0.5rem;
+            }
+            .forms-inputs input::placeholder {
+                  color: #7e7e7e;
+            }
+            .forms-inputs input, #id_address::placeholder{
+                  color: #7e7e7e;
+            }
+            .forms-inputs input:focus {
+                  background-color: transparent;
+                  color: #7e7e7e;
+            }
+            .forms-inputs #id_address {
+                  width: 51rem;
+                  max-height: 15rem;
+
+            }
+            .forms-inputs #id_address:focus {
+                  background-color: transparent;
+                  color: #7e7e7e;
+            }
+            #id_img 
+            {
+                  display: none;
+            }
+            #is_active {
+                  display: none !important;
+            }
+            a:hover{
+                  background-color: transparent !important;
+            }
+            /* .forms-inputs  */
+      </style>
+      <section class="d-flex justify-content-center flex-wrap pt-5">
+            <div data-aos='fade-in' class=' d-flex justify-content-center flex-wrap' style='width: 10rem; transition-delay: 1s  ;'>
+                  <div style='width: 160px; height: 160px; background-color: var(--bg-primary); 
+                  border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer;'
+                        class="d-flex flex-wrap align-content-center img-load justify-content-center mb-1 " >
+                        <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                  </div>
+                  <h5 class='w-100 text-center m-0 p-0  mt-2'>
+                        {{company.name}}
+                  </h5>
+                  <span style='font-size: 12px;' class='text-white-50'>
+                        {{company.tax_id}}
+                  </span>
+            </div>
+
+
+            <!--Creando empleado-->
+            <div class="mt-5 w-100 text-center pt-3
+            ">
+            </div>
+            <div class='d-flex forms-inputs flex-wrap  ' style="width: 55rem;" >
+                  <h6 class="w-100 m-0 p-0">
+                        Asociando empleados a empresa 
+                  </h6>
+                  <p class="text-white-50 p-0 m-0">
+                        Asocie empleados a esta empresa y asignale un role, los usuarios de cada empresa seran visibles en el perfil de la misma, donde puedes eliminar, modifica, activar o desactivarlo
+                  </p>
+                  <form action="" method="post" class="d-flex flex-wrap">
+                        {% csrf_token %}
+                        <div>
+
+
+                            
+
+                              {{form.first_name}}
+                              {{form.email}}
+                              <span class="d-none">
+                                    {{form.is_active}}
+                              </span>
+                              {{form.genero}}
+                        </div>
+                        <div>
+                              {{form.last_name}}
+                              {{form.phone}}
+                              {{form.role}}
+                        </div>
+                        <h6 class="w-100 mt-4">
+                              Usuario y contraseña
+                        </h6>
+                        <p class="text-white-50 p-0 m-0">
+                           Asegurate de crea una contraseña segura y que puedas recordar (A-Z  a-z 0-9 y @)
+                        </p>
+                        <div class="w-100 d-flex">
+                              {{form.username}}
+                              {{form.password}}
+                        </div>
+      
+                        <div class="w-100 d-flex justify-content-end mt-3">
+                              <a href="{% url "company:profile-company" company.id %}" >
+                                    <span class=" p-2 border-0 btn bg-transparent text-white rounded-5 pe-4 ps-4" style="font-weight: bold
+                                    ;">
+                                          Atras
+                                    </span>
+                              </a>
+                              <button class=" p-2 border-0 bg-white  me-5 bg-opacity-10 rounded-5 pe-4 ps-4"
+                                    style="font-weight: bold;">
+                                    Guardar
+                              </button>
+                        </div>
+
+                  </form>
+            </div>
+
+      </section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const emailInput = document.querySelector("#id_email");
+    const usernameInput = document.querySelector("#id_username");
+
+    if (emailInput && usernameInput) {
+        emailInput.addEventListener("input", function () {
+            const emailValue = emailInput.value;
+            const usernameValue = emailValue.split("@")[0]; // Toma la parte antes del '@'
+            usernameInput.value = usernameValue; // Asigna el valor al input #id_username
+        });
+    }
+});
+</script>
+<script>
+      document.querySelector("#id_password").addEventListener("input", function (event) {
+          // Reemplazar cualquier carácter no permitido
+          const allowedPattern = /^[a-zA-Z0-9]*$/;
+          const input = event.target;
+          
+          if (!allowedPattern.test(input.value)) {
+              input.value = input.value.replace(/[^a-zA-Z0-9]/g, "");
+          }
+      });
+  </script>
+{% endblock  %}

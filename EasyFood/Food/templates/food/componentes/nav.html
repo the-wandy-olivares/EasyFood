@@ -1,6 +1,6 @@
 {% load static %}
 <style>
-      .list-a a {
+      .list-a > a {
             width: 12rem;
             text-decoration: none;
             font-size: 16px;
@@ -12,7 +12,7 @@
             color: rgba(255, 255, 255, 0.81);
             transition: 0.5s;
       }
-      .list-a svg, a:hover   {
+      .list-a > a:hover   {
             background-color: var(--bg-primary);
             color:  #857f94 !important;
             transform: scale(1.1);
@@ -30,10 +30,10 @@
       <div class="d-flex justify-content-center flex-wrap">
             <img src="{% static "/img/ramen.png" %}"  alt="No-Foun"
             style='width: 90px; height: 90px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
-            <h2 class="w-100 text-center mt-1" 
+            <h5 class="w-100 text-center mt-1" 
             style="font-family: Lobster, sans-serif; " >
                   Easy Food
-            </h2>
+            </h5>
       </div>
 
       <div class="list-a d-flex flex-wrap mt-5 pt-5">
