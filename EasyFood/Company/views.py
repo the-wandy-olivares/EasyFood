@@ -9,8 +9,9 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.db.models import Sum
-
-
+from collections import defaultdict
+from datetime import datetime
+from django.utils import timezone
 
 
 # http://127.0.0.1:8000/company/logins
@@ -106,27 +107,44 @@ class UpdateCompany(UpdateView):
             return super().get(request, *args, **kwargs)    
 
 @method_decorator(Check_Role, name='dispatch')
+
+@method_decorator(login_required, name='dispatch')  # Asegurarse de que el usuario esté autenticado
 class ProfileCompany(DetailView):
       model = models.Company
       form_class = forms.Company
-      template_name = "company/profile-company.html"  # Tu plantilla personalizada
+      template_name = "company/profile-company.html"
       success_url = reverse_lazy('company:admin-company')  # Redirige después de guardar
-      context_object_name = "company" 
+      context_object_name = "company"
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['company'] =  models.Company.objects.get(is_active=True,  id=self.kwargs.get('pk'))
-            context['employee'] = models.Employee.objects.filter(company=self.object, )
-            context['count'] = models.Employee.objects.filter(company=self.object, is_active=True).count()
+            company = self.object  # Obtener la empresa actual
+
+            # Agrupar menús por día
+
+
+            # Obtener empleados activos en la empresa
+            context['employee'] = models.Employee.objects.filter(company=company)
+            context['count'] = models.Employee.objects.filter(company=company, is_active=True).count()
+
+            # Si necesitas un total de lo facturado o pendiente, puedes usar aggregates
+            total_billed = company.invoices.aggregate(Sum('amount'))['amount__sum'] or 0
+            total_paid = company.invoices.filter(paid=True).aggregate(Sum('amount'))['amount__sum'] or 0
+            context['total_billed'] = total_billed
+            context['total_paid'] = total_paid
+            context['total_pending'] = total_billed - total_paid  # Monto pendiente
+
             return context
-            
+
       def form_valid(self, form):
+            company = form.save()
+            
             return super().form_valid(form)
 
       def get(self, request, *args, **kwargs):
             if not request.user.is_authenticated:
                   return redirect(reverse('company:logins'))
-            return super().get(request, *args, **kwargs)    
+            return super().get(request, *args, **kwargs)
 
 
 # Empleados
@@ -225,6 +243,53 @@ def Employee_Login(request):
       return render(request, "company/login/logins.html")
 
 
+
+class Menu(ListView):
+      model = models.Menu
+      template_name = "company/menu/menu.html"
+      context_object_name = 'menus'  # Esto cambiará el nombre del contexto de la lista de menús
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+
+            # Obtener la compañía activa (solo una)
+            company = models.Company.objects.filter(is_active=True, employee=self.request.user.employee_profile)# Devolver el primero que encuentre
+            context['menus'] = models.Menu.objects.filter(company=self.request.user.employee_profile.company) 
+            context['company'] = company
+            
+            return context
+
+
+
+
+
+class SelectMenu(DetailView):
+      model = models.Menu
+      template_name = "company/menu/select-menu.html"
+      context_object_name = 'menu'
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)
+            context['platos'] = models.Plato.objects.filter(menu=self.object)  # Filtrar los platos por el menú seleccionado
+            context['company'] = company
+            context['orders'] = models.Order.objects.filter(employee=self.request.user.employee_profile, company=company)  # Filtrar las órdenes
+            return context
+
+      def post(self, request, *args, **kwargs):
+            # Obtener los platos seleccionados desde el formulario (IDs de platos seleccionados)
+            platos_select = self.request.POST.getlist('plato')  # Usamos `getlist` para obtener múltiples valores
+            for id_plato in platos_select:
+                        plato= models.Plato.objects.get(id=int(id_plato))  
+                        models.Order.objects.create(
+                              employee=self.request.user.employee_profile, 
+                              company=self.request.user.employee_profile.company,  # Asignar la compañía del empleado
+                              plato=plato, 
+                              status='pendiente'
+                        )
+            return redirect(reverse('company:orders'))
+
+
 # Menu , Ordenes, Repodes y mas
 class OrderReport(TemplateView):
       model = models.Order
@@ -234,7 +299,7 @@ class OrderReport(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['orders'] = models.Order.objects.filter(employee__user=self.request.user)
+            context['orders'] = models.Order.objects.filter(employee=self.request.user.employee_profile, company=company)
             return context
 
 @method_decorator(Check_Role, name='dispatch')
@@ -251,7 +316,7 @@ class Orders(TemplateView):
         date_filter = self.request.GET.get('date', None)  # Filtro por fecha (formato YYYY-MM-DD)
 
         # Filtrar los pedidos según los criterios
-        orders = models.Order.objects.all()
+        orders = models.Order.objects.filter(employee=self.request.user.employee_profile, company=self.request.user.employee_profile.company)
 
         # Filtrar por estado si se ha enviado el filtro
         if status_filter:
@@ -269,8 +334,7 @@ class Orders(TemplateView):
         return context
 
 
-class InvoiceReport(ListView):
-      model = models.Company
+class InvoiceReport(TemplateView):
       template_name = "company/finance/invoice-report.html"  
       context_object_name = 'companys'
 
@@ -279,7 +343,8 @@ class InvoiceReport(ListView):
             
             # Obtenemos los datos de las facturas y pagos
             report_data = []
-            for company in context['companys']:
+            companys =  models.Company.objects.filter(is_active=True, employee=self.request.user.employee_profile)
+            for company in companys:
                   total_billed = company.invoices.aggregate(Sum('amount'))['amount__sum'] or 0
                   total_paid = company.invoices.filter(paid=True).aggregate(Sum('amount'))['amount__sum'] or 0
                   total_pending = total_billed - total_paid
@@ -290,6 +355,6 @@ class InvoiceReport(ListView):
                   'total_paid': total_paid,
                   'total_pending': total_pending,
                   })
-
+            context['companys'] = companys
             context['report_data'] = report_data
             return context

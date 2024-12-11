@@ -86,10 +86,15 @@ class Employee(forms.ModelForm):
         }
 
 
+class Order(forms.ModelForm):
+    class Meta:
+        model = models.Order
+        fields = ['plato']  # Solo necesitamos el campo plato
+        widgets = {
+            'plato': forms.CheckboxSelectMultiple,  # Para permitir múltiples selecciones de platos
+        }
 
-class MenuSelection(forms.Form):
-    menu_items = forms.ModelMultipleChoiceField(
-        queryset= models.Menu.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        label="Selecciona tus platos",
-    )
+    # Opcional: para añadir una validación o lógica personalizada
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['plato'].queryset = models.Plato.objects.all()

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'Food.apps.FoodConfig', # Aplicacion de comida
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.humanize', 
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

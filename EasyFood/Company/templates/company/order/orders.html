@@ -16,6 +16,7 @@
                         padding: 0.6rem; border-radius: 2rem;
                         width: 15rem;
                   }
+                  
             </style>
             <section>
 
@@ -38,14 +39,14 @@
                                                 <!-- <label for="date">Fecha del pedido:</label> -->
                                                 <input type="date" name="date" class="ms-3" id="date" value="{{ request.GET.date }}">
                                           
-                                                <button type="submit" class="border-0 bg-white bg-opacity-10 p-2 ps-5 pe-5 rounded-5 ms-3 " 
+                                                <button type="submit" class="border-0 bg-white bg-opacity-10 p-2 ps-5 d-none pe-5 rounded-5 ms-3 " 
                                                 style="font-weight: bold;">Filtrar</button>
                                           </form>
                                           
                                   </div>
 
                               {% if orders %}
-                              <table class="w-100">
+                              <table class="w-100 mt-4">
                                     <thead>
                                           <tr>
                                           <th>Empleado</th>
@@ -58,7 +59,7 @@
                                           {% for order in orders %}
                                           <tr>
                                                 <td>{{ order.employee.username }}</td>
-                                                <td>{{ order.menu_item.name }}</td>
+                                                <td>{{ order.plato.name }}</td>
                                                 <td>{{ order.date }}</td>
                                                 <td>{{ order.get_status_display }}</td>
                                           </tr>
@@ -80,4 +81,20 @@
                         </svg> Imprimir 
                   </button>
             {% endif %}
+
+            <script>
+                  // Selecciona los elementos del formulario
+                  const statusSelect = document.getElementById('status');
+                  const dateInput = document.getElementById('date');
+                  const form = document.querySelector('form');  // El formulario
+              
+                  // Función para hacer submit del formulario
+                  function triggerSubmit() {
+                      form.submit();
+                  }
+              
+                  // Agregar evento 'change' a los elementos del formulario
+                  statusSelect.addEventListener('change', triggerSubmit);
+                  dateInput.addEventListener('change', triggerSubmit);
+              </script>
 {% endblock  %}

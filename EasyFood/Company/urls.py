@@ -29,5 +29,11 @@ urlpatterns = [
 # Finanzas 
       path('invoice-report', views.InvoiceReport.as_view(), name='invoice-report'),
 
+
+
+# Menu
+      path('menu', views.Menu.as_view(), name='menu'),
+            path('select-Menu/<int:pk>', views.SelectMenu.as_view(), name='select-menu'),
+
 ]
 

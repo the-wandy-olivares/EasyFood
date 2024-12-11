@@ -28,14 +28,12 @@ class Company(models.Model):
 
 class Service(models.Model):
       name = models.CharField(max_length=50, choices=Company.SERVICE_OPTIONS, unique=True, blank=True)
-
       class Meta:
             verbose_name = "Service"
             verbose_name_plural = "Services"
 
       def __str__(self):
             return self.get_name_display()
-
 
 
 
@@ -76,32 +74,55 @@ class Employee(models.Model):
             return f"{self.first_name} {self.last_name} - {self.company.name}"
 
 
-
+# Modelo Menu que contiene el Día y el Horario
 class Menu(models.Model):
+      # Opciones para los días de la semana
       DAY_CHOICES = [
-            ('monday', 'Lunes'),
-            ('tuesday', 'Martes'),
-            ('wednesday', 'Miércoles'),
-            ('thursday', 'Jueves'),
-            ('friday', 'Viernes'),
-            ('saturday', 'Sábado'),
-            ('sunday', 'Domingo'),
+      ('Lunes', 'Lunes'),
+      ('Martes', 'Martes'),
+      ('Miercoles', 'Miércoles'),
+      ('Jueves', 'Jueves'),
+      ('Viernes', 'Viernes'),
+      ('Sabado', 'Sábado'),
+      ('Domingo', 'Domingo'),
       ]
-      name = models.CharField(max_length=255, verbose_name="Plato")
+
+      # Opciones para los horarios
+      TIME_CHOICES = [
+      ('Desayuno', 'Desayuno'),
+      ('Almuerzo', 'Almuerzo'),
+      ('Cena', 'Cena'),
+      ]
+
+      company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="menu_company")
       day = models.CharField(max_length=10, choices=DAY_CHOICES, verbose_name="Día")
-      time = models.CharField(max_length=20, verbose_name="Horario (ej. desayuno, almuerzo, cena)")
+      time = models.CharField(max_length=20, choices=TIME_CHOICES, verbose_name="Horario")
 
-      class Meta:
-            verbose_name = "Menú"
-            verbose_name_plural = "Menús"
+      is_active = models.BooleanField(default=True)
 
+
+      
       def __str__(self):
-            return f"{self.name} ({self.day} - {self.time})"
+            return f"{self.get_day_display()} - {self.get_time_display()}"
+
+
+
+# Modelo Plato que contiene el nombre, descripción y el plato relacionado con el menú
+class Plato(models.Model):
+      menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name="platos_menu")
+      name = models.CharField(max_length=100, verbose_name="Nombre del Plato")
+      description = models.TextField(verbose_name="Descripción del Plato")
+
+      is_active = models.BooleanField(default=True)
+      
+      def __str__(self):
+            return f'{self.name} - {self.menu}'
 
 
 class Order(models.Model):
+      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="orders_company", blank=True, null= True)
       employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="orders", blank=True)
-      menu_item = models.ForeignKey(Menu, on_delete=models.CASCADE, blank=True, related_name='menu_item')  # Relacionado con el plato seleccionado
+      plato = models.ForeignKey(Plato, on_delete=models.CASCADE, blank=True, related_name='plato', default=1)  # Relacionado con el plato seleccionado
       date = models.DateTimeField(auto_now_add=True)  # Fecha y hora del pedido
       status = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'), ('completado', 'Completado')], default='pendiente')
 
@@ -111,7 +132,7 @@ class Order(models.Model):
             verbose_name_plural = "Pedidos"
 
       def __str__(self):
-            return f"{self.employee} - {self.menu_item} - {self.date}"
+            return f"{self.employee} - {self.plato} - {self.date}"
 
 
 # Consultar montos facturados y pagos pendientes

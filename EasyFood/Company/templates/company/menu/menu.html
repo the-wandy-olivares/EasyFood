@@ -1,0 +1,35 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+<style>
+      .menu {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .menu  svg   {
+            display: none;
+      }
+</style>
+    <section>
+
+
+      <h1>Menús Disponibles</h1>
+  
+      
+      {% if menus %}
+          <ul>
+              {% for m in menus %}
+                  <a href="{% url "company:select-menu" m.id %}">
+                        <li>
+                              <strong>{{ m.get_day_display }} - {{ m.get_time_display }}</strong><br>
+                              <em>Menú para el día {{ m.get_day_display }} en el horario de {{ menu.get_time_display }}</em>
+                          </li>      
+                  </a>
+              {% endfor %}
+          </ul>
+      {% else %}
+          <p>No hay menús disponibles para esta empresa.</p>
+      {% endif %}
+
+    </section>
+{% endblock  %}
