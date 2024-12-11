@@ -28,7 +28,7 @@
                                           <tr>
                                                 <td>{{ order.employee.username }}</td>
                                                 <td>{{ order.menu_item.name }}</td>
-                                                <td>{{ order.date }}</td>
+                                                <td>{{ order.date|date:"d/m/Y - H:i" }}</td>
                                                 <td>{{ order.get_status_display }}</td>
                                           </tr>
                                           {% endfor %}

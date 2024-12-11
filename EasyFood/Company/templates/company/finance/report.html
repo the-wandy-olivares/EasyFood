@@ -1,0 +1,162 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+<style>
+      .reports {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .reports svg   {
+            display: none;
+      }
+      form input, select {
+            background-color: var(--bg-primary);
+            border: none; outline: none;
+            padding: 0.6rem; border-radius: 2rem;
+            width: 10rem;
+            text-align: center;
+        }
+</style>
+      
+<section>
+
+      <div>
+            <h5> 
+
+                Reporte de facturación</h5>
+                  <p>
+                    Genera un reporte de facturación y el estado de las ordenes según las fechas seleccionadas.
+                  </p>
+            <table class="w-100 mt-4">
+                <thead>
+                    <tr>
+                        <th>Empresas</th>
+                        <th>Total Facturado</th>
+                        <th>Total Pagado</th>
+                        <th>Total Pendiente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in report_data %}
+                    <tr>
+                        <td>{{ data.company.name }}</td>
+                        <td>{{ data.total_billed }}</td>
+                        <td>{{ data.total_paid }}</td>
+                        <td>{{ data.total_pending }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+      </div>
+
+      <!-- Reports -->
+      <h5 class="mt-5">
+     Reportes de ordenes
+      </h5>
+       <p class="m-0 p-0 mt-2 mb-1"> 
+        Realiza un reporte de las ordenes realizadas de inicio de periodo de (Inicio - Fin)
+      </p> 
+
+      <form method="get" class="filter-form mb-3">
+        {% comment %} <label for="status"></label>
+        <select name="status" id="status">
+            <option value="">-- Todos --</option>
+            <option value="pendiente" {% if status == 'pendiente' %}selected{% endif %}>Pendiente</option>
+            <option value="completado" {% if status == 'completado' %}selected{% endif %}>Realizada</option>
+        </select> {% endcomment %}
+    
+        <label style="font-weight: bold;" for="start_date">Inicia </label>
+        <input type="date" name="start_date" id="start_date" value="{{ start_date }}">
+        
+        <label style="font-weight: bold;" for="end_date"> Final </label>
+        <input type="date" name="end_date" id="end_date" value="{{ end_date }}">
+        <!-- <label for="employee"></label>
+        <select name="employee" id="employee">
+            <option value="">-- Todos --</option>
+            {% for employee in companys.first.employee.all %}
+            <option value="{{ employee.id }}" {% if employee.id|stringformat:"s" == employee_id %}selected{% endif %}>
+                {{ employee.name }}
+            </option>
+            {% endfor %}
+        </select>
+     -->
+
+    
+        <button type="submit" class="bg-white bg-opacity-10 p-2 pe-4 ps-4 border-0 rounded-5">Filtrar</button> 
+    </form>
+
+      <!-- {{report}} -->
+
+      <table class="w-100 mt-1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Empleado</th>
+                <th>Plato</th>
+                <th>Compañía</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if report.exists %}
+                {% for order in report %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td> <img src="request.user.employee_profile.company.img.url" alt=""> {{ order.employee }}</td>
+                        <td>{{ order.plato.name }}</td>
+                        <td>{{ order.company.name }}</td>
+                        <td>
+                            {% if order.status == 'pendiente' %}
+                                <span class="badge bg-warning rounded-5 " 
+                                style="color: var(--bg-secundary); font-weight: bold;">Pendiente</span>
+                            {% else %}
+                                <span class="badge bg-primary rounded-5">Realizada</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.date|date:"d/m/Y - H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center pt-5">No se encontraron órdenes</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</section>
+
+{% if report %}
+<button class="bg-white bg-opacity-10 border-0 rounded-4 p-2 ps-4 pe-4 position-absolute bottom-0 end-0 mb-1 me-4" style="font-weight: bold;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+            <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
+            <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+      </svg> Imprimir 
+</button>
+<button class="bg-transparent border-0 rounded-4 p-2 ps-4 pe-4 position-absolute bottom-0 end-0 mb-1 " style="font-weight: bold; margin-right: 10rem;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+      </svg> Pre-visualizacion
+</button>
+
+{% endif %}
+
+<script>
+    // Selecciona los elementos del formulario
+    const statusSelect = document.getElementById('status');
+    const dateInput = document.getElementById('date');
+    const form = document.querySelector('form');  // El formulario
+
+    // Función para hacer submit del formulario
+    function triggerSubmit() {
+        form.submit();
+    }
+
+    // Agregar evento 'change' a los elementos del formulario
+    statusSelect.addEventListener('change', triggerSubmit);
+    dateInput.addEventListener('change', triggerSubmit);
+</script>
+
+{% endblock  %}

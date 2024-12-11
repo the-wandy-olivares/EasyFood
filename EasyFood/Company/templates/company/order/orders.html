@@ -21,6 +21,7 @@
             <section>
 
                   <div class="w-100">
+                        
                               <h5>     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                                   </svg>  Ordenes</h5>
@@ -32,7 +33,7 @@
                                                 <!-- <label for="status">Estado del pedido:</label> -->
                                                 <select name="status" id="status">
                                                 <option value="">-- Seleccionar --</option>
-                                                <option value="pendiente" {% if request.GET.status == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                                                <option value="pendiente"   {% if request.GET.status == 'pendiente' %}selected{% endif %}>Pendiente</option>
                                                 <option value="completado" {% if request.GET.status == 'completado' %}selected{% endif %}>Completado</option>
                                                 </select>
                                           
@@ -60,9 +61,14 @@
                                           <tr>
                                                 <td>{{ order.employee.username }}</td>
                                                 <td>{{ order.plato.name }}</td>
-                                                <td>{{ order.date }}</td>
-                                                <td>{{ order.get_status_display }}</td>
-                                          </tr>
+                                                <td>{{ order.date|date:"d/m/Y - H:i" }}</td>
+                                                {% if order.get_status_display == 'Pendiente' %}
+                                                <td class="badge bg-warning rounded-5" style="color: var(--bg-secundary); font-weight: bold;">
+                                                      {{ order.get_status_display }}</td>
+                                                      {% else %}
+                                                      <td class="badge bg-primary rounded-5">Realizada</td>
+                                                      {% endif %}
+                                                </tr>
                                           {% endfor %}
                                     </tbody>
                               </table>

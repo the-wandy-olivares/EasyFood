@@ -155,3 +155,21 @@ class Payment(models.Model):
 
       def __str__(self):
             return f"Payment for Invoice {self.invoice.id}"
+
+
+# Reclamaciones y solicitudes de cambios
+class Claim(models.Model):
+      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="claims")
+      employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="claims")
+      order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="claims", null=True, blank=True)
+      title = models.CharField(max_length=255)
+      description = models.TextField()
+      date_submitted = models.DateTimeField(auto_now_add=True)
+      status = models.CharField(
+            max_length=20, 
+            choices=[('pending', 'Pendiente'), ('reviewed', 'Revisado'), ('resolved', 'Resuelto')],
+            default='pending'
+      )
+
+      def __str__(self):
+            return f"Reclamación: {self.title} - {self.status}"

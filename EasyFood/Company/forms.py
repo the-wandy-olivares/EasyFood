@@ -98,3 +98,21 @@ class Order(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['plato'].queryset = models.Plato.objects.all()
+
+
+class Claim(forms.ModelForm):
+    class Meta:
+        model = models.Claim
+        fields = ['title', 'description', 'order']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': 'Ejemplo: "Retraso en la entrega del pedido" '
+            }),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'El pedido #3722 estaba programado para entregarse el 10/12/24, pero aún no he recibido el producto',
+
+            }),
+            'order': forms.Select(attrs={
+
+            }),
+        }

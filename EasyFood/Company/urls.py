@@ -27,13 +27,18 @@ urlpatterns = [
 
                   
 # Finanzas 
-      path('invoice-report', views.InvoiceReport.as_view(), name='invoice-report'),
-
+      path('report', views.Report.as_view(), name='report'),
 
 
 # Menu
       path('menu', views.Menu.as_view(), name='menu'),
             path('select-Menu/<int:pk>', views.SelectMenu.as_view(), name='select-menu'),
+
+
+#  Reclamaciones o solicitudes
+      path('claims', views.Claims.as_view(), name='claims'),
+            path('create-claim', views.CreateClaim.as_view(), name='create-claim'),
+                  path('update-claim/<int:pk>', views.UpdateClaim.as_view(), name='update-claim'),
 
 ]
 
