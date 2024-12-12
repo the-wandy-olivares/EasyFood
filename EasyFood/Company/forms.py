@@ -61,7 +61,7 @@ class Employee(forms.ModelForm):
             }),
             'username': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Nombre',
+                'placeholder': 'Nombre de usuario',
             }),
             'password': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -79,7 +79,9 @@ class Employee(forms.ModelForm):
                 'class': 'form-control', 'placeholder': 'Correo electronico'
             }),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numero de telefono'}),
-            'role': forms.Select(attrs={'class': 'form-control'}),             'genero': forms.Select(attrs={'class': 'form-control'}),
+            'role': forms.Select(attrs={'class': 'form-control'}),     
+            
+                    'genero': forms.Select(attrs={'class': 'form-control'}),
             'is_active': forms.CheckboxInput(attrs={
                 'class': 'form-check-input',
             }),

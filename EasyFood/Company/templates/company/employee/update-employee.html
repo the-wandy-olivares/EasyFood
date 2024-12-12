@@ -78,7 +78,9 @@
 
                               {{form.first_name}}
                               {{form.email}}
-                   
+                              <span class="d-none">
+                                    {{form.is_active}}
+                              </span>
                               {{form.genero}}
                         </div>
                         <div>
@@ -86,9 +88,6 @@
                               {{form.phone}}
                               {{form.role}}
                         </div>
-                        <span class="">
-                              {{form.is_active}}
-                        </span>
                         <h6 class="w-100 mt-4">
                               Usuario y contraseña
                         </h6>
@@ -102,12 +101,12 @@
       
                         <div class="w-100 d-flex justify-content-end mt-3">
                               <a href="{% url "company:profile-company" company.id %}" >
-                                    <span class=" p-2 border-0 btn bg-transparent text-white rounded-5 pe-4 ps-4" style="font-weight: bold
+                                    <span class=" p-2 border-0 btn btn-s  bg-transparent text-white rounded-5 pe-4 ps-4" style="font-weight: bold
                                     ;">
                                           Atras
                                     </span>
                               </a>
-                              <button class=" p-2 border-0 bg-white  me-5 bg-opacity-10 rounded-5 pe-4 ps-4"
+                              <button class=" p-2 border-0 bg-white  btn-s me-5 bg-opacity-10 rounded-5 pe-4 ps-4"
                                     style="font-weight: bold;">
                                     Guardar
                               </button>
@@ -117,20 +116,7 @@
             </div>
 
       </section>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const emailInput = document.querySelector("#id_email");
-    const usernameInput = document.querySelector("#id_username");
 
-    if (emailInput && usernameInput) {
-        emailInput.addEventListener("input", function () {
-            const emailValue = emailInput.value;
-            const usernameValue = emailValue.split("@")[0]; // Toma la parte antes del '@'
-            usernameInput.value = usernameValue; // Asigna el valor al input #id_username
-        });
-    }
-});
-</script>
 <script>
       document.querySelector("#id_password").addEventListener("input", function (event) {
           // Reemplazar cualquier carácter no permitido
@@ -142,4 +128,38 @@ document.addEventListener("DOMContentLoaded", function () {
           }
       });
   </script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $('#id_username').on('input', function () {
+    const username = $(this).val();
+
+    if (username.length > 0) { // Evitar solicitudes vacías
+      $.ajax({
+        url: '/company/verify-username-ajax',
+        data: {
+          username: username,
+        },
+        method: 'GET',
+        success: function (response) {
+          if (response.exists) {
+            $('#id_username').css('border', '2px solid #ffc107'); // Border azul si no existe
+            $('.btn-s').addClass('d-none'); // Agregar d-none si el nombre existe
+          } else {
+            $('#id_username').css('border', 'none'); // Eliminar el borde si existe
+            $('.btn-s').removeClass('d-none'); // Eliminar d-none si no existe
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error:', error);
+        }
+      });
+    } else {
+      $('#id_username').css('border', 'none'); // Eliminar borde si no hay texto
+      $('.btn-s').removeClass('d-none'); // Asegurarse de mostrar el botón
+    }
+  });
+</script>
 {% endblock  %}

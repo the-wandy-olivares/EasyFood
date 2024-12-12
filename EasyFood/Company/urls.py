@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from Company import views
+from Company import views, views_ajax
 
 # Name company
 app_name = 'company'
@@ -40,5 +40,7 @@ urlpatterns = [
             path('create-claim', views.CreateClaim.as_view(), name='create-claim'),
                   path('update-claim/<int:pk>', views.UpdateClaim.as_view(), name='update-claim'),
 
+# Solicitudes ajax asincronas
+      path('verify-username-ajax', views_ajax.Verify_Username_Ajax, name='verify-username-ajax'),
 ]
 
