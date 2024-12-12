@@ -6,6 +6,7 @@
             {
                   margin: 0;
             }
+
       </style>
             <section class="d-flex">
                   <!--Editar-->
@@ -91,20 +92,7 @@
                         </strong>
                   {% endif %}
 
-                  {% if company.services.all %}
-                  <strong class='mt-0'>
-                        <span class='text-white-50'> Servicios contratados <span> 
-                  </strong>
-                  <div class='mt-3 overflow-scroll' style=' height: 9rem;'>
-                        {% for s in  company.services.all  %}
-                             <li> {{s.name}} </li>
-                        {% endfor %}
-                  </div>
-                  {% else %}
-                  <strong class='mt-0'>
-                        <span class='text-white-50'> No hay servicios contratados <span> 
-                  </strong>
-            {% endif %}
+
 {% comment %} 
                   <!-- Configuración de Menús -->
                   <strong class='mt-0'>
@@ -151,11 +139,11 @@
             </a> -->
             
 
-            <a href="{% url "company:create-employee"  company.id %}" class='btn position-absolute end-0 border-0  rounded-5 bottom-0 p-2 pe-4 ps-4' style="background-color: var(--bg-secundary);
-            margin-right: 9rem;" >
+            <button onclick="LoadMasiveImport()" class='btn text-white btn-omport-user position-absolute end-0 border-0  rounded-5 bottom-0 p-2 pe-4 ps-4' style="background-color: var(--bg-secundary);
+            margin-right: 9rem; font-weight: bold;" >
 
-                      <span style='font-weight:bold;' class='text-white' > Importa usuarios  (.XLSX) </span>
-            </a>
+Importa (.XLSX) 
+            </button>
 
             <a href="{% url "company:create-employee"  company.id %}" class='btn position-absolute end-0 border-0 me-3 rounded-5 bottom-0 p-2 pe-4 ps-4' style="background-color: var(--bg-primary);" >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add p-0 m-0" viewBox="0 0 16 16">
@@ -164,5 +152,8 @@
                       </svg>
                       <span style='font-weight:bold;' class='text-white' > Agregar  </span>
             </a>
+
+    
+
 
 {% endblock  %}

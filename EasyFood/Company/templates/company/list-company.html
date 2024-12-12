@@ -3,7 +3,7 @@
             text-decoration: none;
       }
       .card-options .card     {
-            width: 30rem; height: 13rem;
+            width: 30rem; height: 14rem;
             background-color: var(--bg-primary);
             margin: 0.6rem; 
             cursor: pointer;
@@ -19,7 +19,7 @@
 <section class="card-options d-flex overflow-scroll  ">
       {% for c in company  %}
       <a href="{% url "company:profile-company"  c.id %}" >
-            <div data-aos="fade-left" style="transition-delay: 0.4s;" class='card d-flex rounded-5 p-4'>
+            <div data-aos="fade-in" style="transition-delay: 0.2s;" class='card d-flex rounded-5 p-4'>
                   <div>
                         <img src="{{c.img.url}}" width='90'  height='90' class='object-fit-cover rounded-circle' alt="">
                         <h4>
