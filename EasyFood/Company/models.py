@@ -71,7 +71,7 @@ class Employee(models.Model):
             verbose_name_plural = "Employees"
 
       def __str__(self):
-            return f"{self.first_name} {self.last_name} - {self.company.name}"
+            return f"{self.first_name} {self.last_name} "
 
 
 # Modelo Menu que contiene el Día y el Horario

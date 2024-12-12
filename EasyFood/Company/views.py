@@ -203,13 +203,12 @@ class UpdateEmploye(UpdateView):
 
             user  = User.objects.get( employee_profile=self.object)
             # Establecer la clave del usuario
+            user.username = form.instance.username
             password = form.instance.password # Reemplázalo por la clave que necesites
             user.set_password(password)
             user.save()
             form.instance.user = user
-            
             form.instance.company = models.Company.objects.get(is_active=True,  employee=self.object)
-
             form.save()
             return super().form_valid(form)
 
