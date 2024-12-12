@@ -28,15 +28,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400..800&family=Cherry+Bomb+One&family=Lobster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <section>
       <div class="d-flex justify-content-center flex-wrap">
-            <img src="{% static "/img/ramen.png" %}"  alt="No-Foun"
-            style='width: 90px; height: 90px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
-            <h5 class="w-100 text-center mt-1" 
-            style="font-family: Lobster, sans-serif; " >
-                  {{request.user.employee_profile.company.name}} 
-            </h5>
-            <span style="font-weight: bold; font-size: 12px;" class="text-white-50">
-                  {{request.user.first_name}} {{request.user.last_name}} 
+            <a href="{% url "company:profile-company"  request.user.employee_profile.company.id %}" 
+                  style="text-decoration: none;">
+                  <img src="{{request.user.employee_profile.company.img.url}}"  alt="No-Foun"
+                  style='width: 90px; height: 90px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
+                  <h5 class="w-100 text-center m-0 p-0 mt-1" 
+                  style="font-family: Lobster, sans-serif; " >
+                        {{request.user.employee_profile.company.name}} 
+                  </h5>
+                  <span style="font-weight: bold; font-size: 12px;" class="text-white-50 m-0 p-0">
+                        {{request.user.first_name}} {{request.user.last_name}} 
             </span>
+            </a>
       </div>
 
       <div class="list-a d-flex flex-wrap mt-5 pt-5">
