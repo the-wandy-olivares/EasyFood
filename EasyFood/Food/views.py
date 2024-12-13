@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 
 from Company import models
 
-
+from .models  import ConfigurationApp
 
 
 class Dashboard(TemplateView):
@@ -60,4 +60,5 @@ class Configuration(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
+            context['configuration'] = ConfigurationApp.objects.get(id=1)
             return context
