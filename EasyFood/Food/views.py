@@ -62,3 +62,14 @@ class Configuration(TemplateView):
             context = super().get_context_data(**kwargs)
             context['configuration'] = ConfigurationApp.objects.get(id=1)
             return context
+
+      def post(self, request, *args, **kwargs):
+            configuration = ConfigurationApp.objects.get(id=1)
+            print( request.POST.get('animations'))
+            if request.POST.get('animations'):
+                  if configuration.animations == True:
+                        configuration.animations = False
+                  else:
+                        configuration.animations = True
+                  configuration.save()
+            return redirect(reverse('food:configuration'))
