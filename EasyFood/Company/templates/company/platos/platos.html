@@ -19,14 +19,13 @@
             </p>
       </div>
       <section class='mt-0 d-flex overflow-scroll'>
-            {% if categorias %}
             <a href="{% url "company:create-category" %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
-
                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi text-white bi-plus-circle-fill text-white" style="" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                   </svg>
-            
-            </a>   {% include "company/platos/list-categorias.html" %}
+            </a> 
+            {% if categorias %}
+                        {% include "company/platos/list-catergoria-admin.html" %}
                   {% else %}
                   <div class='text-center'>
                         <h6>No hay categorías de platos registradas.</h6>
@@ -34,31 +33,46 @@
                   </div>
             {% endif %}
       </section>
-
-      <div class="mt-3">
-            <strong class=''>
-                  <span class='text-white-50'> Todos los platos </span>   
-            </strong>
-            <p class="text-white-50">
-                  Aquí puedes ver todos los platos de todas las categorias
-            </p>
-      </div>
-      <section class='mt-0 d-none d-flex overflow-scroll flex-wrap justify-content-between'>
-            {% if platos %}
-            <a href="{% url "company:create-category" %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
-
+      <form action="" method="get">
+            {% csrf_token %}
+            <button class='bg-transparent border-0 text-start'>
+                  <div class="mt-3">
+                  
+                        <strong class='text-start w-100'>
+                              <span class='text-white-50'> Todos  los {% if categoria_show %} {{categoria_show}}   {% else %}   platos  {% endif %} </span>   
+                        </strong>
+                        <p class="text-white-50">
+                              Aquí puedes ver todos los platos de todas las categorias
+                        </p>
+                  </div>
+            </button>
+      </form>
+      <section class='mt-0 d-flex overflow-scroll  w-100 justify-content-start'>
+            <a href="{% url "company:create-plato" %}" class="d-flex rounded-5 me-3 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" 
+                  style="height: max-content; min-height: 40px;
+                   min-width: 40px; transform: scale(1.0);">
                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi text-white bi-plus-circle-fill text-white" style="" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                   </svg>
-            
-            </a> {% include "company/platos/list-platos.html" %}
+                  </a>
+            {% if platos %}
+                        {% include "company/platos/tabla-platos.html" %}
                   {% else %}
-                  <div class='text-center'>
-                        <h6>No hay platos de platos registradas.</h6>
-                        <a >Agregar platos de platos</a>
+                  <div class='text-center w-100 mt-5 pt-4'>
+                        <h6>No hay platos de platos registradas</h6>
+                        <p  class='text-white-50'>Agregar platos de platos</p>
                   </div>
             
             {% endif %}
       </section>
 
+      {% if categoria_show %}
+       <a href="{% url "company:platos" %}" style='text-decoration: none;' >
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle-fill text-white position-sticky bottom-0 start-0 ms-4 mt-3 " viewBox="0 0 16 16">
+                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                </svg> 
+
+      </a>
+
+      {% endif %}
 {% endblock  %}

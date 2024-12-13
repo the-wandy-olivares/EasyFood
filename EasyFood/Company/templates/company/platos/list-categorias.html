@@ -1,7 +1,8 @@
 
 
 {% for c in categorias %}
-      <div style="width: 20rem; height: 13rem; 
+      <div data-aos='fade-in' style="width: 20rem; height: 13rem; 
+            transition-delay: 0.{{ forloop.counter }}s;
             {% if c.img %}
                   background-image: url({{c.img.url}});
                   background-position: center; background-repeat: no-repeat;

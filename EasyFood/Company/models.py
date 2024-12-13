@@ -156,7 +156,7 @@ class Category(models.Model):
 
 # Modelo Plato que contiene el nombre, descripción y el plato relacionado con el menú
 class Plato(models.Model):
-      menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name="platos_menu")
+      menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name="platos_menu", blank=True, null=True)  # Relacionado con el menú seleccionado
       name = models.CharField(max_length=100, verbose_name="Nombre del Plato")
       description = models.TextField(verbose_name="Descripción del Plato")
       price = models.IntegerField(verbose_name="Precio del Plato",default=0, blank=True)

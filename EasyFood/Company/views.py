@@ -1,7 +1,7 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView, ListView
+from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView, ListView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -540,12 +540,83 @@ class DetailContrato(DetailView):
 class Platos(TemplateView):
       template_name = "company/platos/platos.html"
 
+
+            # context['categorias'] = models.Category.objects.all()
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['platos'] = models.Plato.objects.all()
+
+            # Obtener el filtro de categoría (si existe)
+            categoria_id = self.request.GET.get('categoria')
+            print(categoria_id)
+            if categoria_id:
+                  context['platos'] = models.Plato.objects.filter(category_id=int(categoria_id))
+                  context['categoria_show'] = models.Category.objects.get(pk=int(categoria_id))
+            else:
+                  context['platos'] = models.Plato.objects.all()
+
             context['categorias'] = models.Category.objects.all()
             return context
 
+
+
+class CreatePlato(CreateView):
+      template_name = "company/platos/create-plato.html"
+      model = models.Plato
+      form_class = forms.Plato
+      success_url = reverse_lazy('company:platos')
+
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+
+      def form_invalid(self, form):
+            print(form.errors)  # Imprime los errores del formulario
+            return super().form_invalid(form)
+      
+
+
+class UpdatePlato(UpdateView):
+      template_name = "company/platos/update-plato.html"
+      model = models.Plato
+      form_class = forms.Plato
+      success_url = reverse_lazy('company:platos')
+
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+
+      def form_invalid(self, form):
+            print(form.errors)  # Imprime los errores del formulario
+            return super().form_invalid(form)
+      
+
+
+class DesactivarPlato(View):
+      def get(self, request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                  return redirect('login')  # Redirige al login si el usuario no está autenticado
+
+            # Obtener y eliminar el objeto
+            plato = get_object_or_404(models.Plato, id=self.kwargs['pk'])
+            if plato.is_active:  # Si el plato está activo, lo desactiva
+                  plato.is_active = False
+            else:  # Si el plato está desactivado, lo activa
+                  plato.is_active = True
+            plato.save()
+
+        # Redirigir al success_url
+            return redirect(reverse_lazy('company:platos'))
+      
 
 class CreateCategory(CreateView):
       template_name = "company/platos/create-category.html"

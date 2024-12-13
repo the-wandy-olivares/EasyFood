@@ -28,8 +28,11 @@ urlpatterns = [
             path('orders', views.Orders.as_view(), name='orders'),
                   path('all-orders', views.AllOrders.as_view(), name='all-orders'),
             path('platos', views.Platos.as_view(), name='platos'),
+      # path('categorias', views.Categorias.as_view(), name='categorias'),
       path('create-category', views.CreateCategory.as_view(), name='create-category'),
-                  
+            path('create-plato', views.CreatePlato.as_view(), name='create-plato'),
+                  path('update-plato/<int:pk>', views.UpdatePlato.as_view(), name='update-plato'),
+                  path('desactivar-plato/<int:pk>', views.DesactivarPlato.as_view(), name='desactivar-plato'),
 # Finanzas 
       path('report', views.Report.as_view(), name='report'),
 

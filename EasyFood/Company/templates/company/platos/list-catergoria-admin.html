@@ -1,0 +1,26 @@
+
+
+{% for c in categorias %}
+      <form action="" method="get">
+            {% csrf_token %}
+            <input type="text" value='{{c.id}}' class='d-none' name='categoria'>
+            <div data-aos='fade-in'  id style="width: 20rem; height: 13rem; 
+                  transition-delay: 0.{{ forloop.counter }}s;
+                  {% if c.img %}
+                        background-image: url({{c.img.url}});
+                        background-position: center; background-repeat: no-repeat;
+                        background-size: cover;
+                  {% endif %}" class="rounded-5 ms-3 position-relative">
+                  <span id='{{c.id}}' onclick='CallBtn(this.id)' class="bg-black bg-opacity-75 d-flex justify-content-center flex-wrap align-content-center rounded-5 position-absolute top-0 h-100 w-100"
+                  style="font-weight: bold;">
+                        {{c.name}}
+                        <button type='submit' class='d-none'  id='btn{{c.id}}'></button>
+                  </span>
+            </div>
+      </form>
+{% endfor %}
+<script>
+      function CallBtn(id) {
+            document.getElementById('btn'+id).click();
+      }
+</script>

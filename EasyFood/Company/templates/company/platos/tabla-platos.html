@@ -1,0 +1,65 @@
+{% load humanize %}
+<style>
+
+</style>
+<div class="w-100 p-1">
+      <table class="w-100">
+        <thead class="">
+          <tr>
+            <!-- <th>.</th> -->
+            <th>Plato</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Categoría</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for plato in platos %}
+          <tr data-aos='fade-in' style='transition-delay: 0.{{ forloop.counter }}s'>
+            <!-- <td style="font-size: 12px;">{{ forloop.counter }}</td> -->
+            <td>
+              {% if plato.img %}
+              <img src="{{ plato.img.url }}" alt="{{ plato.name }}" class="rounded-4 mt-3" 
+              style="width: 80px; height: 80px; object-fit: cover;" >
+              {% else %}
+              <span class="text-muted">Sin Imagen</span>
+              {% endif %}
+            </td>
+            <td>{{ plato.name }}</td>
+            <td>{{ plato.description|truncatechars:50 }}</td>
+            <td>${{ plato.price|intcomma }}.00</td>
+            <td>{{ plato.category.name }}</td>
+
+            <td>
+              {% if plato.is_active %}
+              <span class="badge bg-primary rounded-circle d-flex justify-content-center align-content-center flex-wrap rounded-circle  p-0" style="width: 25px; height: 25px;">Sí</span>
+              {% else %}
+              <span class="badge bg-danger rounded-circle p-0 d-flex justify-content-center align-content-center flex-wrap"  style="width: 25px; height: 25px;">No</span>
+              {% endif %}
+            </td>
+            <td>
+              <a  href="{% url "company:update-plato" plato.id %}"  class="btn btn-warning btn-sm rounded-3 me-1" style="font-weight: bold;">Editar</a>
+
+              {% if plato.is_active %}
+              <a href="{% url "company:desactivar-plato" plato.id %}"    class="btn  btn-danger btn-sm rounded-4" style="font-weight: bold;">
+                    Desactivar
+                  {% else %}
+                  <a href="{% url "company:desactivar-plato" plato.id %}"    class="btn text-white  bg-black  rounded-4" style="font-weight: bold;">
+                    Activar
+
+            </td>
+            {% endif %}
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="text-center">No hay platos registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>

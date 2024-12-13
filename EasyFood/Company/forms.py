@@ -168,3 +168,22 @@ class Category(forms.ModelForm):
                 'img': forms.ClearableFileInput(attrs={'class': 'form-control'}),
                 'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             }
+
+
+class Plato(forms.ModelForm):
+    class Meta:
+        model = models.Plato
+        fields = ['menu', 'name', 'description', 'price', 'img', 'category', 'is_active']
+        widgets = {
+            'menu': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del plato'}),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Descripción del plato',
+                'rows': 3
+            }),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Precio'}),
+            'img': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
