@@ -56,5 +56,6 @@ urlpatterns = [
 
 # Solicitudes ajax asincronas
       path('verify-username-ajax', views_ajax.Verify_Username_Ajax, name='verify-username-ajax'),
+            path('upload-masive-user', views_ajax.Upload_Masive_User, name='upload-masive-user'),
 ]
 

@@ -57,8 +57,8 @@ class Employee(models.Model):
       
       company = models.ForeignKey( 'Company', on_delete=models.CASCADE, 
       related_name='employee', verbose_name='Company', blank=True)
-      username = models.CharField(default='', max_length=80)
-      password = models.CharField(max_length=100)
+      username = models.CharField(default='', max_length=80, blank=True)
+      password = models.CharField(max_length=100, blank=True)
       first_name = models.CharField(max_length=255, verbose_name="Nombre", blank=True)
       last_name = models.CharField(max_length=255, verbose_name="Apellidos", blank=True)
       email = models.EmailField(unique=True, verbose_name="Correo electronico", blank=True)
