@@ -118,3 +118,53 @@ class Claim(forms.ModelForm):
 
             }),
         }
+
+
+
+
+def generate_time_choices():
+    times = []
+    for hour in range(24):  # De 0 a 23 horas
+        for minute in (0, 30):  # Minutos: 0 y 30
+            time_str_24 = f"{hour:02}:{minute:02}"  # Formato 24 horas (HH:MM)
+            time_str_12 = f"{hour % 12 or 12}:{minute:02} {'AM' if hour < 12 else 'PM'}"  # Formato 12 horas (HH:MM AM/PM)
+            times.append((time_str_24, time_str_12))
+    return times
+
+
+class Contract(forms.ModelForm):
+    class Meta:
+        model = models.Contract
+        fields = ['company', 'service_type', 'delivery_schedule', 'payment_terms', 'start_date', 'end_date', 'is_active']
+        widgets = {
+            'company': forms.Select(attrs={ 'placeholder': 'Seleccione el cliente'}),
+            'service_type': forms.Select(attrs={ 'placeholder': 'Seleccione el tipo de servicio'}),
+  'delivery_schedule': forms.Select(
+                choices=generate_time_choices(),  # Opciones generadas dinámicamente
+                attrs={'class': 'form-control'}
+            ),
+            'payment_terms': forms.Textarea(attrs={ 'placeholder': 'Ingrese los términos de pago'}),
+            'start_date': forms.DateInput(attrs={ 'placeholder': 'AAAA-MM-DD', 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={ 'placeholder': 'AAAA-MM-DD', 'type': 'date'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        # labels = {
+        #     'client': 'Cliente',
+        #     'service_type': 'Tipo de Servicio',
+        #     'delivery_schedule': 'Horario de Entrega',
+        #     'payment_terms': 'Términos de Pago',
+        #     'start_date': 'Fecha de Inicio',
+        #     'end_date': 'Fecha de Fin',
+        #     'is_active': '¿Activo?',
+        # }
+
+class Category(forms.ModelForm):
+        class Meta:
+            model = models.Category
+            fields = ['name', 'description', 'img', 'is_active']
+            widgets = {
+                'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el nombre de la categoría'}),
+                'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'rows': 3}),
+                'img': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+                'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            }

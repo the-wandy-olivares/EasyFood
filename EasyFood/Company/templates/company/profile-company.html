@@ -23,7 +23,9 @@
                         <div style='width: 160px; height: 160px; background-color: var(--bg-primary); 
                         border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer; '
                               class="d-flex flex-wrap align-content-center img-load  mt-5 justify-content-center mb-1" >
-                              <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                              {% if company.img %}
+                                    <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                              {% endif %}
                         </div>
                         <h5 class='w-100 text-center m-0 p-0  mt-2'>
                               <!-- {{company.name}} -->
@@ -66,25 +68,52 @@
                   
          
             </section>
-            <section class='w-100  rounded-5 p-3 mt-4 position-relative' 
+            <section class='w-100  rounded-5 p-3 mt-5 position-relative' 
                   style='; height: 68%;'>
                   {% if employee %}
-                  <strong class='mt-0'>
-                        <!-- <span class='text-white-50'> Lista de empleados</span>    -->
+                  <strong class='mt-4'>
+                        <span class='text-white-50'> Empleados ({{count}}) </span>   
 
                   </strong>
-                  <div style="width: 100%; max-height: 9rem; background-color: var(--bg-secdundary);" class="  p-3 mt-4 rounded-4 overflow-scroll"  >
+                  <p class="text-white-50">
+                        Gestiona los empleados de manera eficiente, activa, descativa, cambia roles y mas
+                  </p>
+                  <div style="width: 100%; max-height: 9rem; background-color: var(--bg-secdundary);" class="   rounded-4 overflow-scroll mb-4"  >
                         {% include "company/employee/list-employee.html" %}
                   </div>
                   {% endif %}
 
                   {% if company.services.all %}
-                        <strong class='mt-0'>
+                        <strong class='mt-4'>
                               <span class='text-white-50'> Servicios contratados <span> 
                         </strong>
-                        <div class='mt-3 overflow-scroll' style=' height: 9rem;'>
+                        <p class="text-white-50">
+                              Servicios contratados  por {{company.name}}
+                        </p>
+                        <div class='mt-3 overflow-scroll w-100 d-flex' style=' height: 11rem;'>
                               {% for s in  company.services.all  %}
-                                   <li> {{s.name}} </li>
+                      
+                               <div data-aos="fade-left"  class="card mb-3 border-0 bg-transparent " style="width: 590px; transition-delay: 0.{{s.id}}s;">
+                                    <div class="row g-0">
+                                      <div class=" d-flex  col-md-4 ">
+                                          {% if s.img %}
+                                          <img src="{{s.img.url}}" class="object-fit-cover d-flex w-100 h-100  rounded-4" alt="...">
+                                          {% endif %}
+                                    </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title text-white  text-capitalize"
+                                                style="font-weight: bold;" >   {{s.name}}</h5>
+                                          <p class="card-text overflow-scroll text-white-50" style="height: 3.5rem;">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                                          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit harum laborum necessitatibus et non, rem magni corrupti ratione eos tenetur aut veritatis nobis illo laudantium molestias quasi quod quisquam at.      
+                                          </p>
+                                          <!-- <p class="card-text"><small class="text-body-secondary">
+                                                Last updated 3 mins ago
+                                          </small></p> -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                               {% endfor %}
                         </div>
                         {% else %}
@@ -141,16 +170,13 @@
             
 
             <button onclick="LoadMasiveImport()" class='btn text-white btn-omport-user position-absolute end-0 border-0  rounded-5 bottom-0 p-2 pe-4 ps-4' style="background-color: var(--bg-secundary);
-            margin-right: 9rem; font-weight: bold;" >
+            margin-right: 8rem; font-weight: bold;" >
 
             Importa 
             </button>
 
             <a href="{% url "company:create-employee"  company.id %}" class='btn position-absolute end-0 border-0 me-3 rounded-5 bottom-0 p-2 pe-4 ps-4' style="background-color: var(--bg-primary);" >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add text-white p-0 m-0" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                      </svg>
+
                       <span style='font-weight:bold;' class='text-white' > Agregar  </span>
             </a>
 

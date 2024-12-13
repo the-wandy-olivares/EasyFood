@@ -73,6 +73,23 @@
     animation: flip-up-ai 0.5s ease-out ;
     transform-origin: bottom; /* Punto de rotación */
 }
+@keyframes flip-down-ai {
+    0% {
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+.flip-down-ai {
+    animation: flip-down-ai 0.5s ease-in ;
+    transform-origin: top; /* Punto de rotación */
+}
+
+
 
 
     </style>
@@ -88,12 +105,12 @@
                             Carga masiva de usuarios
                         </h5>
                         <p class="p-0 m-0 ">Para realizar la carga masiva de usuarios, debes descargar la plantilla > una vez agrega los usuario > luego cargar el nuevo archivo con sus datos<br>
-                          <a href="/ruta-a-la-plantilla.xlsx" class="btn mt-3 p-2 pe-4 ps-4 btn-primary rounded-5" download style="font-weight: bold; font-size: 14px;" >Descargar plantilla</a>
+                          <a href="" class="btn mt-3 p-2 pe-4 ps-4 btn-primary rounded-5" download style="font-weight: bold; font-size: 14px;" >Descargar plantilla</a>
                         </p>
 
                             <div class="w-100 mt-3 pt-4">
-                                <form id="upload-form" class="w-100" action="/ruta-a-la-carga-masiva" method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
+                                <!-- <form id="upload-form" class="w-100" action="" method="post" enctype="multipart/form-data"> -->
+                                    <!-- {% csrf_token %} -->
                                     <div class="mb-3 w-100">
                                         <label for="file" class="form-label w-100" style="cursor: pointer;">
                                             <div style="height: 280px; border-radius: 3rem; background-color: var(--bg-secundary); border: 4px rgba(38, 38, 38, 0.222)  solid;" class="w-100  d-flex justify-content-center align-content-center flex-wrap   ">
@@ -105,7 +122,7 @@
                                         <input type="file" class="form-control d-none" id="file" name="file" required>
                                     </div>
              
-                                </form>
+                                <!-- </form> -->
                  
                             </div>
                       </div>

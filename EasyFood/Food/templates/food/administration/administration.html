@@ -1,0 +1,30 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+<style>
+      .administration {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .administration svg   {
+            display: none;
+      }
+</style>
+<section>
+      <div class="d-flex justify-content-start flex-wrap">
+            <div class="">
+                  <h5 class="text-white m-0 p-0">Administracion del restaurante</h5>
+                  <p class="text-white p-0 m-0"> Los administradores del restaurante deben gestionar contratos con clientes, generar informes financieros y gestionar permisos de los operadores  </p>
+            </div>
+      </div>
+      <div class="d-flex justify-content-center w-100 mt-5 flex-wrap"> 
+            {% include "food/componentes/card-administration.html" %}
+      </div>
+</section>
+
+
+
+
+
+{% endblock  %}

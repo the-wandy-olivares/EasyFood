@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.utils.decorators import method_decorator
 
+from Company import models
+
 
 
 
@@ -28,3 +30,34 @@ class Dashboard(TemplateView):
             context['company'] = ''
             return context
     
+
+
+    # Restaurante, Menu, Plato, Ingrediente, Categoria y Producto
+class Restaurant(TemplateView):
+      template_name = "food/restaurant/restaurant.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['platos'] = models.Plato.objects.all()
+            context['categorias'] = models.Category.objects.all()
+            return context
+
+
+
+# Administracion, Proveedores, Clientes, Comisiones y Ventas
+class Administration(TemplateView):
+      template_name = "food/administration/administration.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+
+
+# Configuracion, Cambiar contraseña, Cambiar correo electronico y Mas
+class Configuration(TemplateView):
+      template_name = "food/configuration/configuration.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context

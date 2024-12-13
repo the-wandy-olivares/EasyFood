@@ -73,9 +73,13 @@ class CreateCompany(CreateView):
             context['company'] =  models.Company.objects.filter(is_active=True)
             return context
             
-      def form_valid(self, form):
+      def form_valid(self, form):            
             # Agrega lógica adicional aquí si es necesario
             return super().form_valid(form)
+
+      def form_invalid(self, form):
+            print(form.errors)
+            return super().form_invalid(form)
 
       def get_success_url(self):
             # Usamos self.object para acceder al objeto actualizado
@@ -301,7 +305,7 @@ class OrderReport(TemplateView):
             context['orders'] = models.Order.objects.filter(employee=self.request.user.employee_profile, company=company)
             return context
 
-@method_decorator(Check_Role, name='dispatch')
+
 class Orders(TemplateView):
     model = models.Order
     template_name = "company/order/orders.html"
@@ -331,6 +335,40 @@ class Orders(TemplateView):
 
         context['orders'] = orders  # Pasar los pedidos filtrados al contexto
         return context
+
+
+
+@method_decorator(Check_Role, name='dispatch')
+class AllOrders(TemplateView):
+    model = models.Order
+    template_name = "company/order/all-orders.html"
+    context_object_name = "employee"
+
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+
+            # Obtener los filtros de la URL
+            status_filter = self.request.GET.get('status', None)  # Filtro por estado (pendiente/completado)
+            date_filter = self.request.GET.get('date', None)  # Filtro por fecha (formato YYYY-MM-DD)
+
+            # Filtrar los pedidos según los criterios
+            orders = models.Order.objects.filter(company=self.request.user.employee_profile.company)
+
+            # Filtrar por estado si se ha enviado el filtro
+            if status_filter:
+                  orders = orders.filter(status=status_filter)
+
+            # Filtrar por fecha si se ha enviado el filtro
+            if date_filter:
+                  try:
+                        filter_date = timezone.datetime.strptime(date_filter, "%Y-%m-%d").date()
+                        orders = orders.filter(date__date=filter_date)
+                  except ValueError:
+                        pass  # Si el formato de fecha es incorrecto, no aplicar el filtro
+
+            context['orders'] = orders  # Pasar los pedidos filtrados al contexto
+            return context
+
 
 
 class Report(TemplateView):
@@ -433,3 +471,90 @@ class UpdateClaim(UpdateView):
             form.instance.company = self.request.user.employee_profile.company
             form.instance.employee = self.request.user.employee_profile
             return super().form_valid(form)
+
+
+
+
+# Contratos 
+
+
+class Contratos(TemplateView):
+      template_name = "company/contratos/contratos.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['contratos'] = models.Contract.objects.all()
+            return context
+
+
+class CreateContrato(CreateView):
+      template_name = "company/contratos/create-contrato.html"
+      model = models.Contract
+      form_class = forms.Contract
+      success_url = reverse_lazy('company:contratos')
+
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+      
+      def get_success_url(self):
+            return reverse_lazy('company:contratos')
+      
+
+class UpdateContrato(UpdateView):
+      template_name = "company/contratos/update-contrato.html"
+      model = models.Contract
+      form_class = forms.Contract
+      success_url = reverse_lazy('company:contratos')
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+
+      def get_success_url(self):
+            return reverse_lazy('company:contratos')
+
+
+
+class DetailContrato(DetailView):
+      template_name = "company/contratos/detail-contrato.html"
+      model = models.Contract
+      context_object_name = 'contrato'
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+
+
+# Restaurante
+class Platos(TemplateView):
+      template_name = "company/platos/platos.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['platos'] = models.Plato.objects.all()
+            context['categorias'] = models.Category.objects.all()
+            return context
+
+
+class CreateCategory(CreateView):
+      template_name = "company/platos/create-category.html"
+      model = models.Category
+      form_class = forms.Category
+      success_url = reverse_lazy('company:platos')
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+
+      

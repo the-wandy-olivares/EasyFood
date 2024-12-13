@@ -28,6 +28,7 @@ class Company(models.Model):
 
 class Service(models.Model):
       name = models.CharField(max_length=50, choices=Company.SERVICE_OPTIONS, unique=True, blank=True)
+      img = models.ImageField(upload_to='media/service/', null=True, blank=True)
       class Meta:
             verbose_name = "Service"
             verbose_name_plural = "Services"
@@ -74,6 +75,38 @@ class Employee(models.Model):
             return f"{self.first_name} {self.last_name} "
 
 
+class GlobalMenu(models.Model):
+
+      # Opciones para los días de la semana
+      DAY_CHOICES = [
+      ('Lunes', 'Lunes'),
+      ('Martes', 'Martes'),
+      ('Miercoles', 'Miércoles'),
+      ('Jueves', 'Jueves'),
+      ('Viernes', 'Viernes'),
+      ('Sabado', 'Sábado'),
+      ('Domingo', 'Domingo'),
+      ]
+
+      # Opciones para los horarios
+      TIME_CHOICES = [
+      ('Desayuno', 'Desayuno'),
+      ('Almuerzo', 'Almuerzo'),
+      ('Cena', 'Cena'),
+      ]
+
+
+      day = models.CharField(max_length=10, choices=DAY_CHOICES, verbose_name="Día")
+      time = models.CharField(max_length=20, choices=TIME_CHOICES, verbose_name="Horario")
+      is_active = models.BooleanField(default=True)
+
+
+      
+      def __str__(self):
+            return f"{self.get_day_display()} - {self.get_time_display()}"
+
+
+
 # Modelo Menu que contiene el Día y el Horario
 class Menu(models.Model):
       # Opciones para los días de la semana
@@ -98,6 +131,8 @@ class Menu(models.Model):
       day = models.CharField(max_length=10, choices=DAY_CHOICES, verbose_name="Día")
       time = models.CharField(max_length=20, choices=TIME_CHOICES, verbose_name="Horario")
 
+      img = models.ImageField(upload_to='media/menu/', null=True, blank=True)
+      # Opciones para las comidas
       is_active = models.BooleanField(default=True)
 
 
@@ -107,12 +142,26 @@ class Menu(models.Model):
 
 
 
+
+
+class Category(models.Model):
+      name = models.CharField(max_length=50, verbose_name="Categoría del Plato")
+      description = models.TextField(verbose_name="Descripción de la Categoría", blank=True, null=True)
+      img = models.ImageField(upload_to='media/category/', null=True, blank=True)
+      is_active = models.BooleanField(default=True)
+
+      def __str__(self):
+            return self.name
+
+
 # Modelo Plato que contiene el nombre, descripción y el plato relacionado con el menú
 class Plato(models.Model):
       menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name="platos_menu")
       name = models.CharField(max_length=100, verbose_name="Nombre del Plato")
       description = models.TextField(verbose_name="Descripción del Plato")
-
+      price = models.IntegerField(verbose_name="Precio del Plato",default=0, blank=True)
+      img = models.ImageField(upload_to='media/plato/', null=True, blank=True)  # Imagen del plato
+      category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="platos_category", blank=True, null=True, default=None)  # Relacionado con la categoría seleccionada
       is_active = models.BooleanField(default=True)
       
       def __str__(self):
@@ -173,3 +222,24 @@ class Claim(models.Model):
 
       def __str__(self):
             return f"Reclamación: {self.title} - {self.status}"
+
+
+
+class Contract(models.Model):
+      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="contracts", verbose_name="Cliente")
+      service_type = models.CharField(max_length=50, choices=[
+            ('desayuno', 'Desayuno'),
+            ('comida', 'Comida'),
+            ('cena', 'Cena')
+      ], verbose_name="Tipo de Servicio")
+      delivery_schedule = models.TimeField(verbose_name="Horario de Entrega", blank=True, null=True)
+      payment_terms = models.TextField(verbose_name="Términos de Pago")
+      start_date = models.DateField(verbose_name="Fecha de Inicio")
+      end_date = models.DateField(verbose_name="Fecha de Fin")
+      is_active = models.BooleanField(default=True, verbose_name="Activo")
+      observaciones = models.TextField(verbose_name="Observaciones", blank=True)
+
+
+
+      def __str__(self):
+            return f"Contrato con {self.company.name} - {self.service_type}"
