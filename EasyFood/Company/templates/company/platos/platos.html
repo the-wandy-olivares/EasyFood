@@ -7,18 +7,18 @@
             Admistrar platos
       </h5>
       <p class='text-white-50 p-0 m-0'>
-            Aquí puedes administrar tus platos del restaurante, crear, editar, y eliminar
+            Aquí puedes administrar tus platos del restaurante, crear menus, editarlos, desactivarlos o eliminarlos
       </p>
 
       <div class="mt-3">
             <strong class=''>
-                  <span class='text-white-50'> Categorias </span>   
+                  <span class='text-white-50'> Menus </span>   
             </strong>
             <p class="text-white-50">
-                  Las categorias ayudan a organizar los platos (Desayuno, Almuerzo, Meriendas, Cenas y mas)
+                  Las menus ayudan a organizar los platos (Desayuno, Almuerzo, Meriendas, Cenas y mas)
             </p>
       </div>
-      <section class='mt-0 d-flex overflow-scroll'>
+      <section class='mt-0 d-flex   overflow-auto'>
             <a href="{% url "company:create-category" %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi text-white bi-plus-circle-fill text-white" style="" viewBox="0 0 16 16">
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
@@ -47,7 +47,7 @@
                   </div>
             </button>
       </form>
-      <section class='mt-0 d-flex overflow-scroll  w-100 justify-content-start'>
+      <section class='mt-0 d-flex   overflow-auto  w-100 justify-content-start'>
             <a href="{% url "company:create-plato" %}" class="d-flex rounded-5 me-3 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" 
                   style="height: max-content; min-height: 40px;
                    min-width: 40px; transform: scale(1.0);">

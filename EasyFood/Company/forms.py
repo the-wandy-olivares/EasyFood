@@ -54,7 +54,7 @@ class Employee(forms.ModelForm):
         ]
         widgets = {
             'user': forms.Select(attrs={
-                'class': 'form-control',
+                'class': 'form-control', 
             }),
             'company': forms.Select(attrs={
                 'class': 'form-control',
@@ -69,7 +69,7 @@ class Employee(forms.ModelForm):
             }),
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'username',
+                'placeholder': 'Nombre',
             }),
             'last_name': forms.TextInput(attrs={
                 'class': 'form-control',

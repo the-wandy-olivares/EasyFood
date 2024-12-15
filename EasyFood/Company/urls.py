@@ -54,6 +54,10 @@ urlpatterns = [
                   path('update-contrato/<int:pk>', views.UpdateContrato.as_view(), name='update-contrato'),
             path('detail-contrato/<int:pk>', views.DetailContrato.as_view(), name='detail-contrato'),
 
+
+# Recuperar contraseña
+      path('recovery-password', views.RecoveryPassword.as_view(), name='recovery-password'),
+
 # Solicitudes ajax asincronas
       path('verify-username-ajax', views_ajax.Verify_Username_Ajax, name='verify-username-ajax'),
             path('upload-masive-user', views_ajax.Upload_Masive_User, name='upload-masive-user'),

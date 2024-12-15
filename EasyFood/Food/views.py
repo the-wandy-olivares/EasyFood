@@ -36,6 +36,16 @@ class Dashboard(TemplateView):
 class Restaurant(TemplateView):
       template_name = "food/restaurant/restaurant.html"
 
+
+
+
+      def get(self, request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                  return redirect(reverse('company:logins'))
+            return super().get(request, *args, **kwargs)
+
+
+
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context['platos'] = models.Plato.objects.all()
