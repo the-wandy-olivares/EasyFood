@@ -8,15 +8,23 @@ class Company(forms.ModelForm):
             'name',
             'tax_id',  'address',
             'phone',  'email', 'representative',
-            'services', 'is_active', 'img'
+            'services', 'is_active', 'img', 'cargo_representante', 'contact_representante',
+            'dni', 
         ]
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de compania'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de compañia'}),
             'tax_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'RNC'}),
             'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Direccion ejemplo: Santo Domingo, Santo Domingo Este, Calle Mendoza '}),
-            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numero de telefono'}),
+
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numero de telefono de la empresa'}), 
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo'}),
-            'representative': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Representante'}),
+
+            'representative': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del representante'}),
+            'contact_representante': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Contacto del reprentante'}),
+            'cargo_representante': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Cargo del representante'}),
+            'dni': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'DNI del representante'}),
+
+
             'services': forms.CheckboxSelectMultiple(attrs={'class': 'form-select-input'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'img': forms.ClearableFileInput(attrs={
@@ -138,25 +146,36 @@ class Contract(forms.ModelForm):
         fields = ['company', 'service_type', 'delivery_schedule', 'payment_terms', 'start_date', 'end_date', 'is_active']
         widgets = {
             'company': forms.Select(attrs={ 'placeholder': 'Seleccione el cliente'}),
-            'service_type': forms.Select(attrs={ 'placeholder': 'Seleccione el tipo de servicio'}),
-  'delivery_schedule': forms.Select(
-                choices=generate_time_choices(),  # Opciones generadas dinámicamente
-                attrs={'class': 'form-control'}
+            'delivery_schedule': forms.Select(
+                            choices=generate_time_choices(),  # Opciones generadas dinámicamente
+                            attrs={'class': 'form-control'}
+                        ),
+
+            'service_type': forms.CheckboxSelectMultiple(
+                choices=[
+                    ('desayuno', 'Desayuno'),
+                    ('comida', 'Comida'),
+                    ('cena', 'Cena'),
+                ],
+                attrs={ 'class': 'form-check-input' }
             ),
+            # 'service_type': forms.CheckboxSelectMultiple(
+            #     # choices=[  # Aquí defines las opciones de los checkboxes
+            #     #     ('basic', 'Básico'),
+            #     #     ('premium', 'Premium'),
+            #     #     ('enterprise', 'Empresarial'),
+            #     # ],
+            #     attrs={ 'class': 'form-check-input' }
+            # ),
+
+
+
             'payment_terms': forms.Textarea(attrs={ 'placeholder': 'Ingrese los términos de pago'}),
             'start_date': forms.DateInput(attrs={ 'placeholder': 'AAAA-MM-DD', 'type': 'date'}),
             'end_date': forms.DateInput(attrs={ 'placeholder': 'AAAA-MM-DD', 'type': 'date'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
-        # labels = {
-        #     'client': 'Cliente',
-        #     'service_type': 'Tipo de Servicio',
-        #     'delivery_schedule': 'Horario de Entrega',
-        #     'payment_terms': 'Términos de Pago',
-        #     'start_date': 'Fecha de Inicio',
-        #     'end_date': 'Fecha de Fin',
-        #     'is_active': '¿Activo?',
-        # }
+
 
 class Category(forms.ModelForm):
         class Meta:

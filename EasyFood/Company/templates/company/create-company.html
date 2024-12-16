@@ -5,8 +5,8 @@
             {
                   background-color: var(--bg-primary);
                   color: rgb(201, 201, 201); 
-                  border-radius: 1rem;
-                  padding: 0.7rem;
+                  border-radius: 1.1rem;
+                  padding: 0.9rem;
                   width: 25rem; 
                   border: none;
                   margin: 0.5rem;
@@ -23,7 +23,7 @@
             }
             .forms-inputs #id_address {
                   width: 51rem;
-                  max-height: 15rem;
+                  max-height: 10rem;
 
             }
             .forms-inputs #id_address:focus {
@@ -64,51 +64,75 @@
                             </svg>
                   </div>
                   <div class='d-flex forms-inputs flex-wrap  ' style="width: 55rem;" >
-                        <div>
-                              {{form.img}}
+                        <div class="w-100 ps-3">
+                              <h6 class="p-0 m-0">
+                                    Datos de la empresa
+                              </h6>
+                              <p class="p-0 m-0 text-white-50">
+                                    Ingrese los datos legales de la empresa
+                              </p>
+                        </div>
+                        <div class="d-flex">
                               {{form.name}}
                               {{form.tax_id}} 
-                              
-                              
+                        </div>
+                        <div class="w-100">
+                              {{form.img}}
                               <span class="d-none">
                                     {{form.is_active}}
                               </span>
                         </div>
-                        
-                        
-                        
-                        <div>
+                        <div class="w-100 d-flex">
                               {{form.email}}
                               {{form.phone}}
                         </div>
-                        <div>     {{form.representative}}</div>
                         <div class="w-100">
                               {{form.address}}
                         </div>
+                        
+                        
+                        
+                   
+                        <div class="w-100 ps-3 mt-4">
+                              <h6 class="p-0 m-0">
+                                    Datos del representate
+                              </h6>
+                              <p class="p-0 m-0 text-white-50">
+                                    Ingrese los datos del representate de la empresa
+                              </p>
+                        </div>
+                        <div class="d-flex">
+                              {{form.representative}} 
+                              {{form.cargo_representante}}
+                        </div>
+                       <div class="d-flex">
+                        {{form.contact_representante}} {{form.dni}}
+                       </div>
+                
 
-                        <h6 class="w-100 text-start m-0 p-0 mt-3">
+                        <!-- <h6 class="w-100 text-start m-0 p-0 mt-3">
                               Servicios a contratar
-                        </h6>
-                        <p class="w-100 p-0 m-0">
+                        </h6> -->
+                        <!-- <p class="w-100 p-0 m-0">
                               Los servicios ofrecidos representan las opciones que cada empresa podrá contratar según sus necesidades.
-                        </p>
-                      <div class='d-flex overflow-scroll w-100 flex-wrap sevices-select  ' style="max-width: 20rem;
+                        </p> -->
+                      <!-- <div class='d-flex overflow-auto w-100 flex-wrap sevices-select  ' style="max-width: 20rem;
                       height: 8rem;">
                               {{form.services}}
-                      </div>
-
+                      </div> -->
+ 
 
       
-                        <div class="w-100 d-flex justify-content-end">
+                        <div class="w-100 d-flex justify-content-end mt-3">
                               <a href="{% url "company:admin-company" %}" >
-                                    <span class=" p-2 border-0 btn bg-transparent text-white rounded-5 pe-4 ps-4" style="font-weight: bold
+                                    <span class=" p-2 border-0 btn bg-transparent text-white-50 rounded-5 pe-4 ps-4" style="font-weight: bold
                                     ;">
                                           Atras
                                     </span>
                               </a>
-                              <button class=" p-2 border-0 bg-white text-white  me-5 bg-opacity-10 rounded-5 pe-4 ps-4"
+                              <button class=" p-2 border-0 bg-warning text-black  me-5 rounded-5 pe-4 ps-4"
                                     style="font-weight: bold;">
-                                    Guardar
+                                    Siguiente
                               </button>
                         </div>
                   </div>

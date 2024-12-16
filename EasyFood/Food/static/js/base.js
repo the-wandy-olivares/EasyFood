@@ -1,24 +1,63 @@
 
 
-let phone = document.getElementById('id_phone')
-if(phone){
-      phone.addEventListener('input', function(e) {
-            const input = e.target;
-            const value = input.value.replace(/\D/g, ''); // Elimina todos los caracteres no numéricos
-      
-            if (value.length <= 3) {
-                  value = `(${value}`;
-            } else if (value.length <= 6) {
-                  value = `(${value.substring(0, 3)}) ${value.substring(3)}`;
-            } else if (value.length <= 10) {
-                  value = `(${value.substring(0, 3)}) ${value.substring(3, 6)}-${value.substring(6)}`;
-            } else {
-                  value = `(${value.substring(0, 3)}) ${value.substring(3, 6)}-${value.substring(6, 10)}`;
-            }
-            input.value = value;
-      });
+let phone = document.getElementById('id_phone');
+
+if (phone) {
+    phone.addEventListener('input', function (e) {
+        const input = e.target;
+        const rawValue = input.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        let formattedValue = ''; // Nueva variable para el valor formateado
+
+        if (rawValue.length <= 3) {
+            formattedValue = `(${rawValue}`;
+        } else if (rawValue.length <= 6) {
+            formattedValue = `(${rawValue.substring(0, 3)}) ${rawValue.substring(3)}`;
+        } else {
+            formattedValue = `(${rawValue.substring(0, 3)}) ${rawValue.substring(3, 6)}-${rawValue.substring(6, 10)}`;
+        }
+
+        input.value = formattedValue;
+    });
 }
 
+
+let contact_representant = document.getElementById('id_contact_representante');
+
+if (contact_representant) {
+    contact_representant.addEventListener('input', function (e) {
+        const input = e.target;
+        const rawValue = input.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        let formattedValue = ''; // Nueva variable para el valor formateado
+
+        if (rawValue.length <= 3) {
+            formattedValue = `(${rawValue}`;
+        } else if (rawValue.length <= 6) {
+            formattedValue = `(${rawValue.substring(0, 3)}) ${rawValue.substring(3)}`;
+        } else {
+            formattedValue = `(${rawValue.substring(0, 3)}) ${rawValue.substring(3, 6)}-${rawValue.substring(6, 10)}`;
+        }
+
+        input.value = formattedValue;
+    });
+}
+
+const dniInput = document.getElementById('id_dni');
+if (dniInput) {
+    dniInput.addEventListener('input', () => {
+        // Obtener solo los números
+        let dni = dniInput.value.replace(/\D/g, "");
+
+        // Aplicar formato
+        if (dni.length > 3 && dni.length <= 10) {
+            dni = `${dni.slice(0, 3)}-${dni.slice(3)}`;
+        } else if (dni.length > 10) {
+            dni = `${dni.slice(0, 3)}-${dni.slice(3, 10)}-${dni.slice(10)}`;
+        }
+
+        // Actualizar el valor del campo de entrada
+        dniInput.value = dni;
+    });
+}
 
 // Agregar animación al botón de carga masiva
 function LoadMasiveImport() {

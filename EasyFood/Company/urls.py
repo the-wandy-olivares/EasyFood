@@ -21,8 +21,6 @@ urlpatterns = [
             path('logins', views.Employee_Login, name='logins'),
 
 
-
-
 #  Ordernes, Menu, Reportes y mas
       path('order-report', views.OrderReport.as_view(), name='order-report'),
             path('orders', views.Orders.as_view(), name='orders'),
@@ -49,11 +47,11 @@ urlpatterns = [
 
 
 # Contratos 
-     path('contratos', views.Contratos.as_view(), name='contratos'),
-            path('create-contrato', views.CreateContrato.as_view(), name='create-contrato'),
+      path('contratos', views.Contratos.as_view(), name='contratos'),
+            path('create-contrato/<int:pk>', views.CreateContrato.as_view(), name='create-contrato'),
                   path('update-contrato/<int:pk>', views.UpdateContrato.as_view(), name='update-contrato'),
             path('detail-contrato/<int:pk>', views.DetailContrato.as_view(), name='detail-contrato'),
-
+      path('contratos-company/<int:pk>', views.ContratosCompany.as_view(), name='contratos-company'),
 
 # Recuperar contraseña
       path('recovery-password', views.RecoveryPassword.as_view(), name='recovery-password'),

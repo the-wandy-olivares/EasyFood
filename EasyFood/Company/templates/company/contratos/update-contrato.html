@@ -63,7 +63,7 @@
              select, #id_delivery_schedule {
             background-color: var(--bg-primary);
             border: none; outline: none;
-            padding: 0.7rem;
+            padding: 0.9rem;
             margin: 0.5rem;
              border-radius: 2rem;
             width: 100%;
@@ -74,6 +74,18 @@
         {
             border-radius: 50% !important;
         }
+        .sevices-select label
+            {
+                  display: flex;  
+                  width: 100%;
+                  margin: 0px;
+            }
+            .sevices-select label input {
+                  width: 1rem;
+            }
+            #id_start_date, #id_end_date  {
+                  color: white;
+            }
       </style>
 
       <section class="w-100 d-flex justify-content-center flex-wrap align-content-center vh-100 pb-5">
@@ -95,27 +107,42 @@
                   <form method="post">
                         {% csrf_token %}
                             <div class="w-100 d-flex">
-                                    {{ form.company }}
-                                    {{ form.service_type }}
-                            </div>
-                            <div class="w-100 d-flex">
-                                    {{form.start_date}} {{form.end_date}}
-                            </div>
-                            <div class="w-100 pe-3"> 
-                                  {{form.delivery_schedule}}
+                                    <!-- {{ form.company }} -->
+                              </div>
+                              <div class="w-100 d-flex">
+                                    {{ form.start_date }} {{ form.end_date }}   {{ form.delivery_schedule }}
+                              </div>
+                              <div class="w-100 pe-3 d-flex"> 
+                                  
                             </div>
                             <div class="w-100 d-flex ">
-                                   {{form.payment_terms}} 
+                                   {{ form.payment_terms }} 
                             </div>
-                            <div>
-                              {{form.is_active}} 
+                     
+                            <div class="d-flex  flex-wrap" >
+                              <label for="id_service_type"> Servicios</label>
+                               {{ form.service_type }}
                             </div>
+                            <div class="mt-4">
+                              {% if form.is_active.value == "on" %}
+                                  <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Activo</label>
+                              {% else %}
+                                  <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Desactivado</label>
+                              {% endif %}
+                              {{ form.is_active }}
+                          </div>
+                            <style>
+                                    #id_service_type 
+                                    {
+                                          display: flex; background-color: #a0454500; border: none;
+                                    }
+                            </style>
                             <div class="d-flex w-100">
-                                  {{form.observaciones}}
+                                  {{ form.observaciones }}
                             </div>
           
                             <div class="text-end mt-2 "  style="width: 100%;">
-                              <a href="{% url 'company:contratos' %}" class="btn border-0 btn-secondary bg-transparent" style="font-weight: bold;">Cancelar</a>
+                              <a href="{% url "company:contratos-company"  request.user.employee_profile.company.id %}"  class="btn border-0 btn-secondary bg-transparent" style="font-weight: bold;">Cancelar</a>
                             <button type="submit" class="btn btn-primary border-0 p-2 ps-4 pe-4  bg-white bg-opacity-10 rounded-5">Guardar</button>
                         </div>
                       </form>

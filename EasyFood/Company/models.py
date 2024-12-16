@@ -14,7 +14,14 @@ class Company(models.Model):
       address = models.TextField(verbose_name="Address", blank=True)
       phone = models.CharField(max_length=15, verbose_name="Phone", blank=True)
       email = models.EmailField(verbose_name="Email Address", blank=True)
+
+
       representative = models.CharField(max_length=255, verbose_name="Principal reprentante", blank=True)
+      cargo_representante = models.CharField(max_length=255, verbose_name="Cargo del Representante", blank=True)
+      contact_representante = models.CharField(max_length=255, verbose_name="Contacto del Representante", blank=True)
+      dni = models.CharField(max_length=15, verbose_name="DNI", blank=True)
+
+
       services = models.ManyToManyField('Service', related_name='companies', verbose_name="Contracted Services", blank=True)
       is_active = models.BooleanField(default=True)
 
@@ -160,7 +167,11 @@ class Plato(models.Model):
       name = models.CharField(max_length=100, verbose_name="Nombre del Plato")
       description = models.TextField(verbose_name="Descripción del Plato")
       price = models.IntegerField(verbose_name="Precio del Plato",default=0, blank=True)
-      img = models.ImageField(upload_to='media/plato/', null=True, blank=True)  # Imagen del plato
+      img = models.ImageField(upload_to='media/plato/', null=True, blank=True)  
+      img1 = models.ImageField(upload_to='media/plato/', null=True, blank=True)  
+      img2= models.ImageField(upload_to='media/plato/', null=True, blank=True)  
+      
+      # Imagen del plato
       category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="platos_category", blank=True, null=True, default=None)  # Relacionado con la categoría seleccionada
       is_active = models.BooleanField(default=True)
       
@@ -226,12 +237,11 @@ class Claim(models.Model):
 
 
 class Contract(models.Model):
-      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="contracts", verbose_name="Cliente")
-      service_type = models.CharField(max_length=50, choices=[
-            ('desayuno', 'Desayuno'),
-            ('comida', 'Comida'),
-            ('cena', 'Cena')
-      ], verbose_name="Tipo de Servicio")
+      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="contracts", verbose_name="Cliente", blank=True, null=True)
+      service_type = models.ManyToManyField(Service, verbose_name="Tipo de Servicio")
+
+      number_contract = models.CharField(max_length=100, verbose_name="Número de Contrato", default='', blank=True, null=True)
+
       delivery_schedule = models.TimeField(verbose_name="Horario de Entrega", blank=True, null=True)
       payment_terms = models.TextField(verbose_name="Términos de Pago")
       start_date = models.DateField(verbose_name="Fecha de Inicio")

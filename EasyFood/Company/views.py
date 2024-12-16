@@ -66,7 +66,7 @@ class CreateCompany(CreateView):
       model = models.Company
       form_class = forms.Company
       template_name = "company/create-company.html"  # Tu plantilla personalizada
-      success_url = reverse_lazy('company:admin-company')  # Redirige después de guardar
+      # success_url = reverse_lazy('company:admin')  # Redirige después de guardar
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
@@ -83,7 +83,7 @@ class CreateCompany(CreateView):
 
       def get_success_url(self):
             # Usamos self.object para acceder al objeto actualizado
-            return reverse_lazy('company:profile-company', kwargs={'pk': self.object.id})
+            return reverse_lazy('company:create-contrato', kwargs={'pk': self.object.id})
 
 
 @method_decorator(Check_Role, name='dispatch')
@@ -166,7 +166,7 @@ class CreateEmploye(CreateView):
       def form_valid(self, form):
 
             user  = User(
-                  username= form.instance.username,
+                  username= form.instance.email,
                   email= form.instance.email,
                   first_name= form.instance.first_name,
                   last_name= form.instance.last_name,
@@ -207,7 +207,7 @@ class UpdateEmploye(UpdateView):
 
             user  = User.objects.get( employee_profile=self.object)
             # Establecer la clave del usuario
-            user.username = form.instance.username
+            user.username = form.instance.email
             password = form.instance.password # Reemplázalo por la clave que necesites
             user.set_password(password)
             user.save()
@@ -486,12 +486,20 @@ class Contratos(TemplateView):
             context['contratos'] = models.Contract.objects.all()
             return context
 
+class ContratosCompany(TemplateView):
+      template_name = "company/contratos/contratos-company.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['contratos'] = models.Contract.objects.filter(company_id=self.kwargs['pk'])
+            context['company'] = models.Company.objects.get(id=self.kwargs['pk'])
+            return context
 
 class CreateContrato(CreateView):
       template_name = "company/contratos/create-contrato.html"
       model = models.Contract
       form_class = forms.Contract
-      success_url = reverse_lazy('company:contratos')
+      # success_url = reverse_lazy('company:contratos')
 
 
       def get_context_data(self, **kwargs):
@@ -499,11 +507,34 @@ class CreateContrato(CreateView):
             return context
 
       def form_valid(self, form):
-            form.instance.user = self.request.user
+            company = models.Company.objects.get(id=self.kwargs['pk'])
+            form.instance.company = company
+                        # Guardar el formulario, pero sin guardar aún el campo ManyToMany
+            form.save(commit=False)
+            selected_services = self.request.POST.getlist('service_type')  
+            
+            # Limpiar los servicios existentes
+
+            for contract in company.contracts.all():
+                  contract.is_active = False
+                  contract.save()
+
+            company.services.clear()
+            for service_id in selected_services:
+                  service = models.Service.objects.get(id=service_id)
+                  company.services.add(service)
+
+            company.save()
+            print('Servicios seleccionados:', company.name)
+            # Agrega lógica adicional aquí si es necesario
             return super().form_valid(form)
       
+      def form_invalid(self, form):
+            print(form.errors)  # Debugging purposes
+            return super().form_invalid(form)
+
       def get_success_url(self):
-            return reverse_lazy('company:contratos')
+            return reverse_lazy('company:profile-company', kwargs={'pk': self.object.company.id})
       
 
 class UpdateContrato(UpdateView):

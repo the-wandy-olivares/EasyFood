@@ -78,8 +78,10 @@
 
                               {{form.first_name}}
                               {{form.email}}
-                              <span class="text-warning  exist-user d-none" style="font-size: 12px;">
-                                   Este usuario ya existe  <a  class="ms-2 text-primary text-decoration-none" >¿Olvidaste la contraseña?</a>
+                              <span class="text-warning  exist-user text-center d-none" style="font-size: 12px;">
+                                   Este usuario ya existe  <a  href='{% url "company:recovery-password" %}'  class="ms-2 text-primary text-decoration-none" >¿Olvidaste la contraseña? <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M0 8a8 8 0 1 0 16 0A8 8 0 0 0 0 8m5.904 2.803a.5.5 0 1 1-.707-.707L9.293 6H6.525a.5.5 0 1 1 0-1H10.5a.5.5 0 0 1 .5.5v3.975a.5.5 0 0 1-1 0V6.707z"/>
+                                  </svg></a>
                               </span>
                               <span class="d-none">
                                     {{form.is_active}}
@@ -119,8 +121,9 @@
             </div>
 
       </section>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     
 <script>
+$(document).ready(function() {
       document.querySelector("#id_password").addEventListener("input", function (event) {
           // Reemplazar cualquier carácter no permitido
           const allowedPattern = /^[a-zA-Z0-9]*$/;
@@ -132,12 +135,7 @@
       });
 
 
-  </script>
 
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
   $('#id_email').on('input', function () {
     const username = $(this).val();
 
@@ -168,9 +166,8 @@
       // $('.btn-s').removeClass('d-none'); // Asegurarse de mostrar el botón
     }
   });
-</script>
-<script>
-      $(document).ready(function() {
+
+ 
         // Función que compara las contraseñas y ajusta la visibilidad del botón
         function comparePasswords() {
           const password = $('#id_password').val();
@@ -216,6 +213,5 @@
   // Llama a la función al cargar la página para verificar los campos vacíos
   toggleSubmitButton();
 });
-    </script>
-    
+</script>
 {% endblock  %}

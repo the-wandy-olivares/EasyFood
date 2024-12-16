@@ -19,7 +19,7 @@
 
       <div class="">
             <h5 class="m-0 p-0">Lista de Contratos</h5>
-            <p class="m-0 p-0 mb-4">
+            <p class="m-0 p-0 mb-4 text-white-50">
               Los contratos son acuerdos legales entre dos o más partes que establecen obligaciones y derechos mutuos
             </p>
             {% comment %} <a href="{% url 'create_contract' %}" class="btn btn-success mb-3">Crear Nuevo Contrato</a> {% endcomment %}
@@ -31,13 +31,14 @@
             <table class="w-100">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>.</th>
+                  <th> . . .  </th>
                   <th>Cliente o empresa</th>
                   <th>Servicio</th>
                   <th>Horario de Entrega</th>
-                  <th>Fecha de Inicio</th>
-                  <th>Fecha de Fin</th>
-                  <th>Terminos de pago</th>
+                  <th>Inicio</th>
+                  <th>Expira</th>
+                  <th>Terminos </th>
                   <th>Activo</th>
                   <th>Acciones</th>
                 </tr>
@@ -46,8 +47,21 @@
                 {% for contract in contratos %}
                 <tr>
                   <td>{{ forloop.counter }}</td>
+                  <td>
+                    {% if  contract.company.img %}
+                      <div class="d-flex align-items-center">
+                        <img src="{{ contract.company.img.url }}" alt="" style='width: 30px; height: 30px;' class=" rounded-circle">
+                      </div>
+                    {% endif %}
+                  </td>
                   <td>{{ contract.company.name }} - {{ contract.company.representative }} </td>
-                  <td class="text-capitalize">{{ contract.service_type }}</td>
+                  <td class="text-capitalize">
+                    {% for service in contract.service_type.all %}
+                          {{ service.name }}
+                    {% empty %}
+                          No hay servicios seleccionados.
+                    {% endfor %}
+              </td>
                   <td>{{ contract.delivery_schedule }}</td>
                   <td>{{ contract.start_date|date:"d/m/Y" }}</td>
                   <td>{{ contract.end_date|date:"d/m/Y" }}</td>
@@ -60,13 +74,16 @@
                     {% endif %}
                   </td>
                   <td>
-                    <a href="{% url 'company:update-contrato' contract.id %}" class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                      </svg> Editar
-                    </a>
-                  </td>
+                    {% if contract.is_active %}
+                          <a href="{% url 'company:update-contrato' contract.id %}" class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
+                                Editar
+                          </a>
+                          {% else %}
+                          <a class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
+                                ...
+                          </a>    
+                    {% endif %}
+              </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -78,12 +95,7 @@
           </div>
 
 
-          <a href="{% url "company:create-contrato" %}"  class='btn position-absolute end-0 border-0 me-3 rounded-5 bottom-0 p-2 pe-4 ps-4' style="background-color: var(--bg-primary);" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill text-white m-0 p-0 mb-1" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                </svg>
-                <span style='font-weight:bold;' class='text-white' > Nuevo  </span>
-      </a>
+
 
 
 {% endblock  %}

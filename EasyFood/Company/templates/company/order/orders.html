@@ -9,7 +9,7 @@
                   .orders  svg   {
                         display: none;
                   }
-                  form input, select
+                   input, select
                   {
                         background-color: var(--bg-primary);
                         border: none; outline: none;
@@ -31,15 +31,13 @@
                                     <!-- Formulario de Filtro -->
                                           <form method="get">
                                                 <!-- <label for="status">Estado del pedido:</label> -->
-                                                <select name="status" id="status">
+                                                <select name="status" id="status" >
                                                 <option value="">-- Seleccionar --</option>
                                                 <option value="pendiente"   {% if request.GET.status == 'pendiente' %}selected{% endif %}>Pendiente</option>
                                                 <option value="completado" {% if request.GET.status == 'completado' %}selected{% endif %}>Completado</option>
                                                 </select>
                                           
-                                                <!-- <label for="date">Fecha del pedido:</label> -->
                                                 <input type="date" name="date" class="ms-3" id="date" value="{{ request.GET.date }}">
-                                          
                                                 <button type="submit" class="border-0 bg-white bg-opacity-10 p-2 ps-5 d-none pe-5 rounded-5 ms-3 " 
                                                 style="font-weight: bold;">Filtrar</button>
                                           </form>
@@ -51,17 +49,24 @@
                                     <thead>
                                           <tr>
                                           <th>Empleado</th>
+                                          <th>Imagen</th>
                                           <th>Plato</th>
-                                          <th>Fecha del Pedido</th>
-                                          <th>Estado de orden</th>
+                                          <th>Fecha de pedido</th>
+                                          <th>Hora de pedido</th>
+                                          <th>Estado </th>
                                           </tr>
                                     </thead>
                                     <tbody>
                                           {% for order in orders %}
                                           <tr>
                                                 <td>{{ order.employee }}</td>
+                                                <td>
+                                                      <img src="{{ order.plato.img.url }}" alt="{{ order.plato.name }}" class="rounded-5 mt-2" 
+                                                      style="width: 30px; height: 30px;">
+                                                </td>
                                                 <td>{{ order.plato.name }}</td>
-                                                <td>{{ order.date|date:"d/m/Y - H:i" }}</td>
+                                                <td>{{ order.date|date:"d/m/Y" }}</td>
+                                                <td>{{ order.date|date:" H:i" }}</td>
                                                 {% if order.get_status_display == 'Pendiente' %}
                                                 <td class="badge bg-warning rounded-5" style="color: var(--bg-secundary); font-weight: bold;">
                                                       {{ order.get_status_display }}</td>
