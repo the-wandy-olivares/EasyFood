@@ -1,7 +1,16 @@
 {% extends "food/base/base.html" %}
 {% block content %}
 {% load humanize %}
-
+<style>
+      .administration {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .administration svg   {
+            display: none;
+      }
+</style>
 
       {% comment %} <h5 class='m-0 p-0'>
             Admistrar platos
@@ -15,7 +24,7 @@
                   <span class='text-white-50'> Menus </span>   
             </strong>
             <p class="text-white-50">
-                  Las menus ayudan a organizar los platos (Desayuno, Almuerzo, Meriendas, Cenas y mas)
+                  Las menus ayudan a organizar los platos ( Desayuno, Almuerzo, Meriendas, Cenas y mas )
             </p>
       </div>
       <section class='mt-0 d-flex   overflow-auto'>

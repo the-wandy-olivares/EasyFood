@@ -1,6 +1,8 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
+from django.http import JsonResponse
+import json
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView, ListView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -12,7 +14,6 @@ from django.db.models import Sum
 from collections import defaultdict
 from datetime import datetime
 from django.utils import timezone
-
 
 # http://127.0.0.1:8000/company/logins
 
@@ -254,13 +255,37 @@ class Menu(ListView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-
+            # context['services'] = models.Service.objects.filter(company=self.request.user.employee_profile.company)  # Filtrar los servicios por la compañía activa
             # Obtener la compañía activa (solo una)
-            company = models.Company.objects.filter(is_active=True, employee=self.request.user.employee_profile)# Devolver el primero que encuentre
+            company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)# Devolver el primero que encuentre
             context['menus'] = models.Menu.objects.filter(company=self.request.user.employee_profile.company) 
+            # context['categoria'] = models.Category.objects.filter()  # Filtrar las categorías por la compañía activa
             context['company'] = company
             
             return context
+
+      def post(self, request, *args, **kwargs):
+            # Obtener los IDs seleccionados enviados como JSON
+            selected_ids = request.POST.get('selected_ids')
+            
+            if not selected_ids:
+                  return JsonResponse({"error": "No se recibieron IDs."}, status=400)
+
+            try:
+                  # Convertir el JSON a una lista de IDs
+                  selected_ids = json.loads(selected_ids)
+            except json.JSONDecodeError:
+                  return JsonResponse({"error": "Formato de IDs inválido."}, status=400)
+
+            # Iterar por cada ID y crear un registro en MenuChoices
+            deleted_count, _ = models.MenuChoices.objects.filter(company=request.user.employee_profile.company).delete()
+            for menu_id in selected_ids:
+                  menu = get_object_or_404(models.Category, id=menu_id)
+
+
+                  models.MenuChoices.objects.create(menu=menu, company=request.user.employee_profile.company)
+
+            return JsonResponse({"success": "Se crearon las opciones de menú correctamente."}, status=200)
 
 
 

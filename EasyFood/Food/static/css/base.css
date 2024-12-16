@@ -97,3 +97,20 @@ td{
             animation: flip-down-ai 0.5s ease-in ;
             transform-origin: top; 
       }
+
+
+      @keyframes flip-left {
+            0% {
+                  transform: rotateX(90deg);
+                  opacity: 0;
+            }
+            100% {
+                  transform: rotateX(0deg);
+                  opacity: 1;
+            }
+      }
+      
+            .flip-left {
+                  animation: flip-left 0.5s ease-in ;
+                  transform-origin: left; 
+            }

@@ -1,5 +1,6 @@
 {% extends "food/base/base.html" %}
 {% block content %}
+{%  load humanize %}
 <style>
       .menu {
             background-color: var(--bg-primary) !important;
@@ -9,27 +10,217 @@
       .menu  svg   {
             display: none;
       }
+      .section-base 
+      {
+        padding: 0 !important;
+      }
 </style>
-    <section>
+<meta name="csrf-token" content="{{ csrf_token }}">
+    <section class="overflow-auto p-4" >
+        {% if company.services.all %}
+            {% for s in company.services.all %}
+            <strong class='text-capitalize text-white-50 ms-3' style="font-size: 16px;">{{ s.name }}</strong>
+                <div class=' d-flex overflow-auto' style='height: 23rem;'>
+                    {% for c in s.categories_service.all %}
+                            <div style='width: 20rem;  background-color: var(--bg-primary);' class='  m-2 rounded-5 overflow-hidden' >
+                                <div> 
+                                    <img src="{{c.img.url}}"
+                                        class='object-fit-cover rounded-3'  
+                                        style='width: 100%; 
+                                        height: 10.5rem;'>    
+                                </div>
+                                <h6 style='font-size: 16px; font-weight: bold;' class="mt-2  ms-2">
+                                    {{ c.name }}
+                                </h6>
+                                <div class='p-2 overflow-auto d-flex flex-wrap align-content-start' style="height: 7rem;">
+                                    {% for p in c.platos_category.all %}
+                                            <div class="d-flex w-100 mb-2">
+                                                <img src="{{p.img.url}}"
+                                                        class='object-fit-cover rounded-circle me-2'  
+                                                        style='width: 30px; height: 30px; margin-top: 2px;'>
+                                                <div>
+                                                    <span class="badge bg-white bg-opacity-25 rounded-5 text-white">
+                                                        ${{ p.price|intcomma}}.00
+                                                    </span>
+                                                        <h5 class='text-capitalize text-white-50 m-0 p-0 mt-1 w-100' style='font-size: 14px;'> 
+                                                            {{ p.name }}
+                                                       </h5>
+                                                        <span>
+                                                        </span>
+                                                </div>
+                                            </div>
 
-
-      <h1>Menús Disponibles</h1>
-  
-      
-      {% if menus %}
-          <ul>
-              {% for m in menus %}
-                  <a href="{% url "company:select-menu" m.id %}">
-                        <li>
-                              <strong>{{ m.get_day_display }} - {{ m.get_time_display }}</strong><br>
-                              <em>Menú para el día {{ m.get_day_display }} en el horario de {{ menu.get_time_display }}</em>
-                          </li>      
-                  </a>
-              {% endfor %}
-          </ul>
-      {% else %}
-          <p>No hay menús disponibles para esta empresa.</p>
-      {% endif %}
-
+                                    {% endfor %}
+                                </div>
+                                <div class="position-sticky bottom-0 w-100 d-flex justify-content-end overflow-hidden pe-3 pb-2" style="height: 2rem;">
+                                    <button class="bg-transparent border-0 text-white" style="width: max-content;">
+                                        <div class="form-check bg-transparent">
+                                            <input class="form-check-input rounded-circle checkbox-item" type="checkbox"  data-name="{{c.name}}" value="" id="{{c.id}}">
+                                            <label class="form-check-label" for="{{c.id}}" style="font-size: 12px; font-weight: bold;">
+                                              Escoger
+                                            </label>
+                                          </div>
+                                    </button>
+                                </div>
+                            </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endif %}
     </section>
+    <section style="height: 7rem; width: 100%;" class="position-sticky  d-flex  start-0 bottom-0 blur-10">
+        <div style="width: 20rem;" class="d-flex">
+            <div style='width: 60px; height: 60px; background-color: var(--bg-primary); 
+                border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer; '
+                  class="d-flex flex-wrap align-content-center img-load  mt-1 me-3 ms-3  mt-4 mb-1" >
+                  {% if company.img %}
+                        <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                        {% endif %}
+                    </div>
+                <h5 class=' text-center m-0 p-0  mt-4'>
+                    {{company.name}} <br>
+                    <span style='font-size: 12px;'   class='text-white-50'>
+                        {{company.tax_id}}
+                    </span> <br> <br>
+                   
+                </h5>
+            </div>
+        </div>
+
+
+        <div class="">
+            <h6 class="w-100 " style="font-weight: bold; margin-top: 27px;">
+                Menus seleccionado <strong class="count-items"> 0 </strong>
+            </h6>
+            <div class="list-selec   overflow-auto pt-1 d-flex" >
+                <div id="selected-list" class="d-flex flex-wrap align-content-center" style="width:50rem;" ></div>
+            </div>
+        </div>
+
+        <div class="position-absolute end-0 bottom-0 btn-continuar d-none me-3 mb-2">
+            <h6>
+                <!-- Aceptar y continuar -->
+                Continuar con lo seleccionado
+            </h6>
+            <p>
+            </p>
+            <button class="border-0   p-2 pe-3 ps-3  rounded-5 text-white" style="background-color: var(--bg-primary); font-size: 16px; font-weight: bold; ">
+                Continuar
+            </button>
+        
+        </div>
+    </section>
+    <style>
+      .list
+        {
+            /* background-color: #7e7e7e; */
+            min-width: 14rem;
+        }
+        @keyframes flip-left {
+            0% {
+                  transform: rotateX(90deg);
+                  opacity: 0;
+            }
+            100% {
+                  transform: rotateX(0deg);
+                  opacity: 1;
+            }
+      }
+      
+            .flip-left {
+                  animation: flip-left 0.3s ease-in ;
+                  transform-origin: left; 
+            }
+    </style>
+    
+
+   <script>
+    let selectedIds = []; // Lista para almacenar los IDs seleccionados
+
+document.addEventListener("change", (event) => {
+    if (event.target.classList.contains("checkbox-item")) {
+        const selectedList = document.getElementById("selected-list");
+        const id = event.target.id;
+        const name = event.target.getAttribute("data-name"); // Obtener el nombre del atributo data-name
+    
+        if (event.target.checked) {
+            // Si está seleccionado, agregar a la lista
+            const li = document.createElement("li");
+            li.classList.add('list-unstyled', 'list', 'flip-left');
+            li.setAttribute("id", `selected-${id}`);
+            li.innerHTML = `
+                <button onclick="removeItem('${id}')" class='p-1 pe-3 ps-3 ms-0 bg-warning rounded-4 border-0 text-black mt-1 me-1 ms-1' style='font-weight: bold;'>Eliminar</button> ${name} 
+            `;
+            selectedList.appendChild(li);
+
+            // Agregar el ID a la lista de seleccionados
+            selectedIds.push(id);
+        } else {
+            // Si está deseleccionado, eliminar de la lista
+            removeItem(id);
+
+            // Quitar el ID de la lista de seleccionados
+            selectedIds = selectedIds.filter(item => item !== id);
+        }
+
+        // Actualizar conteo en la interfaz
+        let count_list = document.querySelectorAll(".checkbox-item:checked");
+        document.querySelector('.count-items').innerHTML = count_list.length;
+
+        // Mostrar o esconder el botón "Continuar"
+        if (count_list.length > 0) {
+            document.querySelector('.btn-continuar').classList.remove('d-none');
+        } else {
+            document.querySelector('.btn-continuar').classList.add('d-none');
+        }
+    }
+});
+
+// Función para eliminar un elemento
+function removeItem(id) {
+    const listItem = document.getElementById(`selected-${id}`);
+    if (listItem) listItem.remove();
+
+    // Desmarcar checkbox asociado
+    const checkbox = document.getElementById(id);
+    if (checkbox) checkbox.checked = false;
+
+    // Quitar el ID de la lista de seleccionados
+    selectedIds = selectedIds.filter(item => item !== id);
+
+    // Actualizar conteo en la interfaz
+    document.querySelector('.count-items').innerHTML = selectedIds.length;
+
+    // Mostrar o esconder el botón "Continuar"
+    if (selectedIds.length === 0) {
+        document.querySelector('.btn-continuar').classList.add('d-none');
+    }
+}
+
+document.querySelector('.btn-continuar').addEventListener('click', () => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = ''; // Cambia a la URL que necesites
+
+    // Agregar los IDs seleccionados como un campo oculto
+    const inputIds = document.createElement('input');
+    inputIds.type = 'hidden';
+    inputIds.name = 'selected_ids';
+    inputIds.value = JSON.stringify(selectedIds); // Convertir a JSON para enviar múltiples IDs
+    form.appendChild(inputIds);
+
+    // Agregar el token CSRF como un campo oculto
+    const inputCsrf = document.createElement('input');
+    inputCsrf.type = 'hidden';
+    inputCsrf.name = 'csrfmiddlewaretoken';
+    inputCsrf.value = csrfToken;
+    form.appendChild(inputCsrf);
+
+    document.body.appendChild(form);
+    form.submit();
+});
+   </script>
+    <!-- Menu -->
 {% endblock  %}
