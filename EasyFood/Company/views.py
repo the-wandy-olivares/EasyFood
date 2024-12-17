@@ -545,6 +545,7 @@ class CreateContrato(CreateView):
                   contract.save()
 
             company.services.clear()
+            deleted_count, _ = models.MenuChoices.objects.filter(company=company).delete()
             for service_id in selected_services:
                   service = models.Service.objects.get(id=service_id)
                   company.services.add(service)

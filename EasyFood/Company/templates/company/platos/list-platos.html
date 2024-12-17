@@ -10,6 +10,7 @@
 
 
 {% for p in platos.platos_category.all %}
+      {% if p.is_active %}
       <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1 plato-item">
             <div class=" d-flex w-100 justify-content-start">
                   {% if p.img %}
@@ -29,6 +30,7 @@
                   </div>
             </div>
       </div>
+      {% endif %}
 {% endfor %}
 
 

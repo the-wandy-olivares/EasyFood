@@ -50,9 +50,9 @@
             {% if categorias %}
                         {% include "company/platos/list-categorias.html" %}
                   {% else %}
-                  <div class='text-center'>
+                  {% comment %} <div class='text-center'>
                         <h6>No hay categorías de platos registradas.</h6>
-                        <a >Agregar categorías de platos</a>
+                        <a >Agregar categorías de platos</a> {% endcomment %}
                   </div>
             {% endif %}
       </section>

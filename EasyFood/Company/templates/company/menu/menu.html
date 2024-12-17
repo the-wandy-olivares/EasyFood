@@ -34,6 +34,7 @@
                                 </h6>
                                 <div class='p-2 overflow-auto d-flex flex-wrap align-content-start' style="height: 7rem;">
                                     {% for p in c.platos_category.all %}
+                                            {% if p.is_active %}
                                             <div class="d-flex w-100 mb-2">
                                                 <img src="{{p.img.url}}"
                                                         class='object-fit-cover rounded-circle me-2'  
@@ -49,7 +50,7 @@
                                                         </span>
                                                 </div>
                                             </div>
-
+                                            {% endif %}
                                     {% endfor %}
                                 </div>
                                 <div class="position-sticky bottom-0 w-100 d-flex justify-content-end overflow-hidden pe-3 pb-2" style="height: 2rem;">
@@ -89,7 +90,7 @@
 
 
         <div class="">
-            <h6 class="w-100 " style="font-weight: bold; margin-top: 27px;">
+            <h6 class="w-100  d-none" style="font-weight: bold; margin-top: 27px;">
                 Menus seleccionado <strong class="count-items"> 0 </strong>
             </h6>
             <div class="list-selec   overflow-auto pt-1 d-flex" >
@@ -170,6 +171,7 @@ document.addEventListener("change", (event) => {
         // Mostrar o esconder el botón "Continuar"
         if (count_list.length > 0) {
             document.querySelector('.btn-continuar').classList.remove('d-none');
+            
         } else {
             document.querySelector('.btn-continuar').classList.add('d-none');
         }
