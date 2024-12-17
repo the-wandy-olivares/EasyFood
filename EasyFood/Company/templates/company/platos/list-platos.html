@@ -5,6 +5,21 @@
             font-size: 12px;
 
       }
+      @keyframes flip-left {
+            0% {
+                  transform: rotateX(50deg);
+                  opacity: 0;
+            }
+            100% {
+                  transform: rotateX(0deg);
+                  opacity: 1;
+            }
+      }
+      
+            .flip-left {
+                  animation: flip-left 0.5s ease-out ;
+                  transform-origin: left; 
+            }
 </style>
 
 
@@ -18,17 +33,39 @@
             {% endif %}
                   <div class=" d-block justify-content-end img-sec pt-0">
                         {% if p.img %}
-                              <img src="{{p.img.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-3 img-1 m-1" alt="">
+                              <img src="{{p.img.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
                         {% endif %}
                         {% if p.img1 %}
-                              <img src="{{p.img1.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-3 img-1 m-1" alt="">
+                              <img src="{{p.img1.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
                         {% endif %}
                         {% if p.img2 %}
-                              <img src="{{p.img2.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-3 img-1 m-1" alt="">
+                              <img src="{{p.img2.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
                         {% endif %}
                   </div>
            
             </div>
+            <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                        const items = document.querySelectorAll('.plato-item');
+      
+                        items.forEach(item => {
+                              const thumbnails = item.querySelectorAll('.img-sec .img-1');
+                              const mainImage = item.querySelector('.img-p');
+      
+                              thumbnails.forEach(thumbnail => {
+                                    thumbnail.addEventListener('mouseover', function() {
+                                          mainImage.src = this.src;
+                                          mainImage.classList.add('flip-left');
+                                            setTimeout(() => {
+                                                      mainImage.classList.remove('flip-left');
+                                            }, 488);
+
+                                    });
+                              });
+                        });
+                  });
+                  </script>
+                 
          
 
             <script>
