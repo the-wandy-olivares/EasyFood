@@ -36,6 +36,7 @@ class Company(models.Model):
 class Service(models.Model):
       name = models.CharField(max_length=50, choices=Company.SERVICE_OPTIONS, unique=True, blank=True)
       img = models.ImageField(upload_to='media/service/', null=True, blank=True)
+      description = models.TextField(verbose_name="Description", blank=True)
       class Meta:
             verbose_name = "Service"
             verbose_name_plural = "Services"
