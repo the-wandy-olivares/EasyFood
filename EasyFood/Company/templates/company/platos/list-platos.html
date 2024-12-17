@@ -2,26 +2,81 @@
 <style>
 
 </style>
-{% for p in platos.platos_category.all  %}
-      <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1">
-            <div class=" d-flex w-100 justify-content-start" >
+
+
+
+{% for p in platos.platos_category.all %}
+      <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1 plato-item">
+            <div class=" d-flex w-100 justify-content-start">
                   {% if p.img %}
                         <img src="{{p.img.url}}" style="height: 5rem; width: 5rem;" class=" object-fit-cover rounded-circle" alt="">
                   {% endif %}
             </div>
             <div>
                   <h6 class="m-0 p-0 mt-2">{{p.name}}</h6>
-                  <span class="text-white-50" style="font-size: 18px; font-weight: bold;">${{p.price|intcomma}}.00</span>
-                  <p style="height: 3rem; font-size: 12px;" class=" text-start   overflow-auto text-white-50 p-0 m-0">-{{p.description}}
-                  </p>
+                  <span class="text-white-50" style="font-size: 18px; font-weight: bold;">${{p.price|intcomma}}</span>
+                  <p style="height: 3rem; font-size: 12px;" class=" text-start overflow-auto text-white-50 p-0 m-0">-{{p.description}}</p>
                   <div class="w-100 d-flex justify-content-end mt-3"> 
-                        <!-- <input type="number" placeholder="1" style="width: 6rem; outline: none;"
-                        class="bg-white bg-opacity-10 text-center border-0 me-2 text-white"> -->
-                        <button class="btn rounded-5 text-white" 
-                              style="font-weight: bold; font-size: 14px; background-color: var(--bg-primary);">
+                        <button class="btn rounded-5 text-white order-now-btn" 
+                              style="font-weight: bold; font-size: 14px; background-color: var(--bg-primary);"
+                              data-name="{{p.name}}" data-price="{{p.price}}" data-img="{% if p.img %}{{p.img.url}}{% endif %}">
                               Ordenar ahora
                         </button>
                   </div>
             </div>
       </div>
 {% endfor %}
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.order-now-btn');
+      const itemCount = document.querySelector('.item-count');
+      const listChoice = document.getElementById('list-choice');
+      const totals = document.querySelector('.totals');
+      let totalAmount = 0;
+
+      function updateItemCount() {
+            const count = listChoice.children.length;
+            itemCount.textContent = `${count}`;
+      }
+
+      function updateTotalAmount() {
+            totals.textContent = `$${totalAmount.toFixed(2)}`;
+      }
+
+      buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                  const name = this.getAttribute('data-name');
+                  const price = parseFloat(this.getAttribute('data-price'));
+                  const img = this.getAttribute('data-img');
+
+                  const item = document.createElement('div');
+                  item.classList.add('list-item');
+                  item.innerHTML = `
+                        <div class="d-flex align-items-center mb-2">
+                                <img src="${img}" style="height: 3rem; width: 3rem;" class="object-fit-cover rounded-circle me-2" alt="">
+                                <div>
+                                          <h6 class="m-0">${name}</h6>
+                                          <span class="text-white-50" style="font-size: 14px; font-weight: bold;">$${price.toLocaleString('en-US')}</span>
+                                </div>
+                                <button class="btn btn-danger   rounded-5 btn-sm ms-auto remove-item-btn"> - </button>
+                        </div>
+              `;
+                  listChoice.appendChild(item);
+                  totalAmount += price;
+                  updateItemCount();
+                  updateTotalAmount();
+
+                  const removeButton = item.querySelector('.remove-item-btn');
+                  removeButton.addEventListener('click', function() {
+                        listChoice.removeChild(item);
+                        totalAmount -= price;
+                        updateItemCount();
+                        updateTotalAmount();
+                  });
+            });
+      });
+});
+</script>

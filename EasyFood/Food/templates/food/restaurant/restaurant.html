@@ -14,17 +14,26 @@
       </style>
 
 
-      <span class="position-absolute top-0 end-0 me-4 mt-4" onclick="Orders()" style="font-weight: bold; cursor: pointer;">
-       Ordenes
+      <span class="position-absolute top-0 end-0 p-4 me-4 mt-4 position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer;">
+       Ordenes <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
+       style='width: 30px; height: 30px; color: var(--bg-primary);'>0</div>
       </span>
 
-      <div style="width: 24rem; height: 50rem;"
+      <div style="width: 24rem; max-height: 70vh; height: 100%;"
       class=" position-absolute orders-list  d-none  rounded-5 p-1 me-2 position-relative  top-0 end-0 z-2">
       <svg xmlns="http://www.w3.org/2000/svg" onclick="Orders()" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill me-1 position-absolute start-0 z-3" viewBox="0 0 16 16" style="cursor: pointer;">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
           </svg>
-                  <div class="blur-10  bg-black bg-opacity-25 p-3 h-100 w-100 mt-2 shadow rounded-5">
-             
+                  <div class="blur-10  bg-black overflow-auto list-choice bg-opacity-25  h-100 w-100 mt-2 shadow rounded-5">
+                        <div id="list-choice" class="list-choice p-3"></div>
+                        <div class='position-sticky bottom-0 p-2'  style='background-color: var(--bg-primary) ;'>
+                              <div class="totals"></div>
+                              <div>
+                                    <button class="btn btn-warning mt-1 text-black w-100 rounded-5" style="font-weight: bold;">
+                                          Realizar pedido
+                                    </button>
+                              </div>
+                        </div>
                   </div>
       </div>
 
