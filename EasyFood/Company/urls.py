@@ -61,6 +61,8 @@ urlpatterns = [
 
 # Recuperar contraseña
       path('recovery-password', views.RecoveryPassword.as_view(), name='recovery-password'),
+            path('verify-code', views.VerifyCode.as_view(), name='verify-code'),
+
 
 # Solicitudes ajax asincronas
       path('verify-username-ajax', views_ajax.Verify_Username_Ajax, name='verify-username-ajax'),

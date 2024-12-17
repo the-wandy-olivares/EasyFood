@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.http import JsonResponse
@@ -14,6 +13,8 @@ from django.db.models import Sum
 from collections import defaultdict
 from datetime import datetime
 from django.utils import timezone
+from django.core.mail import send_mail
+import random
 
 # http://127.0.0.1:8000/company/logins
 
@@ -695,6 +696,50 @@ class RecoveryPassword(TemplateView):
             context = super().get_context_data(**kwargs)
             return context 
 
+      def post(self, request, *args, **kwargs):
+            email = request.POST.get('email')
+            code = request.POST.get('code')
+            if email:
+                  user = get_object_or_404(User, username=email)
+                  code = user.employee_profile.code = random.randint(1000,  1999)
+                  user.save()
+                        # send_mail(
+                        #       'Código de recuperación',
+                        #       f'Tu código de recuperación es: {code}',
+                        #       'untal.wandy@gmail.com',
+                        #       [email],
+                        #       fail_silently=False,
+                        # )
+
+                  context = self.get_context_data(**kwargs)
+                  context['email'] = email
+                  messages.success(request, f'Se ha enviado un código de recuperación a {email}.')
+                  return render(request, self.template_name, context)
+
+            if code:
+                  pass
+
+
+
+
+
+class VerifyCode(TemplateView):
+      template_name = "company/recovery/verify-code.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def post(self, request, *args, **kwargs):
+            code = request.POST.get('code')
+            # Aquí deberías verificar el código con el que se envió al correo electrónico
+            # Esto es solo un ejemplo, deberías implementar la lógica de verificación de código
+            if code == "1234":  # Reemplaza esto con la lógica real de verificación
+                  messages.success(request, 'Código verificado correctamente. Ahora puedes cambiar tu contraseña.')
+                  return redirect('company:reset-password')
+            else:
+                  messages.error(request, 'Código incorrecto. Inténtalo de nuevo.')
+                  return redirect('company:verify-code')
 
 class MyProfile(TemplateView):
       template_name = "company/profile/my-profile.html"

@@ -74,7 +74,7 @@ class Employee(models.Model):
       role = models.CharField(max_length=10, choices=ROLE_OPTIONS, verbose_name="Role", blank=True)
       genero = models.CharField(max_length=10, choices=GENERO, verbose_name="Genero", blank=True)
       is_active = models.BooleanField(default=True, verbose_name="Estado activo", blank=True)
-
+      code = models.CharField(max_length=10, verbose_name="Codigo de acceso", blank=True)
       class Meta:
             verbose_name = "Employee"
             verbose_name_plural = "Employees"
