@@ -285,7 +285,7 @@ class Menu(ListView):
 
                   models.MenuChoices.objects.create(menu=menu, company=request.user.employee_profile.company)
 
-            return JsonResponse({"success": "Se crearon las opciones de menú correctamente."}, status=200)
+            return redirect(reverse('food:restaurant'))
 
 
 

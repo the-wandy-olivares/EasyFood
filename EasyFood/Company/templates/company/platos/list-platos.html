@@ -2,7 +2,7 @@
 <style>
 
 </style>
-{% for p in platos %}
+{% for p in platos.platos_category.all  %}
       <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1">
             <div class=" d-flex w-100 justify-content-start" >
                   {% if p.img %}
@@ -13,7 +13,6 @@
                   <h6 class="m-0 p-0 mt-2">{{p.name}}</h6>
                   <span class="text-white-50" style="font-size: 18px; font-weight: bold;">${{p.price|intcomma}}.00</span>
                   <p style="height: 3rem; font-size: 12px;" class=" text-start   overflow-auto text-white-50 p-0 m-0">-{{p.description}}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam necessitatibus distinctio esse aliquam asperiores iure laboriosam alias maiores magni suscipit debitis explicabo, inventore, nobis reiciendis fuga eligendi? Fuga, repellat ratione.
                   </p>
                   <div class="w-100 d-flex justify-content-end mt-3"> 
                         <!-- <input type="number" placeholder="1" style="width: 6rem; outline: none;"

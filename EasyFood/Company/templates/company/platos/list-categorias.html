@@ -1,16 +1,20 @@
 
-
 {% for c in categorias %}
-      <div data-aos='fade-in' style="min-width: 20rem; width: 20rem; height: 13rem; 
-            transition-delay: 0.{{ forloop.counter }}s;
-            {% if c.img %}
-                  background-image: url({{c.img.url}});
-                  background-position: center; background-repeat: no-repeat;
-                  background-size: cover;
-            {% endif %}" class="rounded-5 ms-3 position-relative">
-            <span class="bg-black bg-opacity-75 d-flex justify-content-center flex-wrap align-content-center rounded-5 position-absolute top-0 h-100 w-100"
-            style="font-weight: bold;">
-                  {{c.name}}
-            </span>
-      </div>
+      <form method="get" >
+            <input type="hidden" name="id" value="{{ c.menu.id }}">
+            <button type="submit" style="all: unset; cursor: pointer;">
+                  <div data-aos='fade-in' style="min-width: 20rem; width: 20rem; height: 13rem; 
+                        transition-delay: 0.{{ forloop.counter }}s;
+                        {% if c.menu.img %}
+                              background-image: url({{c.menu.img.url}});
+                              background-position: center; background-repeat: no-repeat;
+                              background-size: cover;
+                        {% endif %}" class="rounded-5 ms-3 position-relative">
+                        <span class="bg-black bg-opacity-75 d-flex justify-content-center flex-wrap align-content-center rounded-5 position-absolute top-0 h-100 w-100"
+                        style="font-weight: bold;">
+                              {{c.menu.name}} {{c.menu.platos.count}}
+                        </span>
+                  </div>
+            </button>
+      </form>
 {% endfor %}
