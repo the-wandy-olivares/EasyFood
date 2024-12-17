@@ -694,3 +694,35 @@ class RecoveryPassword(TemplateView):
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             return context 
+
+
+class MyProfile(TemplateView):
+      template_name = "company/profile/my-profile.html"
+      
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+
+class DeleteAccount(DeleteView):
+      template_name = "company/profile/delete-account.html"
+      model = User
+      success_url = reverse_lazy('company:logins')
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+
+      def form_invalid(self, form):
+            print(form.errors)  # Imprime los errores del formulario
+            return super().form_invalid(form)
+
+
+
+def Logout(request):
+      logout(request)
+      return redirect('company:logins')

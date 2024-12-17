@@ -19,10 +19,17 @@
     {% include "food/componentes/load-masive-users.html" %}
     <body>
         <main class='  p-4 d-flex w-100 vh-100'>
-                <div style="width: 13%;" class="m-1 me-3" >
-                        {% include "food/componentes/nav.html" %} 
-                </div>
-                <section data-aos="fade-in"  class='section-base p-4'>
+
+                {% if request.user.is_authenticated %}
+                    <div style="width: 13%;" class="m-1 me-3">
+                        {% include "food/componentes/nav.html" %}
+                    </div>
+                {% endif %}
+               
+                
+
+                <section data-aos="fade-in"  class='section-base {% if request.user.is_authenticated %}  {% else %} container {% endif %} p-4'>
+
                     {% block content %}
                     {% endblock  %}
                 </section>

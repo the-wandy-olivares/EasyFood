@@ -53,6 +53,12 @@ urlpatterns = [
             path('detail-contrato/<int:pk>', views.DetailContrato.as_view(), name='detail-contrato'),
       path('contratos-company/<int:pk>', views.ContratosCompany.as_view(), name='contratos-company'),
 
+
+#  Perfil de usuario
+      path('my-profile', views.MyProfile.as_view(), name='my-profile'),
+            path('delete-account', views.DeleteAccount.as_view(), name='delete-account'),
+                  path('logout', views.Logout, name='logout'),
+
 # Recuperar contraseña
       path('recovery-password', views.RecoveryPassword.as_view(), name='recovery-password'),
 
