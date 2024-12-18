@@ -699,10 +699,13 @@ class RecoveryPassword(TemplateView):
       def post(self, request, *args, **kwargs):
             email = request.POST.get('email')
             code = request.POST.get('code')
+            print(email, code)
             if email:
                   user = get_object_or_404(User, username=email)
-                  code = user.employee_profile.code = random.randint(1000,  1999)
-                  user.save()
+                  code = random.randint(1000,  1999)
+                  employe = models.Employee.objects.get(user=user)
+                  employe.code = code
+                  employe.save()
                         # send_mail(
                         #       'Código de recuperación',
                         #       f'Tu código de recuperación es: {code}',
@@ -717,9 +720,26 @@ class RecoveryPassword(TemplateView):
                   return render(request, self.template_name, context)
 
             if code:
-                  pass
+                  email_send = request.POST.get('email_send')
+                  user = get_object_or_404(User, username=email_send)
+                  if  user.employee_profile.code == code:
+                        context = self.get_context_data(**kwargs)
+                        context['verify'] = True
+                        context['email_send2'] = email_send
+                        messages.success(request, f' Codigo verificado correctamente.')
+                        return render(request, self.template_name, context)
+                  else:
+                        messages.error(request, 'Código incorrecto. Inténtalo de nuevo.')
+                        return redirect('company:recovery-password')
 
-
+            if request.POST.get('new_password'):
+                  email_send2 = request.POST.get('email_2')
+                  user = get_object_or_404(User, username=email_send2)
+                  password = request.POST.get('new_password')
+                  user.set_password(password)
+                  user.save()
+                  messages.success(request, 'Contraseña actualizada correctamente.')
+                  return redirect('company:logins')
 
 
 
