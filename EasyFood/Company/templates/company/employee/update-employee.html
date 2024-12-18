@@ -93,17 +93,7 @@
                               {{form.phone}}
                               {{form.role}}
                         </div>
-                        <h6 class="w-100 mt-4">
-                               Contraseña
-                        </h6>
-                        <p class="text-white-50 p-0 m-0">
-                           Asegurate de crea una contraseña segura y que puedas recordar (A-Z  a-z 0-9 y @)
-                        </p>
-                        <div class="w-100 d-flex">
-                              {{form.password}}
-                              <input type="text" id="confirm-password" placeholder="Confirme contraseña"> 
-                        </div>
-      
+
                         <div class="w-100 d-flex justify-content-end  mt-3">
                               <a href="{% url "company:profile-company" company.id %}" >
                                     <span class=" p-2 border-0 btn   bg-transparent text-white rounded-5 pe-4 ps-4" style="font-weight: bold
