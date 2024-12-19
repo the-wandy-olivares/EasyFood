@@ -60,7 +60,7 @@
                   Informacion progresiva
             </h6>
             <span style="font-size: 12px;" class="w-100 text-white-50">
-                  8/12/2024 - 7/1/2025
+                  ....
             </span>
             <div class="d-flex span-detail">
                   <span style="background-color: #2d2d2d;">
@@ -84,11 +84,10 @@
                   Informacion progresiva
             </h6>
             <span style="font-size: 12px;" class="w-100 text-white-50 text-end">
-                  8/12/2024 - 7/1/2025
-            </span>
+                  {{ request.user.employee_profile.company.date|date:"j/m/Y" }} - <span class="date-day"></span> </span>
             <div class="d-flex span-detail">
                   <p>
-                        La empresa ha tenido un gran impacto, en los ultimos periodos
+                        <!-- La empresa ha tenido un gran impacto, en los ultimos periodos -->
                   </p>
             </div>
       </div>
@@ -102,3 +101,10 @@
       </div>
     
 </section>
+<script>
+      var date = new Date();
+      var day = date.getDate();
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      document.querySelector('.date-day').innerHTML = day + '/' + month + '/' + year;
+</script>

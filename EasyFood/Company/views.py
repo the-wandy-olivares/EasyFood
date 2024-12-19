@@ -139,6 +139,7 @@ class ProfileCompany(DetailView):
             context['total_billed'] = total_billed
             context['total_paid'] = total_paid
             context['total_pending'] = total_billed - total_paid  # Monto pendiente
+            context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
 
             return context
 
@@ -151,7 +152,22 @@ class ProfileCompany(DetailView):
             if not request.user.is_authenticated:
                   return redirect(reverse('company:logins'))
             return super().get(request, *args, **kwargs)
+      
 
+      def post(self, request, *args, **kwargs):
+            menus_selected = request.POST.getlist('menus')  # Menús seleccionados
+            all_menus = models.MenuChoices.objects.filter(company_id=self.kwargs['pk'])  # Todos los menús relacionados
+            
+            for menu in all_menus:
+                  if str(menu.id) in menus_selected:  # Si el menú está seleccionado
+                        role = request.POST.get(f'role_{menu.id}')
+                        menu.is_active = True
+                        menu.role = role
+                  else:  # Si el menú no está seleccionado
+                        menu.is_active = False
+                  menu.save()
+            
+            return redirect(reverse('company:profile-company', kwargs={'pk': self.kwargs['pk']}))
 
 # Empleados
 @method_decorator(Check_Role, name='dispatch')

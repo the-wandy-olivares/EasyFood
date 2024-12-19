@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class Company(models.Model):
       SERVICE_OPTIONS = [
@@ -14,6 +15,9 @@ class Company(models.Model):
       address = models.TextField(verbose_name="Address", blank=True)
       phone = models.CharField(max_length=15, verbose_name="Phone", blank=True)
       email = models.EmailField(verbose_name="Email Address", blank=True)
+
+
+      date = models.DateTimeField(default=datetime.datetime(2024, 12, 3, 0, 0), auto_now_add=False)
 
 
       representative = models.CharField(max_length=255, verbose_name="Principal reprentante", blank=True)
@@ -163,8 +167,17 @@ class Category(models.Model):
 
 # Los menus son categorías, lo que sucede es que se hicieron unas modificaciones a como se manejan los menus sorry si no he resuelto esto, les juro que es un error mio y estoy consciente, per es facil de enternder los menus del templates son categorias y cada plato esta relacionado con la categoría (Menu)
 class MenuChoices(models.Model):
+      ROLE_OPTIONS = [
+                  ('ejecutivo', 'Ejecutivo'),
+                  ('estandar', 'Estandar'),
+      ]
+
       menu = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="choices_menu", blank=True, null=True)  # Relacionado con el menú seleccionado
       company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="choices_company", blank=True, null=True)  # Relacionado con la empresa seleccion
+      role = models.CharField(max_length=10, choices=ROLE_OPTIONS, verbose_name="Role", blank=True, default='estandar')
+
+      is_active = models.BooleanField(default=True)
+
 
       def __str__(self):
             return f"{self.company.name} - {self.menu.name}"

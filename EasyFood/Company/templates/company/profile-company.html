@@ -120,7 +120,39 @@
                               <span class='text-white-50'> No hay servicios contratados <span> 
                         </strong>
                   {% endif %}
+                  <strong class='mt-4'>
+                        <span class='text-white-50'> Gestionar menus <span> 
+                  </strong>
+                  <p class="text-white-50">
+                        Restinge o permite el acceso a los menus de los usuarios
+                  </p>
 
+
+                  <form action="" method="post">
+                        {% csrf_token %}
+                  <div class='d-flex w-100 overflow-auto'>
+                        {% if menus_choices %}
+                              {% for m in menus_choices %}
+                              <div style='width: 210px;' class='m-1 mt-1'> 
+                                    {% if m.menu.img %}
+                                          <img src="{{m.menu.img.url}}" class=' mb-2 mt-2 rounded-circle' style='width: 60px; height: 60px;'  alt="">     
+                                    {% endif %}
+                                     {{m.menu.name}}
+                                    <input type="checkbox" name="menus" value="{{m.id}}" {% if m.is_active %} checked {% endif %} class='rounded-circle' style='border-radius: 50% !important;'>
+                                      <select name="role_{{m.id}}" class="form-select border-0 text-white bg-white bg-opacity-10 rounded-3">
+                                                <option value="ejecutivo" {% if m.role == 'ejecutivo' %}selected{% endif %}>Para ejecutivos</option>
+                                                <option value="estandar" {% if m.role == 'estandar' %}selected{% endif %}>Para estandar</option>
+                                      </select>
+                              </div>
+                              {% endfor %}
+                              {% endif %}
+                        </div>
+                        <div>
+                              <button class='btn text-white border-0 me-3 rounded-5 p-2 pe-4 ps-4 bg-white bg-opacity-10'>
+                                    Guardar
+                              </button>
+                        </div>
+                  </form>
 
 {% comment %} 
                   <!-- Configuración de Menús -->

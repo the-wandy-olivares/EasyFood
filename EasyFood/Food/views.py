@@ -43,7 +43,8 @@ class Restaurant(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['categorias'] = models.MenuChoices.objects.filter(company=self.request.user.employee_profile.company)
+            context['categorias'] = models.MenuChoices.objects.filter(company=self.request.user.employee_profile.company, role=self.request.user.employee_profile.role, is_active=True)
+            print(self.request.user.employee_profile.role)
             categoria_id = self.request.GET.get('id')
             if categoria_id:
                   context['platos'] = models.Category.objects.get(id=categoria_id)
