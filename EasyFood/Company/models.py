@@ -142,13 +142,9 @@ class Menu(models.Model):
       company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="menu_company")
       day = models.CharField(max_length=10, choices=DAY_CHOICES, verbose_name="Día")
       time = models.CharField(max_length=20, choices=TIME_CHOICES, verbose_name="Horario")
-
       img = models.ImageField(upload_to='media/menu/', null=True, blank=True)
-      # Opciones para las comidas
       is_active = models.BooleanField(default=True)
 
-
-      
       def __str__(self):
             return f"{self.get_day_display()} - {self.get_time_display()}"
 
@@ -156,28 +152,38 @@ class Menu(models.Model):
 
 
 class Category(models.Model):
-      service = models.ForeignKey('Service', on_delete=models.CASCADE, related_name="categories_service", blank=True, null=True)  # Relacionado con el servicio seleccion
+      service = models.ForeignKey('Service', on_delete=models.CASCADE, related_name="categories_service", blank=True, null=True) 
       name = models.CharField(max_length=50, verbose_name="Categoría del Plato")
       description = models.TextField(verbose_name="Descripción de la Categoría", blank=True, null=True)
       img = models.ImageField(upload_to='media/category/', null=True, blank=True)
       is_active = models.BooleanField(default=True)
 
-
+      # Relacionado con la empresa seleccionada
       is_company = models.BooleanField(default=False)
-      company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="categories_company", blank=True, null=True)  # Relacionado con la empresa seleccion
+      company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="categories_company", blank=True, null=True)
 
       def __str__(self):
             return self.name
+      
 
-# Los menus son categorías, lo que sucede es que se hicieron unas modificaciones a como se manejan los menus sorry si no he resuelto esto, les juro que es un error mio y estoy consciente, per es facil de enternder los menus del templates son categorias y cada plato esta relacionado con la categoría (Menu)
+
+
+
+""" 
+            *Los menus son categorías, lo que sucede es que se hicieron unas modificaciones a como se manejan los menus sorry si no he resuelto esto, les juro que es un error mio y estoy consciente, per es facil de enternder los menus del templates son categorias y cada plato esta relacionado con la categoría (Menu) 
+"""
+
+
+
+
 class MenuChoices(models.Model):
       ROLE_OPTIONS = [
                   ('ejecutivo', 'Ejecutivo'),
                   ('estandar', 'Estandar'),
       ]
 
-      menu = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="choices_menu", blank=True, null=True)  # Relacionado con el menú seleccionado
-      company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="choices_company", blank=True, null=True)  # Relacionado con la empresa seleccion
+      menu = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="choices_menu", blank=True, null=True)
+      company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="choices_company", blank=True, null=True) 
       role = models.CharField(max_length=10, choices=ROLE_OPTIONS, verbose_name="Role", blank=True, default='estandar')
 
       is_active = models.BooleanField(default=True)

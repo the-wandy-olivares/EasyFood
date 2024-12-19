@@ -306,7 +306,26 @@ class Menu(ListView):
 
 
 
+class CreateCategoryForCompany(CreateView):
+      model = models.Category
+      form_class = forms.Category
+      template_name = "company/menu/create-category-for-company.html"
+      success_url = reverse_lazy('company:menu')  # Red
 
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)
+            context['company'] = company
+            context['service'] = models.Service.objects.get(id=self.kwargs.get('pk')) 
+            context['menu_choices'] = models.MenuChoices.objects.filter(company=company)
+
+            return context          
+
+      def form_valid(self, form):
+            company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)
+            form.instance.company = company
+            return super().form_valid(form)
 
 class SelectMenu(DetailView):
       model = models.Menu
