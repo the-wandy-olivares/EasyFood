@@ -162,6 +162,10 @@ class Category(models.Model):
       img = models.ImageField(upload_to='media/category/', null=True, blank=True)
       is_active = models.BooleanField(default=True)
 
+
+      is_company = models.BooleanField(default=False)
+      company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name="categories_company", blank=True, null=True)  # Relacionado con la empresa seleccion
+
       def __str__(self):
             return self.name
 
