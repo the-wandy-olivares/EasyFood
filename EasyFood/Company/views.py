@@ -741,13 +741,13 @@ class RecoveryPassword(TemplateView):
                   employe = models.Employee.objects.get(user=user)
                   employe.code = code
                   employe.save()
-                        # send_mail(
-                        #       'Código de recuperación',
-                        #       f'Tu código de recuperación es: {code}',
-                        #       'untal.wandy@gmail.com',
-                        #       [email],
-                        #       fail_silently=False,
-                        # )
+                  send_mail(
+                              'Código de recuperación',
+                              f'Tu código de recuperación es: {code}',
+                              'untal.wandy@gmail.com',
+                              [email],
+                              fail_silently=False,
+                        )
 
                   context = self.get_context_data(**kwargs)
                   context['email'] = email

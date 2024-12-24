@@ -40,7 +40,7 @@
                               </svg>
                         </a> 
                                 {% for c in s.categories_service.all %}
-                                        <div style='width: 20rem;  height: 19rem; background-color: var(--bg-primary); border: 6px solid var(--bg-primary);' class='   m-2 rounded-5 overflow-hidden' >
+                                        <div style='width: 20rem;  height: 19rem; background-color: var(--bg-primary); border: 6px solid var(--bg-primary); border-radius: 3rem;' class='   m-2  overflow-hidden' >
                                             <div> 
                                                 <label class="form-check-label text-center w-100 mb-3" for="{{c.id}}" style="font-size: 12px; font-weight: bold; cursor: pointer;">
                                                     <img src="{{c.img.url}}"
@@ -58,7 +58,7 @@
                                                         <div class="d-flex w-100 mb-2">
                                                             
                                                             <img src="{{p.img.url}}" 
-                                                                    class='object-fit-cover rounded-circle me-2'  
+                                                                    class='object-fit-cover rounded-3 me-2'  
                                                                     style='width: 30px; height: 30px; margin-top: 2px;'>
                                                             <div>
                                                                 <span class="badge bg-white bg-opacity-25 rounded-5 text-white">
