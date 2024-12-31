@@ -10,7 +10,7 @@ class Company(models.Model):
             ('comida', 'Comida'),
             ('cena', 'Cena'),
       ]
-      
+
       name = models.CharField(max_length=255, verbose_name="Nombre", blank=True)
       img = models.ImageField(upload_to='media/company/', null=True, blank=True)
       tax_id = models.CharField(max_length=50, unique=True, verbose_name="Tax ID", blank=True)
@@ -56,6 +56,7 @@ class Employee(models.Model):
       ROLE_OPTIONS = [
                   ('ejecutivo', 'Ejecutivo'),
                   ('estandar', 'Estandar'),
+                  ('representante', 'Representante',)
       ]
       GENERO = [
                   ('masculino', 'Masculino'),
@@ -77,7 +78,7 @@ class Employee(models.Model):
       last_name = models.CharField(max_length=255, verbose_name="Apellidos", blank=True)
       email = models.EmailField(unique=True, verbose_name="Correo electronico", blank=True)
       phone = models.CharField(max_length=15, verbose_name="Numero de telefono", blank=True, null=True)
-      role = models.CharField(max_length=10, choices=ROLE_OPTIONS, verbose_name="Role", blank=True)
+      role = models.CharField(max_length=15, choices=ROLE_OPTIONS, verbose_name="Role", blank=True)
       genero = models.CharField(max_length=10, choices=GENERO, verbose_name="Genero", blank=True)
       is_active = models.BooleanField(default=True, verbose_name="Estado activo", blank=True)
       code = models.CharField(max_length=10, verbose_name="Codigo de acceso", blank=True)

@@ -28,7 +28,7 @@ def Check_Role(view_func):
       def _wrapped_view(request, *args, **kwargs):
             if request.user.is_authenticated:
                   if request.user.username != 'admin' or 'untalwandy':
-                        if request.user.employee_profile.role == "ejecutivo":
+                        if request.user.employee_profile.role == "ejecutivo" or "representante":
                               return view_func(request, *args, **kwargs)
             return redirect('company:no-acces-to-view')  # Reemplaza 'some_view_name' con el nombre de la vista a redirigir
       return _wrapped_view
@@ -225,14 +225,23 @@ class UpdateEmploye(UpdateView):
 
       def form_valid(self, form):
 
-            user  = User.objects.get( employee_profile=self.object)
+            user = User.objects.get(employee_profile=self.object)
             # Establecer la clave del usuario
             user.username = form.instance.email
-            password = form.instance.password # Reemplázalo por la clave que necesites
+            password = form.instance.password  # Reemplázalo por la clave que necesites
             user.set_password(password)
             user.save()
             form.instance.user = user
-            form.instance.company = models.Company.objects.get(is_active=True,  employee=self.object)
+            form.instance.company = models.Company.objects.get(is_active=True, employee=self.object)
+
+            # Comprobar si el rol ha cambiado a 'representante'
+            if form.instance.role == 'representante':
+                    # Verificar si ya existe otro empleado con el rol 'representante' en la misma empresa
+                    existing_representative = models.Employee.objects.filter(company=form.instance.company, role='representante').exclude(id=form.instance.id).first()
+                    if existing_representative:
+                              messages.error('Solo puede haber un representante por empresa.')
+                              return self.form_invalid(form)
+
             form.save()
             return super().form_valid(form)
 

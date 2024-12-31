@@ -63,13 +63,22 @@
             ">
             </div>
             <div class='d-flex forms-inputs flex-wrap  ' style="width: 55rem;" >
-                  <h6 class="w-100 m-0 p-0">
-                        Asociando empleados a empresa 
-                  </h6>
-                  <p class="text-white-50 p-0 m-0">
-                        Asocie empleados a esta empresa y asignale un role, los usuarios de cada empresa seran visibles en el perfil de la misma, donde puedes eliminar, modifica, activar o desactivarlo
-                  </p>
-                  <form action="" method="post" class="d-flex flex-wrap">
+                
+                                  {% for m in messages %}
+                               <strong class='text-warning'> {{m}}</strong>
+                               {% endfor %}
+                               <p class=" p-0 m-0 text-danger">
+                                  Si desea cambiar el representante de la empresa, cambie el rol del representante actual o elimine.
+                              </p>
+                  {% else %}
+                        <h6 class="w-100 m-0 p-0">
+                              Asociando empleados a empresa 
+                        </h6>
+                        <p class="text-white-50 p-0 m-0">
+                              Asocie empleados a esta empresa y asignale un role, los usuarios de cada empresa seran visibles en el perfil de la misma, donde puedes eliminar, modifica, activar o desactivarlo
+                        </p>
+                  {% endif %}
+                        <form action="" method="post" class="d-flex flex-wrap">
                         {% csrf_token %}
                         <div>
 
