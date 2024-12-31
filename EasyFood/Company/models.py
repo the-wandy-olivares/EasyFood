@@ -3,12 +3,14 @@ from django.contrib.auth.models import User
 import datetime
 
 class Company(models.Model):
+      restaurant = models.ForeignKey('Restaurant', on_delete=models.CASCADE, related_name='restaurant_company', blank=True, null=True)
+
       SERVICE_OPTIONS = [
             ('desayuno', 'Desayuno'),
             ('comida', 'Comida'),
             ('cena', 'Cena'),
       ]
-
+      
       name = models.CharField(max_length=255, verbose_name="Nombre", blank=True)
       img = models.ImageField(upload_to='media/company/', null=True, blank=True)
       tax_id = models.CharField(max_length=50, unique=True, verbose_name="Tax ID", blank=True)
@@ -287,3 +289,18 @@ class Contract(models.Model):
 
       def __str__(self):
             return f"Contrato con {self.company.name} - {self.service_type}"
+      
+
+class Restaurant(models.Model):
+      user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='restaurant', verbose_name="Usuario", blank=True, null=True)
+      name = models.CharField(max_length=255, default='', verbose_name="Nombre del Restaurante", blank=True, null=True)
+      img = models.ImageField(upload_to='media/restaurant/', null=True, blank=True)
+      address = models.TextField(verbose_name="Dirección", blank=True)
+      phone = models.CharField(max_length=15, verbose_name="Teléfono", blank=True)
+      email = models.EmailField(verbose_name="Correo Electrónico", blank=True)
+      is_active = models.BooleanField(default=True, verbose_name="Activo")
+      date = models.DateTimeField(auto_now_add=True)
+
+      def __str__(self):
+            return self.name
+      

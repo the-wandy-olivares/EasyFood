@@ -14,9 +14,11 @@
       </style>
 
 
-      <span class="position-absolute top-0 end-0 p-4 me-4 mt-4 position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer;">
-       Ordenes <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
-       style='width: 30px; height: 30px; color: var(--bg-primary);'>0</div>
+      <span class="position-sticky top-0  w-100 d-flex  justify-content-end p-3 z-2 me-4   position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer; ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+                </svg> <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
+       style='width: 20px; height: 20px; color: var(--bg-primary);'>0</div>
       </span>
 
       <div style="width: 24rem; "
@@ -73,8 +75,7 @@
             <p class="text-white-50">
                   Aquí puedes ver todos los platos de todos los menus
       </div>
-      <section class='mt-0 d-flex   overflow-auto flex-wrap justify-content-start'>
-
+      <section class='mt-0 d-flex   overflow-auto flex-wrap justify-content-center '>
         
                         {% include "company/platos/list-platos.html" %}
                   {% else %}

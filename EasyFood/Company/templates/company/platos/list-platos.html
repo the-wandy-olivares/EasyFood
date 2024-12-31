@@ -26,8 +26,9 @@
 
 {% for p in platos.platos_category.all %}
       {% if p.is_active %}
-      <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1 plato-item">
-            <div class=" d-flex w-100 justify-content-center">
+      
+      <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1 plato-item ">
+            <div class=" d-flex w-100 justify-content-center"> 
                   {% if p.img %}
                   <img src="{{p.img.url}}" style="height: 10rem; width: 10rem;" class=" object-fit-cover rounded-circle img-p me-2" alt="">
             {% endif %}
@@ -42,7 +43,6 @@
                               <img src="{{p.img2.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
                         {% endif %}
                   </div>
-           
             </div>
             <script>
                   document.addEventListener('DOMContentLoaded', function() {

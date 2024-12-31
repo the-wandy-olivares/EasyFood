@@ -60,7 +60,7 @@ class AdminCompany(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['company'] =  models.Company.objects.filter(is_active=True)
+            context['company'] =  models.Company.objects.filter(is_active=True, restaurant=self.request.user.restaurant)
             return context
     
 @method_decorator(Check_Role, name='dispatch')
@@ -76,6 +76,8 @@ class CreateCompany(CreateView):
             return context
             
       def form_valid(self, form):            
+            form.instance.restaurant = self.request.user.restaurant
+            form.save()
             # Agrega lógica adicional aquí si es necesario
             return super().form_valid(form)
 
