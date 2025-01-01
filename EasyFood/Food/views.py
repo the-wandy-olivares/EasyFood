@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from Company import models
 
 from .models  import ConfigurationApp
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 class Dashboard(TemplateView):
@@ -52,6 +54,24 @@ class Restaurant(TemplateView):
                   context['platos'] = models.Category.objects.get(id=categoria_id)
             return context
 
+      def post(self, request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                  return HttpResponseForbidden()
+
+            order_data = json.loads(request.POST.get('orders', '[]'))
+            for item in order_data:
+                  name = item.get('name')
+                  price = item.get('price')
+                  img = item.get('img')
+
+                  orden = models.Order(name=name, price=price, img=img, 
+                              employee=request.user.employee_profile,
+                              company=request.user.employee_profile.company)
+                  orden.save()
+                  print(orden.name)
+
+            messages.success(request, "Order created successfully!")
+            return redirect(reverse('food:restaurant'))
 
 
 # Administracion, Proveedores, Clientes, Comisiones y Ventas

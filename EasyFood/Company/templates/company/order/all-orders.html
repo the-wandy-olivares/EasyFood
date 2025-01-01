@@ -46,7 +46,9 @@
                                           
                                   </div>
 
+                                  
                               {% if orders %}
+
                               <table class="w-100 mt-4">
                                     <thead>
                                           <tr>
@@ -60,7 +62,7 @@
                                           {% for order in orders %}
                                           <tr>
                                                 <td>{{ order.employee }}</td>
-                                                <td>{{ order.plato.name }}</td>
+                                                <td>{{ order.name }}</td>
                                                 <td>{{ order.date|date:"d/m/Y - H:i" }}</td>
                                                 {% if order.get_status_display == 'Pendiente' %}
                                                 <td class="badge bg-warning rounded-5" style="color: var(--bg-secundary); font-weight: bold;">
