@@ -424,7 +424,7 @@ class AllOrders(TemplateView):
             date_filter = self.request.GET.get('date', None)  # Filtro por fecha (formato YYYY-MM-DD)
 
             # Filtrar los pedidos según los criterios
-            orders = models.Order.objects.filter(company=self.request.user.employee_profile.company)
+            orders = models.Order.objects.all()
 
             # Filtrar por estado si se ha enviado el filtro
             if status_filter:
@@ -439,6 +439,7 @@ class AllOrders(TemplateView):
                         pass  # Si el formato de fecha es incorrecto, no aplicar el filtro
 
             context['orders'] = orders  # Pasar los pedidos filtrados al contexto
+            context['companys'] = models.Company.objects.filter(is_active=True)
             return context
 
 
