@@ -13,7 +13,7 @@ class Company(models.Model):
 
       name = models.CharField(max_length=255, verbose_name="Nombre", blank=True)
       img = models.ImageField(upload_to='media/company/', null=True, blank=True)
-      tax_id = models.CharField(max_length=50, unique=True, verbose_name="Tax ID", blank=True)
+      tax_id = models.CharField(max_length=50, verbose_name="Tax ID", blank=True, null=True)
       address = models.TextField(verbose_name="Address", blank=True)
       phone = models.CharField(max_length=15, verbose_name="Phone", blank=True)
       email = models.EmailField(verbose_name="Email Address", blank=True)
@@ -301,6 +301,7 @@ class Contract(models.Model):
 class Restaurant(models.Model):
       user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='restaurant', verbose_name="Usuario", blank=True, null=True)
       name = models.CharField(max_length=255, default='', verbose_name="Nombre del Restaurante", blank=True, null=True)
+      tax_id = models.CharField(max_length=50, verbose_name="Tax ID", blank=True, null=True,default='' )  
       img = models.ImageField(upload_to='media/restaurant/', null=True, blank=True)
       address = models.TextField(verbose_name="Dirección", blank=True)
       phone = models.CharField(max_length=15, verbose_name="Teléfono", blank=True)
