@@ -292,6 +292,8 @@ class Contract(models.Model):
       is_active = models.BooleanField(default=True, verbose_name="Activo")
       observaciones = models.TextField(verbose_name="Observaciones", blank=True)
 
+      firma_resturant = models.CharField(max_length=255, verbose_name="Firma del Restaurante", blank=True)
+      firma_company = models.CharField(max_length=255, verbose_name="Firma de la Empresa", blank=True)
 
 
       def __str__(self):

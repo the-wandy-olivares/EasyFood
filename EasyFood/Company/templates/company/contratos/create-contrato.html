@@ -111,7 +111,8 @@
                         Entre  <span> {{company.name}} </span>, con domicilio en <span> {{company.address}} </span> , identificado con <span> {{company.tax_id}} </span> , en adelante “El Proveedor”, y <span>  {{ request.user.restaurant.name }}  </span>, con domicilio en   <span>  {{ request.user.restaurant.address }}  </span> , identificado con <span>  {{ request.user.restaurant.tax_id }}  </span> , en adelante “El Cliente”. <br> <br>
                         
                         2. OBJETO DEL CONTRATO  <br>
-                        “El Proveedor” se obliga a prestar el servicio de [Descripción del servicio] a “El Cliente”, quien se compromete a pagar por dichos servicios conforme a los términos establecidos.
+                        El Proveedor se obliga a prestar el servicio de     
+                          <span class="servicios d-flex"> </span> que seran entregados al siguiente dia a las <span class="hora"></span> acordada.  <br> <br>
                         <br> <br>
 
                         3. OBLIGACIONES DE LAS PARTES <br>
@@ -125,7 +126,7 @@
                         <br> <br>
 
                         4. VIGENCIA <br>
-                        Este contrato tendrá una duración de [Especificar duración], iniciando el <span class="date-init"></span> y finalizando el <span class="date-end"></span>. <br> <br>
+                        Este contrato sera iniciando el <span class="date-init"></span> y finalizando el <span class="date-end"></span>. <br> <br>
       
 
                          <!-- 5. CONDICIONES DE PAGO
@@ -135,11 +136,10 @@
                         6. CONFIDENCIALIDAD
                         Ambas partes acuerdan mantener la confidencialidad de la información intercambiada durante la vigencia de este contrato, salvo autorización expresa por escrito. <br> <br>
 
-
       
-                        7. RESOLUCIÓN DE CONFLICTOS
+                        <!-- 7. RESOLUCIÓN DE CONFLICTOS
                         En caso de controversia, las partes acuerdan someterse a [Mecanismo de resolución, como mediación o arbitraje], bajo la jurisdicción de [Ciudad/País].
-                        <br> <br>
+                        <br> <br> -->
 
                         8. TERMINACIÓN DEL CONTRATO
                         El contrato podrá darse por terminado por:
@@ -151,13 +151,10 @@
                         - Este contrato constituye el acuerdo completo entre las partes.
                         - Las modificaciones deberán constar por escrito y ser firmadas por ambas partes.
                          <br> <br>
-
-                        10.Servicios adqueridos <br> 
-                        <span class="servicios"> </span>
       
-                        FIRMAS
-                        [Nombre y Firma del Proveedor]
-                        [Nombre y Firma del Cliente]
+                        FIRMAS <br>
+                        El proveedor: <span class="firma_restaurant"></span> <br>
+                        Cliente :<span class="firma_company"></span>
                   </section>
             </div>
 
@@ -207,14 +204,15 @@
                               
                                {{ form.service_type }}
                             </div>
-                            <div class="mt-4">
-                              {% if form.is_active.value == "on" %}
-                                  <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Activo</label>
-                              {% else %}
-                                  <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Desactivado</label>
-                              {% endif %}
-                              {{ form.is_active }}
-                          </div>
+                          
+
+                              <div class="mt-4">
+                                  <label for="id_firma_restaurant">Firma del restaurante</label>  {{form.firma_resturant}}
+                              </div>
+                              <div class="">
+                                    <label for="id_firma_company">Firma del representante de la compañia</label>  
+                                    {{form.firma_company}}
+                              </div>
                             <style>
                                     #id_service_type 
                                     {
@@ -278,6 +276,86 @@
             });
 
  
+
+      document.querySelector('#id_service_type_0').addEventListener('change', (event) => {
+            const serviciosElement = document.querySelector('.servicios');
+            const label = document.querySelector('label[for="id_service_type_0"]').textContent;
+
+            if (event.target.checked) {
+
+
+                  const newDiv = document.createElement('div');
+                  newDiv.textContent = ' ' + label
+                  newDiv.id  = 'service_0';
+                  serviciosElement.appendChild(newDiv);
+
+            } else {
+                  const serviceElement = document.querySelector('#service_0');
+                  serviceElement.remove();
+
+            }
+      });
+
+      document.querySelector('#id_service_type_1').addEventListener('change', (event) => {
+            const serviciosElement = document.querySelector('.servicios');
+            const label = document.querySelector('label[for="id_service_type_1"]').textContent;
+
+            if (event.target.checked) {
+
+
+                  const newDiv = document.createElement('div');
+                  newDiv.textContent = ', ' + label
+                  newDiv.id  = 'service_1';
+                  serviciosElement.appendChild(newDiv);
+
+            } else {
+                  const serviceElement = document.querySelector('#service_1');
+                  serviceElement.remove();
+
+            }
+      });
+
+      document.querySelector('#id_service_type_2').addEventListener('change', (event) => {
+            const serviciosElement = document.querySelector('.servicios');
+            const label = document.querySelector('label[for="id_service_type_2"]').textContent;
+
+            if (event.target.checked) {
+
+
+                  const newDiv = document.createElement('div');
+                  newDiv.textContent = ', ' + label
+                  newDiv.id  = 'service_2';
+                  serviciosElement.appendChild(newDiv);
+
+            } else {
+                  const serviceElement = document.querySelector('#service_2');
+                  serviceElement.remove();
+
+            }
+      });
+
+
+      document.querySelector('#id_delivery_schedule').addEventListener('change', (event) => {
+            const selectedTime = event.target.value;
+            document.querySelectorAll('.hora').forEach(element => {
+                  element.textContent = selectedTime;
+            });
+      });
+
+      document.querySelector('#id_firma_company').addEventListener('input', (event) => {
+            const firmaCompany = event.target.value;
+            document.querySelectorAll('.firma_company').forEach(element => {
+                  element.textContent = firmaCompany;
+            });
+      });
+
+
+      document.querySelector('#id_firma_resturant').addEventListener('input', (event) => {
+            const firmaRestaurant = event.target.value;
+            document.querySelectorAll('.firma_restaurant').forEach(element => {
+                  element.textContent = firmaRestaurant;
+            });
+      });
 
       </script>
 

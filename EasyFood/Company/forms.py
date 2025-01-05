@@ -143,7 +143,7 @@ def generate_time_choices():
 class Contract(forms.ModelForm):
     class Meta:
         model = models.Contract
-        fields = ['company', 'service_type', 'delivery_schedule', 'payment_terms', 'start_date', 'end_date', 'is_active']
+        fields = ['company', 'service_type', 'delivery_schedule', 'payment_terms', 'start_date', 'end_date', 'is_active', 'firma_resturant', 'firma_company']
         widgets = {
             'company': forms.Select(attrs={ 'placeholder': 'Seleccione el cliente'}),
             'delivery_schedule': forms.Select(
@@ -167,7 +167,6 @@ class Contract(forms.ModelForm):
             #     # ],
             #     attrs={ 'class': 'form-check-input' }
             # ),
-
 
 
             'payment_terms': forms.Textarea(attrs={ 'placeholder': 'Ingrese los términos de pago'}),
