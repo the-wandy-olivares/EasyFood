@@ -32,10 +32,40 @@
                             1)    {{company.address|truncatechars:30}}
                         </span>
                   </div>      
-                  <div class="w-100 bg-black h-100">
-                        <button class="btn btn-warning text-black rounded-5 position-absolute bottom-0 end-0 mb-4 me-4 " style="font-weight: bold;">
-                              Facturar
-                        </button>
+                  <div class="w-100   bg-black bg-opacity-25  p-3 rounded-5 pt-0 overflow-auto" style="max-height: 20rem; height: max-content;">
+
+                        <table class="w-100 mt-4">
+                              <thead>
+                                    <tr>
+                                          <th style="width: 6%;" scope="col"> #</th>
+                                          <th style="width: 8%;" scope="col">Imagen</th>
+                                          <th style="width: 30%;" scope="col">Plato</th>
+                                          <th style="width: 20%;" scope="col">Precio</th>
+                                          <th style="width: 20%;" scope="col">Estado</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                          <td>{{ forloop.counter }}</td>
+                                          <td> 
+                                                <img src="{{ order.plato.img.url }}" width="40" height="40" class="object-fit-cover rounded-circle mt-2" alt="" srcset=""> 
+                                          </td>
+                                            <td>{{ order.name|truncatechars:20 }}</td>
+                                          <td> ${{ order.price|intcomma}}.00</td>
+                                          <td>{{ order.status }}</td>
+                                    </tr>
+                                    {% endfor %}
+                              </tbody>
+                        </table>
+                         
+                        <div class="position-absolute bottom-0 end-0 mb-4 me-4">
+
+                              <a href="{% url 'company:all-orders' %}" class="btn text-white-50"> Atras </a>
+                              <button class="btn btn-warning text-black rounded-5  " style="font-weight: bold;">
+                                    ${{total|intcomma}}.00   Concluir 
+                              </button>
+                        </div>
                   </div>
       </div>
 </section>

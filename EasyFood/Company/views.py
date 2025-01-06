@@ -447,11 +447,15 @@ class AllOrders(TemplateView):
 class RealizeOrderCompany(TemplateView):
       model = models.Company
       template_name = "company/order/realize-order-company.html"
-      context_object_name = "employee"
+      context_object_name = "company"
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['company'] = models.Company.objects.get(id=self.kwargs['pk'])
+            company = models.Company.objects.get(id=self.kwargs['pk'])
+            orders = models.Order.objects.filter(company= company, status='pendiente')
+            context['company'] = company
+            context['orders'] = orders
+            context['total'] = sum(order.plato.price for order in orders)
             return context
 
       def post(self, request, *args, **kwargs):
