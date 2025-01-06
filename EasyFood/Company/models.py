@@ -325,6 +325,7 @@ class Movements(models.Model):
 
       # Tipo de movimiento
       type_move = models.CharField(max_length=10, choices=TYPE, verbose_name="Tipo de Movimiento")
+      name = models.CharField(max_length=255, verbose_name="Nombre del Movimiento", blank=True, null=True)
       mount = models.IntegerField(default=0, verbose_name="Monto", blank=True, null=True)
       date = models.DateTimeField(auto_now_add=True, verbose_name="Fecha del Movimiento")
       description = models.TextField(verbose_name="Descripción", blank=True, null=True)

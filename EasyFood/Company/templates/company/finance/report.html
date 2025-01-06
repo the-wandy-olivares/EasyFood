@@ -1,16 +1,17 @@
 {% extends "food/base/base.html" %}
 {% block content %}
 {% load static %}
+{% load humanize %}
 <style>
-      .reports {
+    .reports {
             background-color: var(--bg-primary) !important;
             color:  #857f94 !important;
             transform: scale(1.1);
       }
-      .reports svg   {
+    .reports svg   {
             display: none;
       }
-      form input, select {
+    form input, select {
             background-color: var(--bg-primary);
             border: none; outline: none;
             padding: 0.6rem; border-radius: 2rem;
@@ -18,35 +19,30 @@
             text-align: center;
             color: white;
         }
+    input::placeholder  {
+        color: white !important;
+    }
 </style>
       
 <section>
 
       <div>
-            <h5 class="m-0 p-0">  
-
-                Reporte de facturación</h5>
-                  <p class="m-0 p-0">
-                    Genera un reporte de facturación y el estado de las ordenes según las fechas seleccionadas.
-                  </p>
-            <table class="w-100 mt-4">
+            <table class=" w-25">
                 <thead>
                     <tr>
-                        <th>Empresas</th>
-                        <th>Total Facturado</th>
-                        <th>Total Pagado</th>
-                        <th>Total Pendiente</th>
+
+                        <th>Total facturado</th>
+                        <th>Pendiente</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for data in report_data %}
+
                     <tr>
-                        <td>{{ data.company.name }}</td>
-                        <td>{{ data.total_billed }}</td>
-                        <td>{{ data.total_paid }}</td>
-                        <td>{{ data.total_pending }}</td>
+
+                        <td> ${{total|intcomma}}.00 </td>
+                        <td>${{ total_pendiente|intcomma }}.00</td>
                     </tr>
-                    {% endfor %}
+
                 </tbody>
             </table>
       </div>
@@ -58,74 +54,110 @@
        <p class="m-0 p-0 mt-2 mb-1"> 
         Realiza un reporte de las ordenes realizadas de inicio de periodo de (Inicio - Fin)
       </p> 
+      <div class='d-flex mb-4'>
+            <input type="text" class="form-control me-1" placeholder="Encontrar empresa" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 14rem; text-align: center; height: 2.8rem;">
+     
 
-      <form method="get" class="filter-form mb-3">
-        {% comment %} <label for="status"></label>
-        <select name="status" id="status">
-            <option value="">-- Todos --</option>
-            <option value="pendiente" {% if status == 'pendiente' %}selected{% endif %}>Pendiente</option>
-            <option value="completado" {% if status == 'completado' %}selected{% endif %}>Realizada</option>
-        </select> {% endcomment %}
-    
-        <label style="font-weight: bold;" for="start_date">Inicia </label>
-        <input type="date" name="start_date" id="start_date" value="{{ start_date }}">
-        
-        <label style="font-weight: bold;" for="end_date"> Final </label>
-        <input type="date" name="end_date" id="end_date" value="{{ end_date }}">
-        <!-- <label for="employee"></label>
-        <select name="employee" id="employee">
-            <option value="">-- Todos --</option>
-            {% for employee in companys.first.employee.all %}
-            <option value="{{ employee.id }}" {% if employee.id|stringformat:"s" == employee_id %}selected{% endif %}>
-                {{ employee.name }}
-            </option>
-            {% endfor %}
-        </select>
-     -->
+            <form method="get" action="" class="d-flex">
+                <select name="month" class="form-control me-1" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 10rem; text-align: center; height: 2.8rem;">
+                    <option value="">Mes</option>
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+                <select name="year" class="form-control me-1" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 10rem; text-align: center; height: 2.8rem;">
+                    <option value="">Año</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+                <select name="day" class="form-control me-1" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 10rem; text-align: center; height: 2.8rem;">
+                <option value="" >Dia</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                </select>
+            </form>
 
-    
-        <button type="submit" class="bg-white bg-opacity-10 text-white p-2 pe-4 ps-4 border-0 rounded-5">Filtrar</button> 
-    </form>
+            </form>
+    </div>
 
       <!-- {{report}} -->
 
-      <table class="w-100 mt-1">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Empleado</th>
-                <th>Plato</th>
-                <th>Compañía</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if report.exists %}
-                {% for order in report %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td> <img src="request.user.employee_profile.company.img.url" alt=""> {{ order.employee }}</td>
-                        <td>{{ order.plato.name }}</td>
-                        <td>{{ order.company.name }}</td>
-                        <td>
-                            {% if order.status == 'pendiente' %}
-                                <span class="badge bg-warning rounded-5 " 
-                                style="color: var(--bg-secundary); font-weight: bold;">Pendiente</span>
-                            {% else %}
-                                <span class="badge bg-primary rounded-5">Realizada</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ order.date|date:"d/m/Y - H:i" }}</td>
-                    </tr>
-                {% endfor %}
-            {% else %}
+    <div style="height: 67vh; border: 10px solid var(--bg-primary); background-color: var(--bg-primary);" class=" p-3 rounded-5 pt-0 overflow-auto">
+        <table class="w-100 mt-1">
+            <thead>
                 <tr>
-                    <td colspan="6" class="text-center pt-5">No se encontraron órdenes</td>
+                    <th>#</th>
+                    <th>Estado</th>
+                    <th>Empleado</th>
+                    <th>Plato</th>
+                    <th>Compañía</th>
+                    <th>Fecha y hora</th>
                 </tr>
-            {% endif %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                    {% for m in movements %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                {% if m.status == 'pendiente' %}
+                                    <span class="badge bg-warning rounded-5 " 
+                                    style="color: var(--bg-secundary); font-weight: bold;">Pendiente</span>
+                                {% else %}
+                                    <span class="badge bg-primary rounded-5 bg-transparent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all text-primary" viewBox="0 0 16 16">
+                                            <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/>
+                                            <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/>
+                                          </svg>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td> <img src="request.user.employee_profile.company.img.url" alt=""> {{ m.employee }}</td>
+                            <td>{{ m.name }}</td>
+                            <td>{{ m.company.name }}</td>
+                            <td>{{ m.date|date:"d/m/Y - H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </section>
 
 {% if report %}

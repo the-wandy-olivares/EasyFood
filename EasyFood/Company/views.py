@@ -470,6 +470,7 @@ class RealizeOrderCompany(TemplateView):
                   order.status = 'completado'
                   order.save()
                   models.Movements(
+                        name = order.plato.name,
                         company= company,
                         employee= order.employee,
                         mount= order.plato.price,
@@ -489,54 +490,11 @@ class Report(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-
-            # Obtener los filtros de la solicitud GET
-            status = self.request.GET.get('status', '')
-            employee_id = self.request.GET.get('employee', '')
-            company_id = self.request.GET.get('company', '')
-            start_date = self.request.GET.get('start_date')
-            end_date = self.request.GET.get('end_date')
-
-            # Obtener todas las órdenes completadas por defecto
-            report = models.Order.objects.filter( company = self.request.user.employee_profile.company, status='completado' )
-
-            # Aplicar filtros si existen
-            if status:
-                  report = report.filter(status=status)
-            if start_date:
-                        report = report.filter(date__gte=start_date)
-                  
-            if end_date:
-                        report = report.filter(date__lte=end_date)
-
-            # Crear datos del reporte financiero
-            report_data = []
-            companys = models.Company.objects.filter(is_active=True, employee=self.request.user.employee_profile)
-            for company in companys:
-                  total_billed = company.invoices.aggregate(Sum('amount'))['amount__sum'] or 0
-                  total_paid = company.invoices.filter(paid=True).aggregate(Sum('amount'))['amount__sum'] or 0
-                  total_pending = total_billed - total_paid
-
-                  report_data.append({
-                  'company': company,
-                  'total_billed': total_billed,
-                  'total_paid': total_paid,
-                  'total_pending': total_pending,
-                  })
-
-            # Pasar datos al contexto
-            context['report'] = report
-            context['companys'] = companys
-            context['report_data'] = report_data
-            context['employee'] = models.Employee.objects.filter(company=self.request.user.employee_profile.company)
-
-            # Pasar filtros seleccionados para mantenerlos en el formulario
-            context['status'] = status
-            context['start_date'] = start_date
-            context['end_date'] = end_date
-            context['employee_id'] = employee_id
-            context['company_id'] = company_id
-
+            orders_pendiente = models.Order.objects.filter(status='pendiente') 
+            move = models.Movements.objects.all()
+            context['movements'] = move
+            context['total'] = sum(mount.mount for mount in move)
+            context['total_pendiente'] = sum(order.plato.price for order in orders_pendiente)
 
             return context
 
