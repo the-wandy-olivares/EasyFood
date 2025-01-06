@@ -161,13 +161,13 @@
       
             <div class="w-100 ms-5 " style="max-width: 30rem;">
                   <div class="d-flex justify-content-end mb-2">
-                        <a href="{% url "company:profile-company"  request.user.employee_profile.company.id %}" 
+                        <a href="{% url "company:profile-company"  company.id %}" 
                         style="text-decoration: none;" class="me-2">
-                        <img src="{{request.user.employee_profile.company.img.url}}"  alt="No-Foun"
+                        <img src="{{company.img.url}}"  alt="No-Foun"
                         style='width: 120px; height: 120px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
                         <h5 class="  text-center m-0 p-0 mt-1" 
                         style="font-family: Lobster, sans-serif; " >
-                              {{request.user.employee_profile.company.name}} 
+                              {{company.name}} 
                         </h5>
                         <span>
                               <!-- {{company.employee.name}} -->
@@ -224,7 +224,7 @@
                             </div>
           
                             <div class="text-end mt-2 "  style="width: 100%;">
-                              <a href="{% url "company:profile-company"  request.user.employee_profile.company.id %}"  class="btn border-0 btn-secondary bg-transparent" style="font-weight: bold;">Cancelar</a>
+                              <a href="{% url "company:profile-company"  company.id %}"  class="btn border-0 btn-secondary bg-transparent" style="font-weight: bold;">Cancelar</a>
                             <button type="submit" class="btn btn-primary border-0 p-2 ps-4 pe-4  bg-white bg-opacity-10 rounded-5">Guardar</button>
                         </div>
                       </form>

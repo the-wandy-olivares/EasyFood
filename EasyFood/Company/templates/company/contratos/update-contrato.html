@@ -16,8 +16,8 @@
             {
                   background-color: var(--bg-primary);
                   color: rgb(201, 201, 201); 
-                  border-radius: 2rem;
-                  padding: 0.7rem;
+                  border-radius: 1rem;
+                  padding: 0.9rem;
                   width: 25rem; 
                   border: none;
                   margin: 0.5rem;
@@ -35,7 +35,7 @@
             }
              #id_payment_terms {
                   width: 51rem;
-                  max-height: 25rem;
+                  max-height: 10rem;
 
             }
              #id_payment_terms:focus {
@@ -61,20 +61,20 @@
                   width: 1rem;
             }
              select, #id_delivery_schedule {
-            background-color: var(--bg-primary);
-            border: none; outline: none;
-            padding: 0.9rem;
-            margin: 0.5rem;
-             border-radius: 2rem;
-            width: 100%;
-            text-align: center;
-            color: white; outline: none;
+                  background-color: var(--bg-primary);
+                  border: none; outline: none;
+                  padding: 0.7rem;
+                  margin: 0.5rem;
+                  border-radius: 1rem;
+                  width: 100%;
+                  text-align: center;
+                  color: white; outline: none;
         }
         #id_is_active
         {
             border-radius: 50% !important;
         }
-        .sevices-select label
+      .sevices-select label
             {
                   display: flex;  
                   width: 100%;
@@ -86,31 +86,111 @@
             #id_start_date, #id_end_date  {
                   color: white;
             }
+            input[type="checkbox"]     
+            {
+                  border-radius: 50% !important;
+            }
+            .contrato section span
+            {
+                  font-weight: bold;
+
+            }
       </style>
 
-      <section class="w-100 d-flex justify-content-center flex-wrap align-content-center vh-100 pb-5">
-            <div class="d-flex justify-content-center flex-wrap">
-                  <a href="{% url "company:profile-company"  request.user.employee_profile.company.id %}" 
-                        style="text-decoration: none;">
-                        <img src="{{request.user.employee_profile.company.img.url}}"  alt="No-Foun"
-                        style='width: 90px; height: 90px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
-                        <h5 class="w-100 text-center m-0 p-0 mt-1" 
-                        style="font-family: Lobster, sans-serif; " >
-                              {{request.user.employee_profile.company.name}} 
-                        </h5>
-                        <span style="font-weight: bold; font-size: 12px;" class="text-white-50 m-0 p-0">
-                              {{request.user.first_name}} {{request.user.last_name}} 
-                  </span>
-                  </a>
+<section class="w-100 d-flex justify-content-center  align-content-center pt-0 vh-100 pb-5">
+
+
+            <div class=" contrato w-75 bg-white text-black p-5 rounded-5 overflow-auto " >
+                  <h5 class="text-black text-center mb-4  "> CONTRATO </h5>
+                  
+                  <section style="text-align: justify; font-size: 14px;">
+                        En la ciudad de <span>    {{ request.user.restaurant.address }}  </span> , a los <span class="day"></span> días del mes de <span class="month"></span> de <span class="year"></span>, las partes que suscriben el presente contrato acuerdan lo siguiente:
+                        <br>  <br>
+
+                        1. PARTES CONTRATANTES <br>
+                        Entre  <span> {{company.name}} </span>, con domicilio en <span> {{company.address}} </span> , identificado con <span> {{company.tax_id}} </span> , en adelante “El Proveedor”, y <span>  {{ request.user.restaurant.name }}  </span>, con domicilio en   <span>  {{ request.user.restaurant.address }}  </span> , identificado con <span>  {{ request.user.restaurant.tax_id }}  </span> , en adelante “El Cliente”. <br> <br>
+                        
+                        2. OBJETO DEL CONTRATO  <br>
+                        El Proveedor se obliga a prestar el servicio de     
+                          <span class="servicios d-flex"> </span> que seran entregados al siguiente dia a las <span class="hora"></span> acordada.  <br> <br>
+                        <br> <br>
+
+                        3. OBLIGACIONES DE LAS PARTES <br>
+                        Del Proveedor:
+                        - Prestar los servicios descritos en el objeto de este contrato.
+                        - Cumplir con los plazos acordados.
+            
+                        Del Cliente
+                        - Pagar el precio acordado en los términos y plazos establecidos.
+                        - Proporcionar la información necesaria para la ejecución del servicio.
+                        <br> <br>
+
+                        4. VIGENCIA <br>
+                        Este contrato sera iniciando el <span class="date-init"></span> y finalizando el <span class="date-end"></span>. <br> <br>
+      
+
+                         <!-- 5. CONDICIONES DE PAGO
+                        “El Cliente” se compromete a pagar a “El Proveedor” la suma de [Monto y moneda], mediante [Método de pago], en los siguientes plazos: [Especificar cronograma].
+                        <br> <br> -->
+
+                        6. CONFIDENCIALIDAD
+                        Ambas partes acuerdan mantener la confidencialidad de la información intercambiada durante la vigencia de este contrato, salvo autorización expresa por escrito. <br> <br>
+
+      
+                        <!-- 7. RESOLUCIÓN DE CONFLICTOS
+                        En caso de controversia, las partes acuerdan someterse a [Mecanismo de resolución, como mediación o arbitraje], bajo la jurisdicción de [Ciudad/País].
+                        <br> <br> -->
+
+                        8. TERMINACIÓN DEL CONTRATO
+                        El contrato podrá darse por terminado por:
+                        - Incumplimiento de las obligaciones por cualquiera de las partes.
+                        - Acuerdo mutuo entre las partes.
+                        <br> <br>
+
+                        9. DISPOSICIONES GENERALES
+                        - Este contrato constituye el acuerdo completo entre las partes.
+                        - Las modificaciones deberán constar por escrito y ser firmadas por ambas partes.
+                         <br> <br>
+      
+                        FIRMAS <br>
+                        El proveedor: <span class="firma_restaurant"></span> <br>
+                        Cliente :<span class="firma_company"></span>
+                  </section>
             </div>
-            <div class="w-100" style="max-width: 50rem;">
+
+      
+            <div class="w-100 ms-5 " style="max-width: 30rem;">
+                  <div class="d-flex justify-content-end mb-2">
+                        <a href="{% url "company:profile-company"  company.id %}" 
+                        style="text-decoration: none;" class="me-2">
+                        <img src="{{company.img.url}}"  alt="No-Foun"
+                        style='width: 120px; height: 120px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
+                        <h5 class="  text-center m-0 p-0 mt-1" 
+                        style="font-family: Lobster, sans-serif; " >
+                              {{company.name}} 
+                        </h5>
+                        <span>
+                              <!-- {{company.employee.name}} -->
+                        </span>
+                        </a>
+                  </div>
                   <form method="post">
                         {% csrf_token %}
                             <div class="w-100 d-flex">
                                     <!-- {{ form.company }} -->
                               </div>
+                              <div class="d-flex w-100 ">
+                                    <label for="id_start_date" class="mt-3"  style="width: 13rem;">Fecha de inicio: </label>
+                                    {{ form.start_date }}
+
+                              </div>
                               <div class="w-100 d-flex">
-                                    {{ form.start_date }} {{ form.end_date }}   {{ form.delivery_schedule }}
+                                    <label for="id_end_date"  class="mt-3"  style="width: 13rem;">Fecha final: </label>
+                                    {{ form.end_date }} 
+                              </div>
+                              <div class="d-flex">
+                                    <label for="id_delivery_schedule"  class="mt-3" style="width: 15rem;">Hora de entrega: </label>
+                                    {{ form.delivery_schedule }}  
                               </div>
                               <div class="w-100 pe-3 d-flex"> 
                                   
@@ -120,17 +200,19 @@
                             </div>
                      
                             <div class="d-flex  flex-wrap" >
-                              <label for="id_service_type"> Servicios</label>
+                              <label for="id_service_type"> Servicios disponibles</label>
+                              
                                {{ form.service_type }}
                             </div>
-                            <div class="mt-4">
-                              {% if form.is_active.value == "on" %}
-                                  <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Activo</label>
-                              {% else %}
-                                  <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Desactivado</label>
-                              {% endif %}
-                              {{ form.is_active }}
-                          </div>
+                          
+
+                              <div class="mt-4">
+                                  <label for="id_firma_restaurant">Firma del restaurante</label>  {{form.firma_resturant}}
+                              </div>
+                              <div class="">
+                                    <label for="id_firma_company">Firma del representante de la compañia</label>  
+                                    {{form.firma_company}}
+                              </div>
                             <style>
                                     #id_service_type 
                                     {
@@ -142,13 +224,140 @@
                             </div>
           
                             <div class="text-end mt-2 "  style="width: 100%;">
-                              <a href="{% url "company:contratos-company"  request.user.employee_profile.company.id %}"  class="btn border-0 btn-secondary bg-transparent" style="font-weight: bold;">Cancelar</a>
+                              <a href="{% url "company:profile-company"  company.id %}"  class="btn border-0 btn-secondary bg-transparent" style="font-weight: bold;">Cancelar</a>
                             <button type="submit" class="btn btn-primary border-0 p-2 ps-4 pe-4  bg-white bg-opacity-10 rounded-5">Guardar</button>
                         </div>
                       </form>
             </div>
       </section>
 
+
+      <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+
+                  
+
+                  const date = new Date();
+                  const day = date.getDate();
+                  const month = date.toLocaleString('default', { month: 'long' });
+                  const year = date.getFullYear();
+
+                  document.querySelectorAll('.day').forEach(element => {
+                        element.textContent = day;
+                  });
+
+                  document.querySelectorAll('.month').forEach(element => {
+                        element.textContent = month;
+                  });
+
+                  document.querySelectorAll('.year').forEach(element => {
+                        element.textContent = year;
+                  });
+
+
+           
+
+            });
+
+            document.querySelector('#id_start_date').addEventListener('change', (event) => {
+                  const startDate = new Date(event.target.value);
+                  const formattedStartDate = startDate.toLocaleDateString('en-GB');
+                  document.querySelectorAll('.date-init').forEach(element => {
+                        element.textContent = formattedStartDate;
+                  });
+            });
+
+            document.querySelector('#id_end_date').addEventListener('change', (event) => {
+                  const endDate = new Date(event.target.value);
+                  const formattedEndDate = endDate.toLocaleDateString('en-GB');
+                  document.querySelectorAll('.date-end').forEach(element => {
+                        element.textContent = formattedEndDate;
+                  });
+            });
+
+ 
+
+      document.querySelector('#id_service_type_0').addEventListener('change', (event) => {
+            const serviciosElement = document.querySelector('.servicios');
+            const label = document.querySelector('label[for="id_service_type_0"]').textContent;
+
+            if (event.target.checked) {
+
+
+                  const newDiv = document.createElement('div');
+                  newDiv.textContent = ' ' + label
+                  newDiv.id  = 'service_0';
+                  serviciosElement.appendChild(newDiv);
+
+            } else {
+                  const serviceElement = document.querySelector('#service_0');
+                  serviceElement.remove();
+
+            }
+      });
+
+      document.querySelector('#id_service_type_1').addEventListener('change', (event) => {
+            const serviciosElement = document.querySelector('.servicios');
+            const label = document.querySelector('label[for="id_service_type_1"]').textContent;
+
+            if (event.target.checked) {
+
+
+                  const newDiv = document.createElement('div');
+                  newDiv.textContent = ', ' + label
+                  newDiv.id  = 'service_1';
+                  serviciosElement.appendChild(newDiv);
+
+            } else {
+                  const serviceElement = document.querySelector('#service_1');
+                  serviceElement.remove();
+
+            }
+      });
+
+      document.querySelector('#id_service_type_2').addEventListener('change', (event) => {
+            const serviciosElement = document.querySelector('.servicios');
+            const label = document.querySelector('label[for="id_service_type_2"]').textContent;
+
+            if (event.target.checked) {
+
+
+                  const newDiv = document.createElement('div');
+                  newDiv.textContent = ', ' + label
+                  newDiv.id  = 'service_2';
+                  serviciosElement.appendChild(newDiv);
+
+            } else {
+                  const serviceElement = document.querySelector('#service_2');
+                  serviceElement.remove();
+
+            }
+      });
+
+
+      document.querySelector('#id_delivery_schedule').addEventListener('change', (event) => {
+            const selectedTime = event.target.value;
+            document.querySelectorAll('.hora').forEach(element => {
+                  element.textContent = selectedTime;
+            });
+      });
+
+      document.querySelector('#id_firma_company').addEventListener('input', (event) => {
+            const firmaCompany = event.target.value;
+            document.querySelectorAll('.firma_company').forEach(element => {
+                  element.textContent = firmaCompany;
+            });
+      });
+
+
+      document.querySelector('#id_firma_resturant').addEventListener('input', (event) => {
+            const firmaRestaurant = event.target.value;
+            document.querySelectorAll('.firma_restaurant').forEach(element => {
+                  element.textContent = firmaRestaurant;
+            });
+      });
+
+      </script>
 
 
 {% endblock  %}

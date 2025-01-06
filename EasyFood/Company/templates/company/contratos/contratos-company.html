@@ -87,15 +87,12 @@
                     {% endif %}
                   </td>
                   <td>
-                        {% if contract.is_active %}
+
                               <a href="{% url 'company:update-contrato' contract.id %}" class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
                                     Editar
                               </a>
-                              {% else %}
-                              <a class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
-                                    ...
-                              </a>    
-                        {% endif %}
+
+              
                   </td>
                 </tr>
                 {% empty %}

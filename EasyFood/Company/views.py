@@ -444,6 +444,25 @@ class AllOrders(TemplateView):
 
 
 
+class RealizeOrderCompany(TemplateView):
+      model = models.Company
+      template_name = "company/order/realize-order-company.html"
+      context_object_name = "employee"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['company'] = models.Company.objects.get(id=self.kwargs['pk'])
+            return context
+
+      def post(self, request, *args, **kwargs):
+            order = models.Order.objects.get(id=self.kwargs['pk'])
+            order.status = 'completado'
+            order.save()
+            return redirect(reverse('company:orders'))
+      
+
+
+
 class Report(TemplateView):
       template_name = "company/finance/report.html"
       context_object_name = 'companys'
@@ -583,6 +602,7 @@ class CreateContrato(CreateView):
       def form_valid(self, form):
             company = models.Company.objects.get(id=self.kwargs['pk'])
             form.instance.company = company
+            form.instance.is_active = True
                         # Guardar el formulario, pero sin guardar aún el campo ManyToMany
             form.save(commit=False)
             selected_services = self.request.POST.getlist('service_type')  
@@ -616,10 +636,11 @@ class UpdateContrato(UpdateView):
       template_name = "company/contratos/update-contrato.html"
       model = models.Contract
       form_class = forms.Contract
-      success_url = reverse_lazy('company:contratos')
+
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
+            context['company'] = models.Company.objects.get(id=self.object.company.id)
             return context
 
       def form_valid(self, form):
@@ -627,7 +648,7 @@ class UpdateContrato(UpdateView):
             return super().form_valid(form)
 
       def get_success_url(self):
-            return reverse_lazy('company:contratos')
+            return reverse_lazy('company:admin-company')
 
 
 

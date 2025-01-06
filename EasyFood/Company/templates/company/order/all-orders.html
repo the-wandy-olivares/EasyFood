@@ -1,5 +1,6 @@
 {% extends "food/base/base.html" %}
 {% block content %}
+{% load humanize %}
             <style>
                   .orders {
                         background-color: var(--bg-primary) !important;
@@ -49,7 +50,6 @@
 
                               {% if companys %}
                               {% for company in companys %}
-
                               {% if company.orders_company.all %}
                                     <div class='mt-3 mb-3 ' >
                                           {% if company.img %}
@@ -71,9 +71,10 @@
                                           <table class="w-100 mb-2">
                                                 <thead>
                                                       
-                                                      <th width='30%'>Empleado</th>
+                                                      <th width='15%'>Empleado</th>
                                                       <th width='15%'>Imagen</th>
                                                       <th width='20%'>Plato</th>
+                                                      <th width='15%'>Pecio</th>
                                                       <th width='25%'>Fecha del Pedido</th>
                                                       <th width='25%'>Estado de orden</th>
                                                       
@@ -96,6 +97,9 @@
                                                                         {{ order.name }}
                                                                   </td>
                                                                   <td>
+                                                                        ${{ order.price|intcomma }}
+                                                                  </td>
+                                                                  <td>
                                                                         {{ order.date|date:"d/m/Y - H:i" }}
                                                                   </td>
                                                                   {% if order.get_status_display == 'Pendiente' %}
@@ -113,6 +117,14 @@
                                                 </tbody>
                                           </table>
                                     </section>    
+                                   <div class="mt-2 mb-5 d-flex justify-content-end">
+                                          <a href="{% url "company:realize-order-company" company.id %}">
+                                                <button  class="btn bg-white bg-opacity-10 text-white  rounded-5 pe-3 ps-3"
+                                                      style="font-weight: bold; font-size: 14px;">
+                                                     ( {{company.orders_company.all | length}} )    Realizar 
+                                                </button>
+                                          </a>
+                                   </div>
                               {% endif %}
                               {% endfor %}
                               {% else %}

@@ -1,0 +1,75 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load humanize %}
+<style>
+      #map {
+            height: 100%;
+            width: 100%;
+      }
+      html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+      }
+      .gm-control-active, .gmnoprint 
+      {
+            display: none !important;
+      }
+
+</style>
+
+<section>
+      <div id="map" style="height: 400px; width: 100%;" class='rounded-5 '></div>
+      <div class="d-flex mt-4">
+                  <div class=" d-flex justify-content-start flex-wrap align-content-start"  style="width: 400px; height: 400px;">
+                        <img src="{{company.img.url}}" class="rounded-circle"
+                        width="130px" height="130px" alt="">
+                        <strong style="font-size: 14px; font-weight: bold;" class="mt-4 mb-1 w-100 text-start">
+                              {{company.name}}
+                        </strong>
+                        <span style="cursor: pointer;" class="text-start w-100">
+                              
+                            1)    {{company.address|truncatechars:30}}
+                        </span>
+                  </div>      
+                  <div class="w-100 bg-black h-100">
+                        <button class="btn btn-warning text-black rounded-5 position-absolute bottom-0 end-0 mb-4 me-4 " style="font-weight: bold;">
+                              Facturar
+                        </button>
+                  </div>
+      </div>
+</section>
+      <script>
+            function initMap() {
+                  var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 5,
+                        center: {lat: 18.735693, lng: -70.162651} // Coordenadas de República Dominicana
+                  });
+
+                  window.directionsService = new google.maps.DirectionsService();
+                  window.directionsRenderer = new google.maps.DirectionsRenderer();
+                  directionsRenderer.setMap(map);
+            }
+
+            function calculateRoute() {
+                  var start = document.getElementById('start').value;
+                  var end = document.getElementById('end').value;
+
+                  var request = {
+                        origin: start,
+                        destination: end,
+                        travelMode: 'DRIVING'
+                  };
+
+                  directionsService.route(request, function(result, status) {
+                        if (status == 'OK') {
+                              directionsRenderer.setDirections(result);
+                        } else {
+                              console.error('Directions request failed due to ' + status);
+                        }
+                  });
+            }
+      </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlRiEbU6bhninS9aZvaO5MfB8jWyzfjw0&callback=initMap"></script>
+      
+{% endblock %}
