@@ -26,24 +26,7 @@
                         
                               <h5 class="m-0 p-0">   
                                     Ordenes</h5>
-                                  <p class="text-white-50 m-0 p-0" style="font-size: 14px;"> Se muestran los listado de los pedidos que el empleado ha realizado en base a los platos seleccionados del menú </p>
-              <!-- Reporte de Pedidos -->
-                                  <div>
-                                    <!-- Formulario de Filtro -->
-                                          <form method="get">
-                                                <!-- <label for="status">Estado del pedido:</label> -->
-                                                <select name="status" id="status" >
-                                                <option value="">-- Seleccionar --</option>
-                                                <option value="pendiente"   {% if request.GET.status == 'pendiente' %}selected{% endif %}>Pendiente</option>
-                                                <option value="completado" {% if request.GET.status == 'completado' %}selected{% endif %}>Completado</option>
-                                                </select>
-                                          
-                                                <input type="date" name="date" class="ms-3" id="date" value="{{ request.GET.date }}">
-                                                <button type="submit" class="border-0 bg-white bg-opacity-10 p-2 ps-5 d-none pe-5 rounded-5 ms-3 " 
-                                                style="font-weight: bold;">Filtrar</button>
-                                          </form>
-                                          
-                                  </div>
+                                  <p class="text-white-50 m-0 p-0" style="font-size: 14px;"> Se muestran los listado de los pedidos y su estado actual</p>
                               {% if orders %}
                               <table class="w-100 mt-4">
                                     <thead>
@@ -84,18 +67,60 @@
                               {% endif %}
                   </div>
 
+                  <div>
+                        <table class="w-100 mb-2">
+                              <thead>
+                                    
+                                    <th width='25%'>Empleado</th>
+                                    <th width='20%'>Plato</th>
+                                    <th width='15%'>Pecio</th>
+                                    <th width='25%'>Fecha del Pedido</th>
+                                    <th width='25%'>Estado de orden</th>
+                                    
+                              </thead>
+                              <tbody>
+                                    {% for order in move %}
+                                          <tr>
+                                                <td>
+                                                      {{ order.employee }}
+                                                </td>
+                                                <td>
+                                                      {{ order.name }}
+                                                </td>
+                                                <td>
+                                                      ${{ order.mount|intcomma }}.00
+                                                </td>
+                                                <td>
+                                                      {{ order.date|date:"d/m/Y - H:i" }}
+                                                </td>
+                                                {% if order.get_status_display == 'Pendiente' %}
+                                                      <td class="badge bg-warning rounded-5"          
+                                                            style="color: var(--bg-secundary); font-weight: bold;">
+                                                            {{ order.get_status_display }}
+                                                      </td>
+                                                {% else %}
+                                                      <td class="badge bg-primary rounded-5">
+                                                            Realizada
+                                                      </td>
+                                                {% endif %}
+                                          </tr>
+                                    {% endfor %}      
+                              </tbody>
+                        </table> 
+                  </div>
+
 
             </section>
             {% if orders %}
             {% comment %} <a href="{% url 'company:all-orders' %}" class=" text-decoration-none border-0 rounded-5 p-2 ps-4 pe-4 text-white position-absolute bottom-0 end-0 mb-1 " style="font-weight: bold; background-color: var(--bg-secundary); margin-right: 10rem;">
                   Todas las ordenes
             </a> {% endcomment %}
-                  <button class=" border-0 rounded-5 p-2 ps-4 pe-4 text-white position-absolute bottom-0 end-0 mb-1 me-4" style="font-weight: bold; background-color: var(--bg-primary);">
+                  <!-- <button class=" border-0 rounded-5 p-2 ps-4 pe-4 text-white position-absolute bottom-0 end-0 mb-1 me-4" style="font-weight: bold; background-color: var(--bg-primary);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill text-white" viewBox="0 0 16 16">
                               <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
                               <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
                         </svg> Imprimir 
-                  </button>
+                  </button> -->
             {% endif %}
 
             <script>
