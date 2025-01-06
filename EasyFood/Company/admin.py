@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Company.models import Company, Service, Employee, Menu, Order, Invoice, Payment, Plato, Claim, Contract, Category, GlobalMenu, MenuChoices, Restaurant
+from Company.models import Company, Service, Employee, Menu, Order, Invoice, Payment, Plato, Claim, Contract, Category, GlobalMenu, MenuChoices, Restaurant, Movements
 
 admin.site.register(Company)
 admin.site.register(Service)
@@ -10,6 +10,7 @@ admin.site.register(Invoice)
 admin.site.register(Payment)
 admin.site.register(Plato)
 admin.site.register(Claim) 
+admin.site.register(Movements)
 
 # Restaurante los modelos
 admin.site.register(Category)  # Este modelo es para las categorias de los platos. 

@@ -60,11 +60,15 @@
                         </table>
                          
                         <div class="position-absolute bottom-0 end-0 mb-4 me-4">
-
+                              
+                              <form action="" method="post">
                               <a href="{% url 'company:all-orders' %}" class="btn text-white-50"> Atras </a>
-                              <button class="btn btn-warning text-black rounded-5  " style="font-weight: bold;">
-                                    ${{total|intcomma}}.00   Concluir 
-                              </button>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="end">
+                                    <button class="btn btn-warning text-black rounded-5  " style="font-weight: bold;">
+                                          ${{total|intcomma}}.00   Concluir 
+                                    </button>
+                              </form>
                         </div>
                   </div>
       </div>

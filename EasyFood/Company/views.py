@@ -458,10 +458,26 @@ class RealizeOrderCompany(TemplateView):
             context['total'] = sum(order.plato.price for order in orders)
             return context
 
+      # Obtener las órdenes pendientes de la compañía
       def post(self, request, *args, **kwargs):
-            order = models.Order.objects.get(id=self.kwargs['pk'])
-            order.status = 'completado'
-            order.save()
+            orders = models.Order.objects.filter(company__id= self.kwargs['pk'], status='pendiente')
+            company = models.Company.objects.get(id=self.kwargs['pk'])
+            models.Movements(
+                  mount = sum(order.plato.price for order in orders),
+                  description= company.name + 'Ingreso por ordenes total de ordenes' + str(orders.count()), 
+            )
+            for order in orders:
+                  order.status = 'completado'
+                  order.save()
+                  models.Movements(
+                        company= company,
+                        employee= order.employee,
+                        mount= order.plato.price,
+                        date= datetime.now(),
+                        type_move='ingreso',
+                  ).save()
+                  order.delete()
+     
             return redirect(reverse('company:orders'))
       
 

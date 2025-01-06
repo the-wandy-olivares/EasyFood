@@ -314,3 +314,25 @@ class Restaurant(models.Model):
       def __str__(self):
             return self.name
       
+
+
+class Movements(models.Model):
+      TYPE = [
+            ('ingreso', 'Ingreso'),
+            ('gasto', 'Gasto'),
+            ('acciones', 'Acciones'),
+      ]
+
+      # Tipo de movimiento
+      type_move = models.CharField(max_length=10, choices=TYPE, verbose_name="Tipo de Movimiento")
+      mount = models.IntegerField(default=0, verbose_name="Monto", blank=True, null=True)
+      date = models.DateTimeField(auto_now_add=True, verbose_name="Fecha del Movimiento")
+      description = models.TextField(verbose_name="Descripción", blank=True, null=True)
+      employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="movements", verbose_name="Empleado", blank=True, null=True)
+
+      # Relacionado con la empresa seleccionada o el restaurante
+      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="movements", verbose_name="Empresa", blank=True, null=True)
+      restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="movements", verbose_name="Restaurante", blank=True, null=True)
+
+      def __str__(self):
+            return f"{self.company.name} - {self.mount}"
