@@ -1,0 +1,41 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+      <style>
+            .dashboard {
+                  background-color: var(--bg-primary) !important;
+                  color:  #857f94 !important;
+                  transform: scale(1.1);
+            }
+            .dashboard  svg   {
+                  display: none;
+            }
+      </style>
+
+            <div data-aos="fade-in" style="transition: 0.1s; transition-delay: 0.9s !important;"> 
+                  <h5 class="m-0 p-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-fill" viewBox="0 0 16 16">
+                              <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5z"/>
+                        </svg> Dasboard 
+                  </h5>
+                  <p class="p-0 m-0">
+                        En el Dashboard Administrativo, encontrarás las herramientas necesarias para gestionar el App
+                  </p>
+            </div>
+
+            {% if not request.user.restaurant %}
+            {% else %}
+                  <!-- Cartas de navegacion del app-->
+                  <div  class="  w-100 d-flex   overflow-auto  ">
+                        {% include "food/componentes/card-options.html" %}
+                  </div>
+            {% endif %}
+            <!-- Grafico up-->
+            <div data-aos="fade-in" style="transition-delay: 1.6s;" class="  mt-5 w-100 d-flex flex-wrap ">
+                  {% include "food/componentes/grafico-up.html" %}
+            </div>
+            <!-- Nota se debe de crear otro card-option uno para el restaurant y otro para la company-->
+
+
+
+
+{% endblock  %}

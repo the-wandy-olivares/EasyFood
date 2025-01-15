@@ -1,0 +1,216 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+      <style>
+            .forms-inputs input, #id_address, #id_role, #id_genero
+            {
+                  background-color: var(--bg-primary);
+                  color: rgb(201, 201, 201); 
+                  border-radius: 1rem;
+                  padding: 0.7rem;
+                  width: 25rem; 
+                  border: none;
+                  margin: 0.5rem;
+            }
+            .forms-inputs input::placeholder {
+                  color: #7e7e7e;
+            }
+            .forms-inputs input, #id_address::placeholder{
+                  color: #7e7e7e;
+            }
+            .forms-inputs input:focus {
+                  background-color: transparent;
+                  color: #7e7e7e;
+            }
+            .forms-inputs #id_address {
+                  width: 51rem;
+                  max-height: 15rem;
+
+            }
+            .forms-inputs #id_address:focus {
+                  background-color: transparent;
+                  color: #7e7e7e;
+            }
+            #id_img 
+            {
+                  display: none;
+            }
+            #is_active {
+                  display: none !important;
+            }
+            a:hover{
+                  background-color: transparent !important;
+            }
+            /* .forms-inputs  */
+      </style>
+      <section class="d-flex justify-content-center flex-wrap pt-5">
+            <div data-aos='fade-in' class=' d-flex justify-content-center flex-wrap' style='width: 10rem; transition-delay: 0.2s  ;'>
+                  <div style='width: 160px; height: 160px; background-color: var(--bg-primary); 
+                  border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer;'
+                        class="d-flex flex-wrap align-content-center img-load justify-content-center mb-1 " >
+                        <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                  </div>
+                  <h5 class='w-100 text-center m-0 p-0  mt-2'>
+                        {{company.name}}
+                  </h5>
+                  <span style='font-size: 12px;' class='text-white-50'>
+                        {{company.tax_id}}
+                  </span>
+            </div>
+
+
+            <!--Creando empleado-->
+            <div class="mt-5 w-100 text-center pt-3
+            ">
+            </div>
+            <div class='d-flex forms-inputs flex-wrap  ' style="width: 55rem;" >
+                
+                                  {% for m in messages %}
+                               <strong class='text-warning'> {{m}}</strong>
+                               {% endfor %}
+                               <p class=" p-0 m-0 text-danger">
+                                  Si desea cambiar el representante de la empresa, cambie el rol del representante actual o elimine.
+                              </p>
+                  {% else %}
+                        <h6 class="w-100 m-0 p-0">
+                              Asociando empleados a empresa 
+                        </h6>
+                        <p class="text-white-50 p-0 m-0">
+                              Asocie empleados a esta empresa y asignale un role, los usuarios de cada empresa seran visibles en el perfil de la misma, donde puedes eliminar, modifica, activar o desactivarlo
+                        </p>
+                  {% endif %}
+                        <form action="" method="post" class="d-flex flex-wrap">
+                        {% csrf_token %}
+                        <div>
+
+
+                            
+
+                              {{form.first_name}}
+                              {{form.email}}
+                              <span class="text-warning  exist-user text-center d-none" style="font-size: 12px;">
+                                   Este usuario ya existe  <a  href='{% url "company:recovery-password" %}'  class="ms-2 text-primary text-decoration-none" >¿Olvidaste la contraseña? <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M0 8a8 8 0 1 0 16 0A8 8 0 0 0 0 8m5.904 2.803a.5.5 0 1 1-.707-.707L9.293 6H6.525a.5.5 0 1 1 0-1H10.5a.5.5 0 0 1 .5.5v3.975a.5.5 0 0 1-1 0V6.707z"/>
+                                  </svg></a>
+                              </span>
+                              <span class="d-none">
+                                    {{form.is_active}}
+                              </span>
+                              {{form.genero}}
+                        </div>
+                        <div>
+                              {{form.last_name}}
+                              {{form.phone}}
+                              {{form.role}}
+                        </div>
+
+                        <div class="w-100 d-flex justify-content-end  mt-3">
+                              <a href="{% url "company:profile-company" company.id %}" >
+                                    <span class=" p-2 border-0 btn   bg-transparent text-white rounded-5 pe-4 ps-4" style="font-weight: bold
+                                    ;">
+                                          Atras
+                                    </span>
+                              </a>
+                              <button class=" p-2 border-0 d-none bg-white text-white btn-s me-5 bg-opacity-10 rounded-5 pe-4 ps-4"
+                                    style="font-weight: bold;">
+                                    Guardar
+                              </button>
+                        </div>
+
+                  </form>
+            </div>
+
+      </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     
+<script>
+$(document).ready(function() {
+      document.querySelector("#id_password").addEventListener("input", function (event) {
+          // Reemplazar cualquier carácter no permitido
+          const allowedPattern = /^[a-zA-Z0-9]*$/;
+          const input = event.target;
+          
+          if (!allowedPattern.test(input.value)) {
+              input.value = input.value.replace(/[^a-zA-Z0-9]/g, "");
+          }
+      });
+
+
+
+  $('#id_email').on('input', function () {
+    const username = $(this).val();
+
+    if (username.length > 0) { // Evitar solicitudes vacías
+      $.ajax({
+        url: '/company/verify-username-ajax',
+        data: {
+          username: username,
+        },
+        method: 'GET',
+        success: function (response) {
+          if (response.exists) {
+            $('#id_email').css('border', '2px solid #ffc107'); // Border azul si no exis
+            // $('.btn-s').addClass('d-none'); // Agregar d-none si el nombre existe
+            $('.exist-user ').removeClass('d-none');
+          } else {
+                $('#id_email').css('border', 'none'); // Eliminar el borde si existe
+            //     $('.btn-s').removeClass('d-none'); // Eliminar d-none si no existe
+                $('.exist-user ').addClass('d-none');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error:', error);
+        }
+      });
+    } else {
+      $('#id_email').css('border', 'none'); // Eliminar borde si no hay texto
+      // $('.btn-s').removeClass('d-none'); // Asegurarse de mostrar el botón
+    }
+  });
+
+ 
+        // Función que compara las contraseñas y ajusta la visibilidad del botón
+        function comparePasswords() {
+          const password = $('#id_password').val();
+          const confirmPassword = $('#confirm-password').val();
+    
+          if (password === confirmPassword) {
+            $('.btn-s').removeClass('d-none'); // Muestra el botón si las contraseñas coinciden
+          } else {
+            $('.btn-s').addClass('d-none'); // Oculta el botón si no coinciden
+          }
+        }
+    
+        // Llama a la función cada vez que el usuario escribe en uno de los campos
+        $('#id_password, #confirm-password').on('input', function() {
+          comparePasswords();
+        });
+      });
+
+      $(document).ready(function() {
+  // Función que compara las contraseñas y ajusta la visibilidad del botón
+  function toggleSubmitButton() {
+    const password = $('#id_password').val(); // Obtener el valor del campo de contraseña
+    const confirmPassword = $('#confirm-password').val(); // Obtener el valor del campo de confirmación de contraseña
+
+    // Verifica si ambos campos tienen valor
+    if (password === "" || confirmPassword === "") {
+      $('.btn-s').addClass('d-none'); // Ocultar el botón si algún campo está vacío
+      $('.btn-s').prop('disabled', true); // Deshabilitar el botón si algún campo está vacío
+    } else if (password === confirmPassword) {
+      $('.btn-s').removeClass('d-none'); // Mostrar el botón si las contraseñas coinciden
+      $('.btn-s').prop('disabled', false); // Habilitar el botón si las contraseñas coinciden
+    } else {
+      $('.btn-s').addClass('d-none'); // Ocultar el botón si las contraseñas no coinciden
+      $('.btn-s').prop('disabled', true); // Deshabilitar el botón si las contraseñas no coinciden
+    }
+  }
+
+  // Llama a la función cada vez que el usuario escribe en uno de los campos
+  $('#id_password, #confirm-password').on('input', function() {
+    toggleSubmitButton();
+  });
+
+  // Llama a la función al cargar la página para verificar los campos vacíos
+  toggleSubmitButton();
+});
+</script>
+{% endblock  %}

@@ -1,0 +1,101 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+      <style>
+            .administration {
+                  background-color: var(--bg-primary) !important;
+                  color:  #857f94 !important;
+                  transform: scale(1.1);
+            }
+            .administration svg   {
+                  display: none;
+            }
+            td {
+              color: #ffffffd3;
+              font-size: 14px;
+            }
+      </style>
+
+
+      <div class="">
+            <h5 class="m-0 p-0">Lista de Contratos</h5>
+            <p class="m-0 p-0 mb-4 text-white-50">
+              Los contratos son acuerdos legales entre dos o más partes que establecen obligaciones y derechos mutuos
+            </p>
+            {% comment %} <a href="{% url 'create_contract' %}" class="btn btn-success mb-3">Crear Nuevo Contrato</a> {% endcomment %}
+            
+            <input type="text" placeholder="Buscar contratos" class="position-absolute top-0 end-0 me-4 mt-4 p-2 border-0 text-center text-white-50" 
+            style="border-radius: 1.5rem; height: 2.8rem; width: 15rem; background-color: var(--bg-primary);
+            outline: none;">
+
+            <table class="w-100">
+              <thead>
+                <tr>
+                  <th>.</th>
+                  <th> . . .  </th>
+                  <th>Cliente o empresa</th>
+                  <th>Servicio</th>
+                  <th>Horario de Entrega</th>
+                  <th>Inicio</th>
+                  <th>Expira</th>
+                  <th>Terminos </th>
+                  <th>Activo</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for contract in contratos %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    {% if  contract.company.img %}
+                      <div class="d-flex align-items-center">
+                        <img src="{{ contract.company.img.url }}" alt="" style='width: 30px; height: 30px;' class=" rounded-circle">
+                      </div>
+                    {% endif %}
+                  </td>
+                  <td>{{ contract.company.name }} - {{ contract.company.representative }} </td>
+                  <td class="text-capitalize">
+                    {% for service in contract.service_type.all %}
+                          {{ service.name }}
+                    {% empty %}
+                          No hay servicios seleccionados.
+                    {% endfor %}
+              </td>
+                  <td>{{ contract.delivery_schedule }}</td>
+                  <td>{{ contract.start_date|date:"d/m/Y" }}</td>
+                  <td>{{ contract.end_date|date:"d/m/Y" }}</td>
+                  <td> <div class="" style="height: 1.2rem; overflow: hidden; width: 8rem;">{{ contract.payment_terms }}</div> </td>
+                  <td>
+                    {% if contract.is_active %}
+                    <span class="badge bg-primary rounded-circle p-0 d-flex justify-content-center align-content-center flex-wrap"  style="width: 25px; height: 25px;">Sí</span>
+                    {% else %}
+                    <span class="badge bg-warning text-black">No</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if contract.is_active %}
+                          <a href="{% url 'company:update-contrato' contract.id %}" class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
+                                Editar
+                          </a>
+                          {% else %}
+                          <a class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
+                                ...
+                          </a>    
+                    {% endif %}
+              </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="8" class="text-center">No hay contratos disponibles.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+
+
+
+
+{% endblock  %}

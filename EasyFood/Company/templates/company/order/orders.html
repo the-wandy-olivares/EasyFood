@@ -1,0 +1,141 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load humanize %}
+            <style>
+                  .orders {
+                        background-color: var(--bg-primary) !important;
+                        color:  #857f94 !important;
+                        transform: scale(1.1);
+                  }
+                  .orders  svg   {
+                        display: none;
+                  }
+                   input, select
+                  {
+                        background-color: var(--bg-primary);
+                        border: none; outline: none;
+                        padding: 0.6rem; border-radius: 2rem;
+                        width: 15rem;
+                        color: white;
+                  }
+                  
+            </style>
+            <section>
+
+                  <div class="w-100">
+                        
+                              <h5 class="m-0 p-0">   
+                                    Ordenes</h5>
+                                  <p class="text-white-50 m-0 p-0" style="font-size: 14px;"> Se muestran los listado de los pedidos y su estado actual</p>
+                              {% if orders %}
+                              <table class="w-100 mt-4">
+                                    <thead>
+                                          <tr>
+                                          <th>Empleado</th>
+                                          <th>Imagen</th>
+                                          <th>Plato</th>
+                                          <th>Precio</th>
+                                          <th>Fecha de pedido</th>
+                                          <th>Hora de pedido</th>
+                                          <th>Estado </th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          {% for order in orders %}
+                                          <tr>
+                                                <td>{{ order.employee }}</td>
+                                                <td>
+                                                      <img src="{{ order.plato.img.url }}" alt="{{ order.plato.name }}" class="rounded-5 mt-2" 
+                                                      style="width: 30px; height: 30px;">
+                                                </td>
+                                                <td>{{ order.name }}</td>
+                                                <td> ${{order.price|intcomma}}.00 </td>
+                                                <td>{{ order.date|date:"d/m/Y" }}</td>
+                                                <td>{{ order.date|date:" H:i" }}</td>
+                                                {% if order.get_status_display == 'Pendiente' %}
+                                                <td class="badge bg-warning rounded-5" style="color: var(--bg-secundary); font-weight: bold;">
+                                                      {{ order.get_status_display }}</td>
+                                                      {% else %}
+                                                      <td class="badge bg-primary rounded-5">Realizada</td>
+                                                      {% endif %}
+                                                </tr>
+                                          {% endfor %}
+                                    </tbody>
+                              </table>
+                              {% else %}
+                              <p class="mt-4">No has realizado pedidos aún</p>
+                              {% endif %}
+                  </div>
+
+                  <div>
+                        <table class="w-100 mb-2">
+                              <thead>
+                                    
+                                    <th width='25%'>Empleado</th>
+                                    <th width='20%'>Plato</th>
+                                    <th width='15%'>Pecio</th>
+                                    <th width='25%'>Fecha del Pedido</th>
+                                    <th width='25%'>Estado de orden</th>
+                                    
+                              </thead>
+                              <tbody>
+                                    {% for order in move %}
+                                          <tr>
+                                                <td>
+                                                      {{ order.employee }}
+                                                </td>
+                                                <td>
+                                                      {{ order.name }}
+                                                </td>
+                                                <td>
+                                                      ${{ order.mount|intcomma }}.00
+                                                </td>
+                                                <td>
+                                                      {{ order.date|date:"d/m/Y - H:i" }}
+                                                </td>
+                                                {% if order.get_status_display == 'Pendiente' %}
+                                                      <td class="badge bg-warning rounded-5"          
+                                                            style="color: var(--bg-secundary); font-weight: bold;">
+                                                            {{ order.get_status_display }}
+                                                      </td>
+                                                {% else %}
+                                                      <td class="badge bg-primary rounded-5">
+                                                            Realizada
+                                                      </td>
+                                                {% endif %}
+                                          </tr>
+                                    {% endfor %}      
+                              </tbody>
+                        </table> 
+                  </div>
+
+
+            </section>
+            {% if orders %}
+            {% comment %} <a href="{% url 'company:all-orders' %}" class=" text-decoration-none border-0 rounded-5 p-2 ps-4 pe-4 text-white position-absolute bottom-0 end-0 mb-1 " style="font-weight: bold; background-color: var(--bg-secundary); margin-right: 10rem;">
+                  Todas las ordenes
+            </a> {% endcomment %}
+                  <!-- <button class=" border-0 rounded-5 p-2 ps-4 pe-4 text-white position-absolute bottom-0 end-0 mb-1 me-4" style="font-weight: bold; background-color: var(--bg-primary);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill text-white" viewBox="0 0 16 16">
+                              <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
+                              <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                        </svg> Imprimir 
+                  </button> -->
+            {% endif %}
+
+            <script>
+                  // Selecciona los elementos del formulario
+                  const statusSelect = document.getElementById('status');
+                  const dateInput = document.getElementById('date');
+                  const form = document.querySelector('form');  // El formulario
+              
+                  // Función para hacer submit del formulario
+                  function triggerSubmit() {
+                      form.submit();
+                  }
+              
+                  // Agregar evento 'change' a los elementos del formulario
+                  statusSelect.addEventListener('change', triggerSubmit);
+                  dateInput.addEventListener('change', triggerSubmit);
+              </script>
+{% endblock  %}

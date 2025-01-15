@@ -1,0 +1,282 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load humanize %}
+      <style>
+            .detail-profile p
+            {
+                  margin: 0;
+            }
+
+      </style>
+            <section class="d-flex">
+                  <!--Editar-->
+              
+
+                  <a href="{% url "company:update-company"  company.id %}" class='btn  position-absolute z-3 text-white-50 start-0 top-0 mb-4 me-3 bg-transparent border-0'
+                  style='font-weight: bold; margin-top: 1rem; margin-left: 9.5rem; font-size: 14px;'>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-brush-fill" viewBox="0 0 16 16">
+                        <path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.1 6.1 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.1 8.1 0 0 1-3.078.132 4 4 0 0 1-.562-.135 1.4 1.4 0 0 1-.466-.247.7.7 0 0 1-.204-.288.62.62 0 0 1 .004-.443c.095-.245.316-.38.461-.452.394-.197.625-.453.867-.826.095-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.201-.925 1.746-.896q.19.012.348.048c.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.176-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04"/>
+                      </svg> Editar
+                  </a>
+                  <div data-aos='fade-in' class=' d-flex justify-content-center flex-wrap' style='width: 10rem; transition-delay: 0.2s  ;'>
+                        <div style='width: 160px; height: 160px; background-color: var(--bg-primary); 
+                        border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer; '
+                              class="d-flex flex-wrap align-content-center img-load  mt-2 justify-content-center mb-1" >
+                              {% if company.img %}
+                                    <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                              {% endif %}
+                        </div>
+                        <h5 class='w-100 text-center m-0 p-0  mt-2'>
+                              <!-- {{company.name}} -->
+                        </h5>
+                        <span style='font-size: 12px;' class='text-white-50'>
+                              <!-- {{company.tax_id}} -->
+                        </span>
+                  </div>
+
+                  <!--Lista de Empleados-->
+                  <section class=" detail-profile w-100 m-1 position-relative ms-4 rounded-5 p-3" 
+                        style="background-color: var(--bg-prim);">
+                    
+
+                        <h3 class="mt-2 pt-1">{{ company.name }}</h3>
+
+                        <!-- Información General -->
+                        <p class='text-white-50'>RNC: {{ company.tax_id }}</p>
+                        <p class='text-white-50'>Dirección: {{ company.address }}</p>
+                        <p class='text-white-50'>Teléfono: {{ company.phone }}</p>
+
+
+                        <!-- Facturacion y pagos
+                        <h3 class="mt-3">Facturación y pagos</h3>
+                        <p class='text-white-50'>Total Facturado: {% if total_billed == 0 %} $0.00 {% else %} ${{ total_billed|intcomma }}.00 {% endif %} </p>
+                        <p class='text-white-50'>Total Pagado: {% if total_paid == 0 %} $0.00 {% else %} ${{ total_paid|intcomma }}.00 {% endif %} </p>
+                        <p class='text-white-50'>Total Pendiente: {% if total_pending == 0 %}$0.00 {% else %}${{ total_pending|intcomma }}.00 {% endif %} </p>
+       -->
+
+
+                        <div class='position-absolute bottom-0 p-2 w-100 d-flex justify-content-end start-0'>
+
+                        </div>
+                        <div>
+                     
+                        </div>
+                  </section>
+
+
+                  
+         
+            </section>
+            <section class='w-100  rounded-5 p-3 mt-3 position-relative' 
+                  style='; height: 68%;'>
+                  {% if employee %}
+                  <strong class='mt-4'>
+                        <span class='text-white-50'> Empleados ({{count}}) </span>   
+
+                  </strong>
+                  <p class="text-white-50">
+                        Gestiona los empleados de manera eficiente, activa, descativa, cambia roles y mas
+                  </p>
+                  <div style="width: 100%; max-height: 9rem; background-color: var(--bg-secdundary);" class="   rounded-4   overflow-auto mb-5"  >
+                        {% include "company/employee/list-employee.html" %}
+                  </div>
+                  {% endif %}
+
+                  {% if company.services.all %}
+                        <strong class='mt-5'>
+                              <span class='text-white-50'> Servicios contratados <span> 
+                        </strong>
+                        <p class="text-white-50">
+                              Servicios contratados  por {{company.name}}
+                        </p>
+                        <div class='mt-3   overflow-auto w-100 d-flex' style=' height: 11rem;'>
+                              {% for s in  company.services.all  %}
+                      
+                               <div data-aos="fade-left"  class="card mb-3 border-0 bg-transparent " style="width: 520px; transition-delay: 0.{{s.id}}s;">
+                                    <div class="row g-0">
+                                      <div class=" d-flex  col-md-4 ">
+                                          {% if s.img %}
+                                          <img src="{{s.img.url}}" class="object-fit-cover d-flex w-100 h-100  rounded-4" alt="...">
+                                          {% endif %}
+                                    </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title text-white  text-capitalize"
+                                                style="font-weight: bold;" >   {{s.name}}</h5>
+                                          <p class="card-text   overflow-auto text-white-50" style="height: 3.5rem;"> 
+                                                {{s.description|truncatechars:25}}...
+                                          </p>
+                                          <!-- <p class="card-text"><small class="text-body-secondary">
+                                                Last updated 3 mins ago
+                                          </small></p> -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              {% endfor %}
+                        </div>
+                        {% else %}
+                        <strong class='mt-0'>
+                              <span class='text-white-50'> No hay servicios contratados <span> 
+                        </strong>
+                  {% endif %}
+                  <strong class='mt-4'>
+                        <span class='text-white-50'> Gestionar menus <span> 
+                  </strong>
+                  <p class="text-white-50">
+                        Restinge o permite el acceso a los menus de los usuarios
+                  </p>
+
+
+                  <form action="" method="post">
+                        {% csrf_token %}
+                  <div class='d-flex w-100 overflow-auto'>
+                        {% if menus_choices %}
+                                {% for m in menus_choices %}
+                                <div style='width: 210px;' class='m-1 mt-1'> 
+                                          {% if m.menu.img %}
+                                                  <img src="{{m.menu.img.url}}" class=' mb-2 mt-2 rounded-circle' style='width: 60px; height: 60px;'  alt="">     
+                                          {% endif %}
+                                           {{m.menu.name}}
+                                          <input type="checkbox" name="menus" value="{{m.id}}" {% if m.is_active %} checked {% endif %} class='rounded-circle' style='border-radius: 50% !important;'>
+                                            <select name="role_{{m.id}}" class="form-select border-0 text-white bg-white bg-opacity-10 rounded-3">
+                                                            <option value="ejecutivo" {% if m.role == 'ejecutivo' %}selected{% endif %}>Para ejecutivos</option>
+                                                            <option value="estandar" {% if m.role == 'estandar' %}selected{% endif %}>Para estandar</option>
+                                                            <option value="representante" {% if m.role == 'representante' %}selected{% endif %}>Para representante</option>
+                                            </select>
+                                </div>
+                                {% endfor %}
+                                <script>
+                                          document.addEventListener('DOMContentLoaded', function () {
+                                                  const selects = document.querySelectorAll('select[name^="role_"]');
+                                                  selects.forEach(select => {
+                                                            select.addEventListener('change', function () {
+                                                                    if (this.value === 'representante') {
+                                                                              selects.forEach(s => {
+                                                                                      if (s !== this && s.value === 'representante') {
+                                                                                                s.value = 'estandar';
+                                                                                      }
+                                                                              });
+                                                                    }
+                                                            });
+                                                  });
+                                          });
+                                </script>
+                              {% endif %}
+                        </div>
+                        <div>
+                              <button class='btn text-white border-0 me-3 rounded-5 p-2 pe-4 ps-4 bg-white bg-opacity-10'>
+                                    Guardar
+                              </button>
+                        </div>
+                  </form>
+
+{% comment %} 
+                  <!-- Configuración de Menús -->
+                  <strong class='mt-0'>
+                        <span class='text-white-50'>  Menus disponibles <span> 
+                  </strong>
+                  <form method="post">
+                        {% csrf_token %}
+                        <div style="display: flex; gap: 20px;"> <!-- Contenedor flexible para organizar los días en filas -->
+                            {% for day, menus in grouped_menus.items %}
+                            <div style="flex: 1; border: 1px solid #ccc; padding: 10px; border-radius: 8px; text-align: center;">
+                                <h3>{{ day|title }}</h3> <!-- Día como encabezado -->
+                                <ul style="list-style: none; padding: 0;">
+                                    {% for menu in menus %}
+                                    <li>
+                                        <input 
+                                            type="checkbox" 
+                                            name="menus" 
+                                            value="{{ menu.id }}" 
+                                        >
+                                        {{ menu.name }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class='btn text-white border-0 me-3 rounded-5 p-2 pe-4 ps-4 bg-white bg-opacity-10'>Guardar</button>
+                    </form> {% endcomment %}
+
+                  
+            </section>
+
+
+            <section>
+
+
+
+            </section>
+                     
+            <!-- <a href="{% url "company:admin-company"  %}" class="position-absolute bottom-0 start-0 ms-3 mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                  </svg>
+            </a> -->
+            
+
+
+            <div class="dropdown  position-absolute top-0 end-0  mt-4 me-4">
+                  <button class="btn bg-warning text-black rounded-5 dropdown-toggle"
+                  style="font-weight: bold;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Opciones
+                  </button>
+
+                  <ul class="dropdown-menu " style="background-color: var(--bg-primary); ">
+                        {% if request.user.employee_profile.role == 'representante' %}
+                              <li class="bg-transparent">
+                                    <a  onclick="LoadMasiveImport()"  class="dropdown-item" >
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                                                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0z"/>
+                                          </svg>
+                                          Carga de empleados masiva
+                                    </a>
+                              </li>
+                              <li>
+                                    <a class="dropdown-item"   
+                                    href="{% url "company:create-employee"  company.id %}">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                                                <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                                          </svg>
+                                          Agregar empleado
+                                    </a>
+                              </li>
+                        {% endif %}
+                        {% if request.user.restaurant %}
+                        <li>
+                              <a class="dropdown-item"   
+                              href="{% url "company:contratos-company" company.id %}">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1z"/>
+                                  </svg>
+                                    Contratos
+                              </a>
+                        </li>
+                        {% endif %}
+                  </ul>
+                </div>
+<style>
+      .dropdown-menu {
+            border-radius: 1rem;
+            margin-top: 1rem !important; 
+      }
+      .dropdown-menu  li a 
+      {
+            cursor: pointer;
+            color: white; font-weight: bold;
+            transition: 0.3s  ease-out !important ;
+
+      }
+      .dropdown-menu  li a:hover
+      {
+            background-color: var(--bg-primary) !important;
+            color: rgb(255, 208, 0);
+      }
+</style>
+    
+
+
+{% endblock  %}

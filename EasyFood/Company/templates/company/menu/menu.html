@@ -1,0 +1,252 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{%  load humanize %}
+<style>
+      .menu {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .menu  svg   {
+            display: none;
+      }
+      .section-base 
+      {
+        padding: 0 !important;
+      }
+      .remove {
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+      }
+</style>
+<meta name="csrf-token" content="{{ csrf_token }}">
+    <section class="overflow-auto p-3 pt-3" >
+        {% if company.services.all %}
+            {% for s in company.services.all %}
+                    <section style='height: 25rem;'>   
+
+                        <div  class='mt-0 ms-5 ps-2'>
+                            <strong class='text-capitalize text-white-50 ms-3 pt-4' 
+                            style="font-size: 14px;"> ~ Servicio de {{ s.name }}</strong>
+                              <p style='font-size: 12px;' class='text-white-50 p-0 m-0 ms-3'>
+                                <!-- {{ s.description|truncatechars:20 }}  -->
+                              </p>
+                        </div>
+                            <div class=' d-flex overflow-auto' >
+                                            <a href="{% url "company:create-category-for-company" s.id %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi text-white bi-plus-circle-fill text-white" style="" viewBox="0 0 16 16">
+                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                              </svg>
+                        </a> 
+                                {% for c in s.categories_service.all %}
+                                        <div style='width: 20rem;  height: 19rem; background-color: var(--bg-primary); border: 6px solid var(--bg-primary); border-radius: 3rem;' class='   m-2  overflow-hidden' >
+                                            <div> 
+                                                <label class="form-check-label text-center w-100 mb-3" for="{{c.id}}" style="font-size: 12px; font-weight: bold; cursor: pointer;">
+                                                    <img src="{{c.img.url}}"
+                                                    class='object-fit-cover rounded-4'  
+                                                    style='width: 100%; 
+                                                    height: 8rem;'>    
+                                                    </label>
+                                            </div>
+                                            <h6 style='font-size: 14px; font-weight: bold;' class="  ms-2">
+                                                {{ c.name }}
+                                            </h6>
+                                            <div class='p-3 pt-1 overflow-auto d-flex flex-wrap align-content-start' style="height: 8.3rem; border: 8px solid var(--bg-primary);">
+                                                {% for p in c.platos_category.all %}
+                                                        {% if p.is_active %}
+                                                        <div class="d-flex w-100 mb-2">
+                                                            
+                                                            <img src="{{p.img.url}}" 
+                                                                    class='object-fit-cover rounded-3 me-2'  
+                                                                    style='width: 30px; height: 30px; margin-top: 2px;'>
+                                                            <div>
+                                                                <span class="badge bg-white bg-opacity-25 rounded-5 text-white">
+                                                                    ${{ p.price|intcomma}}.00
+                                                                </span>
+                                                                    <h5 class='text-capitalize text-white-50 m-0 p-0 mt-1 w-100' style='font-size: 14px;'> 
+                                                                        {{ p.name }}
+                                                                   </h5>
+                                                                    <span>
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            <div class="position-sticky bottom-0 w-100 d-flex justify-content-end overflow-hidden pe-1 pb-2" style="height: 2rem;">
+                                                <button class="bg-transparent border-0 text-white" style="width: max-content;">
+                                                    <div class="form-check bg-transparent ">
+                                                        <input class="form-check-input shadow-none rounded-circle border-0 bg-transparent checkbox-item"  type="checkbox"  data-name="{{c.name}}" 
+                                                        value="" id="{{c.id}}" style='cursor: pointer; outline: none !important;'>
+                                                       
+                                                      </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                {% endfor %}
+                            </div>
+                    </section>
+            {% endfor %}
+        {% endif %}
+    </section>
+    <section style="height: 7rem; width: 100%;" class="position-sticky  d-flex  start-0 bottom-0 blur-10">
+        <div style="width: 20rem;" class="d-flex">
+            <div style='width: 60px; height: 60px; background-color: var(--bg-primary); 
+                border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer; '
+                  class="d-flex flex-wrap align-content-center img-load  mt-1 me-3 ms-3  mt-4 mb-1" >
+                  {% if company.img %}
+                        <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                        {% endif %}
+                    </div>
+                <h5 class=' text-center m-0 p-0  mt-4'>
+                    {{company.name}} <br>
+                    <span style='font-size: 12px;'   class='text-white-50'>
+                        {{company.tax_id}}
+                    </span> <br> <br>
+                   
+                </h5>
+            </div>
+        </div>
+
+
+        <div class="w-100">
+            <h6 class="w-100  d-none" style="font-weight: bold; margin-top: 27px;">
+                Menus seleccionado 
+            </h6>
+            <div class="list-selec   overflow-auto pt-3 d-flex" >
+                <div id="selected-list" class="d-flex w-100 flex-wrap align-content-center" style="max-width:45rem;" ></div>
+            </div>
+        </div>
+
+        <div class="position- d-flex flex-wrap justify-content-center align-content-end end-0 bottom-0 btn-continuar d-none me-3 mb-2">
+            <h6 class="w-100" style="font-size: 14px; font-weight: bold;">
+                <!-- Aceptar y continuar -->
+                Continuar con lo seleccionado <strong class="count-items"> 0 </strong>
+            </h6>
+
+            <button class="border-0   p-2 pe-3 ps-3 w-100  rounded-5 text-black bg-warning" style=" font-size: 16px; font-weight: bold; min-width: 100px;">
+                Continuar
+            </button>
+        
+        </div>
+    </section>
+    <style>
+      .list
+        {
+            /* background-color: #7e7e7e; */
+            min-width: 7rem;
+        }
+        @keyframes flip-left {
+            0% {
+                  transform: rotateX(90deg);
+                  opacity: 0;
+            }
+            100% {
+                  transform: rotateX(0deg);
+                  opacity: 1;
+            }
+      }
+      
+            .flip-left {
+                  animation: flip-left 0.3s ease-in ;
+                  transform-origin: left; 
+            }
+    </style>
+    
+
+   <script>
+    let selectedIds = []; // Lista para almacenar los IDs seleccionados
+
+document.addEventListener("change", (event) => {
+    if (event.target.classList.contains("checkbox-item")) {
+        const selectedList = document.getElementById("selected-list");
+        const id = event.target.id;
+        const name = event.target.getAttribute("data-name"); // Obtener el nombre del atributo data-name
+    
+        if (event.target.checked) {
+            // Si está seleccionado, agregar a la lista
+            const li = document.createElement("li");
+            li.classList.add('list-unstyled', 'list', 'flip-left');
+            li.setAttribute("id", `selected-${id}`);
+            li.innerHTML = `
+                <button onclick="removeItem('${id}')" class='p-1 pe-3 ps-3 ms-0  bg-transparent rounded-4 border-0 text-white remove mt-1 me-1 ms-1' style='font-weight: bold;'> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x-circle-fill text-white" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                    </svg>
+                    </button> ${name} 
+            `;
+            selectedList.appendChild(li);
+
+            // Agregar el ID a la lista de seleccionados
+            selectedIds.push(id);
+        } else {
+            // Si está deseleccionado, eliminar de la lista
+            removeItem(id);
+
+            // Quitar el ID de la lista de seleccionados
+            selectedIds = selectedIds.filter(item => item !== id);
+        }
+
+        // Actualizar conteo en la interfaz
+        let count_list = document.querySelectorAll(".checkbox-item:checked");
+        document.querySelector('.count-items').innerHTML = count_list.length;
+
+        // Mostrar o esconder el botón "Continuar"
+        if (count_list.length > 0) {
+            document.querySelector('.btn-continuar').classList.remove('d-none');
+            
+        } else {
+            document.querySelector('.btn-continuar').classList.add('d-none');
+        }
+    }
+});
+
+// Función para eliminar un elemento
+function removeItem(id) {
+    const listItem = document.getElementById(`selected-${id}`);
+    if (listItem) listItem.remove();
+
+    // Desmarcar checkbox asociado
+    const checkbox = document.getElementById(id);
+    if (checkbox) checkbox.checked = false;
+
+    // Quitar el ID de la lista de seleccionados
+    selectedIds = selectedIds.filter(item => item !== id);
+
+    // Actualizar conteo en la interfaz
+    document.querySelector('.count-items').innerHTML = selectedIds.length;
+
+    // Mostrar o esconder el botón "Continuar"
+    if (selectedIds.length === 0) {
+        document.querySelector('.btn-continuar').classList.add('d-none');
+    }
+}
+
+document.querySelector('.btn-continuar').addEventListener('click', () => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = ''; // Cambia a la URL que necesites
+
+    // Agregar los IDs seleccionados como un campo oculto
+    const inputIds = document.createElement('input');
+    inputIds.type = 'hidden';
+    inputIds.name = 'selected_ids';
+    inputIds.value = JSON.stringify(selectedIds); // Convertir a JSON para enviar múltiples IDs
+    form.appendChild(inputIds);
+
+    // Agregar el token CSRF como un campo oculto
+    const inputCsrf = document.createElement('input');
+    inputCsrf.type = 'hidden';
+    inputCsrf.name = 'csrfmiddlewaretoken';
+    inputCsrf.value = csrfToken;
+    form.appendChild(inputCsrf);
+
+    document.body.appendChild(form);
+    form.submit();
+});
+   </script>
+    <!-- Menu -->
+{% endblock  %}

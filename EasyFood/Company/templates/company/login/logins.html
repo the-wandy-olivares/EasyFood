@@ -1,0 +1,354 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+      *{
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      
+        /* Styling the scrollbar */
+      ::-webkit-scrollbar {
+        width: 0px; /* Remove scrollbar width */
+      }   
+      :root {
+        /* Colores de fondo */
+        --bg-primary: #131313;
+        --bg-secundary: #1f1e22;
+      
+        /* Colores de acento */
+        --accent-blue: #A2C2E1;
+        --accent-green: #8BC34A;
+      
+        /* Colores de texto */
+        --text-dark-gray: #333333;
+        --text-secondary-gray: #B0B0B0;
+      }
+      div input {
+            padding: 1rem;
+            width: 30rem; height: 3rem;
+            border-radius: 2rem;
+            background-color: var(--bg-primary);
+            margin-top: 0.4rem;
+            border: none;
+            outline: none;
+      }
+
+      /* From Uiverse.io by MuhammadHasann */ 
+button {
+  position: relative;
+  padding: 7px;
+width: 10rem;
+  background: var(--bg-primary);
+  font-size: 14px;
+  font-weight: bold;
+  color: #e6e6e6;
+  border: 3px solid #95bdfe00;
+  border-radius: 2rem;
+  box-shadow: 0 0 0 #fec1958c;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.star-1 {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+}
+
+.star-2 {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-3 {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-4 {
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-5 {
+  position: absolute;
+  top: 25%;
+  left: 45%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-6 {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #fffdef);
+  z-index: -5;
+  transition: all 0.8s ease;
+}
+
+button:hover {
+  background: transparent;
+  color: #fec195;
+  box-shadow: 0 0 25px #fec1958c;
+}
+
+button:hover .star-1 {
+  position: absolute;
+  top: -80%;
+  left: -30%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+}
+
+button:hover .star-2 {
+  position: absolute;
+  top: -25%;
+  left: 10%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+}
+
+button:hover .star-3 {
+  position: absolute;
+  top: 55%;
+  left: 25%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+}
+
+button:hover .star-4 {
+  position: absolute;
+  top: 30%;
+  left: 80%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+}
+
+button:hover .star-5 {
+  position: absolute;
+  top: 25%;
+  left: 115%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+}
+
+button:hover .star-6 {
+  position: absolute;
+  top: 5%;
+  left: 60%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+}
+
+.fil0 {
+  fill: #fffdef;
+}
+
+</style>
+<section class='w-100 vh-100 d-flex justify-content-center align-content-center flex-wrap' style='background-color: var(--bg-primary) !important;'>
+      <div data-aos="fade-in" style=" transition-delay: 0.2s; width: 50rem; height: 30rem; background-color: var(--bg-secundary); border-radius: 2.5rem;"
+      class="p-4 text-start  d-flex justify-content-center align-content-center flex-wrap" >
+            <h4 data-aos="fade-left" style="font-weight: bold; transition-delay: 0.2s;"  class="w-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+                        <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+                      </svg> Iniciar seccion 
+            </h4>
+            <p class="text-white-50 mt-3" style="font-size: 14px;">
+                  	El sistema distingue entre mayúsculas y minúsculas, así que verifica el uso de estas en ambos campos, tu cuenta debe estar activa y vinculada a una empresa para poder acceder al sistema.
+            </p>
+            <div>
+                  <form method="post">
+                        {% csrf_token %}
+                        <div>
+                            <input type="text" id="username" placeholder="Usuario" name="username" required>
+                        </div>
+                        <div>
+                            <input type="password" id="password" placeholder="Contraseña" name="password" required>
+                        </div>
+
+                        <div class="w-100 ">
+                              <a   class="btn border-0 bg-transparent text-white-50"
+                                    style="font-weight: bold;"> Atras </a>
+                              <button class="mt-3">
+                                    Iniciar
+                                    <div class="star-1">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                          <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                          <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                          ></path>
+                                        </g>
+                                      </svg>
+                                    </div>
+                                    <div class="star-2">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                          <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                          <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                          ></path>
+                                        </g>
+                                      </svg>
+                                    </div>
+                                    <div class="star-3">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                          <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                          <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                          ></path>
+                                        </g>
+                                      </svg>
+                                    </div>
+                                    <div class="star-4">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                          <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                          <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                          ></path>
+                                        </g>
+                                      </svg>
+                                    </div>
+                                    <div class="star-5">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                          <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                          <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                          ></path>
+                                        </g>
+                                      </svg>
+                                    </div>
+                                    <div class="star-6">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                      >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                          <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                          <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                          ></path>
+                                        </g>
+                                      </svg>
+                                    </div>
+                                  </button>
+                        </div>
+                        
+                    </form>
+                    
+                  <div class="w-100 text-center mt-4">
+                    <span class="text-warning  exist-user text-center " style="font-size: 12px;">
+                      <a  href='{% url "company:recovery-password" %}'  class="ms-2 text-primary text-decoration-none" >¿Olvidaste la contraseña? </a>
+                    </span>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-danger"> ! {{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                  </div>
+            </div>
+      </div>
+</section>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+        AOS.init();
+</script>

@@ -1,0 +1,208 @@
+{% load humanize %}
+<style>
+      .remove-item-btn {
+            font-weight: bold;
+            font-size: 12px;
+
+      }
+      @keyframes flip-left {
+            0% {
+                  transform: rotateX(50deg);
+                  opacity: 0;
+            }
+            100% {
+                  transform: rotateX(0deg);
+                  opacity: 1;
+            }
+      }
+      
+            .flip-left {
+                  animation: flip-left 0.5s ease-out ;
+                  transform-origin: left; 
+            }
+</style>
+
+
+
+{% for p in platos.platos_category.all %}
+      {% if p.is_active %}
+      
+      <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1 plato-item ">
+            <div class=" d-flex w-100 justify-content-center"> 
+                  {% if p.img %}
+                  <img src="{{p.img.url}}" style="height: 10rem; width: 10rem;" class=" object-fit-cover rounded-circle img-p me-2" alt="">
+            {% endif %}
+                  <div class=" d-block justify-content-end img-sec pt-0">
+                        {% if p.img %}
+                              <img src="{{p.img.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
+                        {% endif %}
+                        {% if p.img1 %}
+                              <img src="{{p.img1.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
+                        {% endif %}
+                        {% if p.img2 %}
+                              <img src="{{p.img2.url}}" style="height: 2.9rem; width: 3rem;" class=" object-fit-cover rounded-4 img-1 m-1" alt="">
+                        {% endif %}
+                  </div>
+            </div>
+            <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                        const items = document.querySelectorAll('.plato-item');
+      
+                        items.forEach(item => {
+                              const thumbnails = item.querySelectorAll('.img-sec .img-1');
+                              const mainImage = item.querySelector('.img-p');
+      
+                              thumbnails.forEach(thumbnail => {
+                                    thumbnail.addEventListener('mouseover', function() {
+                                          mainImage.src = this.src;
+                                          mainImage.classList.add('flip-left');
+                                            setTimeout(() => {
+                                                      mainImage.classList.remove('flip-left');
+                                            }, 488);
+
+                                    });
+                              });
+                        });
+                  });
+                  </script>
+                 
+         
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                  const items = document.querySelectorAll('.plato-item');
+
+                  items.forEach(item => {
+                        const thumbnails = item.querySelectorAll('.img-sec .img-1');
+                        const mainImage = item.querySelector('.img-p');
+
+                        thumbnails.forEach(thumbnail => {
+                              thumbnail.addEventListener('click', function() {
+                                    mainImage.src = this.src;
+                              });
+                        });
+                  });
+            });
+            </script>
+            <div class="mt-3">
+                  
+                  <h6 class="m-0 p-0">{{p.name}}</h6>
+                  <p style="height: 3rem; font-size: 14px;" class=" text-start overflow-auto text-white-50 p-0 m-0">-{{p.description}}</p>
+                  <div class="w-100 d-flex justify-content-start mt-1"> 
+                        <span class="text-white-50 me-4 pt-1" style="font-size: 18px; font-weight: bold;">${{p.price|intcomma}}</span>
+                        <button class="btn rounded-5 text-black  w-100 bg-warning order-now-btn" 
+                              style="font-weight: bold; font-size: 14px;
+                               "
+                              data-name="{{p.name}}" data-price="{{p.price}}" data-img="{% if p.img %}{{p.img.url}}{% endif %}">
+                              Agregar a la lista
+                        </button>
+                  </div>
+            </div>
+      </div>
+      {% endif %}
+{% endfor %}
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.order-now-btn');
+      const itemCount = document.querySelector('.item-count');
+      const listChoice = document.getElementById('list-choice');
+      const totals = document.querySelector('.totals');
+      let totalAmount = 0;
+
+      function updateItemCount() {
+            const count = listChoice.children.length;
+            itemCount.textContent = `${count}`;
+      }
+
+      function updateTotalAmount() {
+            totals.textContent = `$${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+
+      buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                  const name = this.getAttribute('data-name');
+                  const price = parseFloat(this.getAttribute('data-price'));
+                  const img = this.getAttribute('data-img');
+
+                  const item = document.createElement('div');
+                  item.classList.add('list-item');
+                  item.innerHTML = `
+                        <div class="d-flex align-items-center mb-2">
+                                <img src="${img}" style="height: 3rem; width: 3rem;" class="object-fit-cover rounded-circle me-2" alt="">
+                                <div>
+                                          <h6 class="m-0">${name}</h6>
+                                          <span class="text-white-50" style="font-size: 14px; font-weight: bold;">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                </div>
+                                <button class="btn btn-danger p-2   bg-black border-0 text-white-50 rounded-5 btn-sm ms-auto remove-item-btn" > Remover </button>
+                        </div>
+              `;
+                  listChoice.appendChild(item);
+                  totalAmount += price;
+                  updateItemCount();
+                  updateTotalAmount();
+
+                  const removeButton = item.querySelector('.remove-item-btn');
+                  removeButton.addEventListener('click', function() {
+                        listChoice.removeChild(item);
+                        totalAmount -= price;
+                        updateItemCount();
+                        updateTotalAmount();
+                  });
+            });
+      });
+});
+document.addEventListener('DOMContentLoaded', function() {
+      const submitButton = document.querySelector('.btn-submit');
+
+      submitButton.addEventListener('click', function() {
+            const items = document.querySelectorAll('.list-item');
+            const orderData = [];
+
+            items.forEach(item => {
+                  const name = item.querySelector('h6').textContent;
+                  const price = parseFloat(item.querySelector('span').textContent.replace('$', '').replace(',', ''));
+                  const img = item.querySelector('img').src;
+
+                  orderData.push({ name, price, img });
+            });
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = ''; // Same view
+
+            const csrfToken = getCookie('csrftoken');
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+
+            const orderInput = document.createElement('input');
+            orderInput.type = 'hidden';
+            orderInput.name = 'orders';
+            orderInput.value = JSON.stringify(orderData);
+            form.appendChild(orderInput);
+
+            document.body.appendChild(form);
+            form.submit();
+      });
+
+      function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                  const cookies = document.cookie.split(';');
+                  for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                              break;
+                        }
+                  }
+            }
+            return cookieValue;
+      }
+});
+</script>
