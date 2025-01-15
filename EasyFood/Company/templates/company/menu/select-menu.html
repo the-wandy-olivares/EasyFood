@@ -1,0 +1,87 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+
+      <section>
+
+            <h1>Selecciona tus platos</h1>
+
+            <form method="post">
+              {% csrf_token %}
+              
+              <h2>Menú: {{menu}} </h2>
+          
+              <!-- Mostrar los platos relacionados con el menú -->
+              <div class="plato-selection">
+                {% for plato in platos %}
+                  <div class="plato-item">
+                    <label>
+                      <input type="checkbox" name="plato"  class="plato" value="{{ plato.id }}">
+                      {{ plato.name }} - {{ plato.description }}
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+          
+              <button type="submit" class="bg-white text-white btn-select d-none bg-opacity-10 border-0 p-2 pe-4 mt-1 ps-4 rounded-4">Confirmar selección</button>
+            </form>
+
+
+            <h2 class='mt-4'>Mis Órdenes</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Plato</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders %}
+                  <tr>
+                    <td>{{ order.plato.name }} - {{ order.plato.description }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.date }}</td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="3">No hay órdenes realizadas.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+      </section>
+
+
+      <a href="{% url "company:menu"  %}" class="position-absolute text-white bottom-0 start-0 ms-3 mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+            </svg>
+      </a>
+
+      <script>
+            // Selecciona todos los checkboxes de platos
+const platos = document.querySelectorAll('.plato');
+const btnSelect = document.querySelector('.btn-select');
+
+// Función para comprobar si algún plato está seleccionado
+function checkPlatos() {
+    // Verifica si al menos un checkbox está marcado
+    const anySelected = Array.from(platos).some(plato => plato.checked);
+
+    // Si algún plato está seleccionado, quita 'd-none', si no, agrega 'd-none'
+    if (anySelected) {
+        btnSelect.classList.remove('d-none');
+    } else {
+        btnSelect.classList.add('d-none');
+    }
+}
+
+// Asigna el evento 'change' a cada checkbox de plato
+platos.forEach(plato => {
+    plato.addEventListener('change', checkPlatos);
+});
+
+// Llama a la función para verificar el estado inicial (en caso de que la página se cargue con platos ya seleccionados)
+checkPlatos();
+      </script>
+{% endblock  %}

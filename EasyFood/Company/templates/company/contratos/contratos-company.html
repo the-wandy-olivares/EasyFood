@@ -1,0 +1,122 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+      <style>
+            .administration {
+                  background-color: var(--bg-primary) !important;
+                  color:  #857f94 !important;
+                  transform: scale(1.1);
+            }
+            .administration svg   {
+                  display: none;
+            }
+            td {
+              color: #ffffffd3;
+              font-size: 14px;
+            }
+      </style>
+
+
+      <div class="">
+            <div data-aos='fade-in' class=' d-flex justify-content-center flex-wrap' style='width: 10rem; transition-delay: 0.2s  ;'>
+                  <div style='width: 160px; height: 160px; background-color: var(--bg-primary); 
+                  border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer; '
+                        class="d-flex flex-wrap align-content-center img-load  mt-1 justify-content-center mb-1" >
+                        {% if company.img %}
+                              <img src="{{company.img.url}}" class='w-100 h-100 object-fit-cover rounded-circle' alt="">
+                        {% endif %}
+                  </div>
+                  <h5 class='w-100 text-center m-0 p-0  mt-2'>
+                        {{company.name}}
+                  </h5>
+                  <span style='font-size: 12px;' class='text-white-50'>
+                        {{company.tax_id}}
+                  </span>
+            </div>
+            <h5 class="m-0 p-0 mt-5">Lista de Contratos</h5>
+            <p class="m-0 p-0 mb-1 text-white-50">
+              Los contratos son acuerdos legales entre dos o más partes que establecen obligaciones y derechos mutuos
+            </p>
+            {% comment %} <a href="{% url 'create_contract' %}" class="btn btn-success mb-3">Crear Nuevo Contrato</a> {% endcomment %}
+            
+            <!-- <div class="d-flex justify-content-end mb-1">
+                  <input type="text" placeholder="Buscar contratos" class=" me-4  p-2 border-0 text-center text-white-50" 
+                  style="border-radius: 1.5rem; height: 2.8rem; width: 15rem; background-color: var(--bg-primary);
+                  outline: none;">
+            </div> -->
+
+            <table class="w-100">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Cliente o empresa</th>
+                  <th>Servicio</th>
+                  <th>Horario de Entrega</th>
+                  <th>Fecha de Inicio</th>
+                  <th>Fecha de Fin</th>
+                  <th>Terminos de pago</th>
+                  <th>Activo</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for contract in contratos %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ contract.company.name }} - {{ contract.company.representative }} </td>
+                  <td class="text-capitalize">
+                        {% for service in contract.service_type.all %}
+                              {{ service.name }}
+                        {% empty %}
+                              No hay servicios seleccionados.
+                        {% endfor %}
+                  </td>
+                  <td>{{ contract.delivery_schedule }}</td>
+                  <td>{{ contract.start_date|date:"d/m/Y" }}</td>
+                  <td>{{ contract.end_date|date:"d/m/Y" }}</td>
+                  <td> 
+                        <div class="" style="height: 1.2rem; overflow: hidden; width: 8rem;">
+                        {{ contract.payment_terms }}
+                        </div> 
+                  </td>
+                  <td>
+                    {% if contract.is_active %}
+                    <span class="badge bg-primary rounded-circle p-0 d-flex justify-content-center align-content-center flex-wrap"  style="width: 25px; height: 25px;">Sí</span>
+                    {% else %}
+                    <span class="badge bg-warning text-black">No</span>
+                    {% endif %}
+                  </td>
+                  <td>
+
+                              <a href="{% url 'company:update-contrato' contract.id %}" class="btn mt-1 rounded-5 bg-transparent text-white" style="font-weight: bold; font-size: 12px;">
+                                    Editar
+                              </a>
+
+              
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="10" class="text-center mt-4 pt-5">No hay contratos disponibles  <br>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+
+          <a href="{% url "company:profile-company" company.id %}"  class='btn position-absolute  end-0 border-0  rounded-5 bottom-0 mb-2 p-2 pe-4 ps-4' style=" 
+          margin-right: 13rem;" >
+                  <span style='font-weight:bold;' class='text-white' > Atras </span>
+            </a>
+
+          <a href="{% url "company:create-contrato" company.id %}"  class='btn position-absolute  end-0 border-0 me-3 rounded-5 bottom-0 mb-2 p-2 pe-4 ps-4' style="background-color: var(--bg-primary);" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill text-white m-0 p-0 mb-1" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                </svg>
+                  <span style='font-weight:bold;' class='text-white' > Nuevo contrato </span>
+            </a>
+
+
+{% endblock  %}

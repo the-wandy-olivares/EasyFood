@@ -1,0 +1,110 @@
+
+
+<style>
+      .bar-chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        /* background-color: darkblue; */
+        /* background: var(--bg-secundary); */
+        padding: 10px;
+        border-radius: 10px;
+        height: 280px;
+        max-width: 400px;
+      }
+    
+      .bar {
+        width: 50px;
+        border-radius: 5px;
+      }
+    </style>
+
+    <style>
+      .donut-chart {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: conic-gradient(
+          #664caf 0% 40%, 
+          #2196f3 40% 75%, 
+          #f44336 75% 100%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+    
+      .donut {
+        min-width: 120px; max-width: 120px;
+        min-height: 120px; max-height: 120px;
+        background: var(--bg-secundary);
+        border-radius: 50%;
+      }
+      .span-detail span {
+            margin: 0.3rem; padding: 0.4rem; border-radius: 2rem; text-align: center;
+            width: 12rem; font-weight: bold;
+      }
+    </style>
+
+
+<section class="w-100 d-flex ">
+      <div class="w-25"> 
+            <div class="donut-chart">
+                  <div class="donut"></div>
+            </div>
+      </div>
+
+      <div class="w-100 d-flex align-content-center flex-wrap">
+            <h6 class="p-0 m-0">
+                  Informacion progresiva
+            </h6>
+            <span style="font-size: 12px;" class="w-100 text-white-50">
+                  ....
+            </span>
+            <div class="d-flex span-detail">
+                  <span style="background-color: #2d2d2d;">
+                        Nuevas empresas
+                  </span>
+                  <span style="background-color: #2d2d2d;">
+                        Nuevas usuarios
+                  </span>
+                  <span style="background-color: #2d2d2d;">
+                        Nuevas empleados
+                  </span>
+            </div>
+      </div>
+
+</section>
+ 
+<section class="w-100 d-flex ">
+
+      <div class="div w-75 d-flex align-content-center flex-wrap me-5 justify-content-end" >
+            <h6 class="p-0 m-0">
+                  Informacion progresiva
+            </h6>
+            <span style="font-size: 12px;" class="w-100 text-white-50 text-end">
+                  {{ request.user.employee_profile.company.date|date:"j/m/Y" }} - <span class="date-day"></span> </span>
+            <div class="d-flex span-detail">
+                  <p>
+                        <!-- La empresa ha tenido un gran impacto, en los ultimos periodos -->
+                  </p>
+            </div>
+      </div>
+      <div class="div w-25"> 
+            <div class="bar-chart">
+                  <div data-aos="zoom-up" class="bar" style="  transition: 0.9s; transition-delay: 2s; height: 60%; background-color: #654caf"></div>
+                  <div data-aos="zoom-up"  class="bar" style=" transition: 0.9s; transition-delay: 2.5s; height: 80%; background-color: #2196f3"></div>
+                  <div data-aos="zoom-up"  class="bar" style=" transition: 0.9s; transition-delay: 2.8s; height: 40%; background-color: #f44336"></div>
+                  <div data-aos="zoom-up"  class="bar" style=" transition: 0.9s; transition-delay: 3s; height: 70%; background-color: #ff9800"></div>
+            </div>
+      </div>
+    
+</section>
+<script>
+      var date = new Date();
+      var day = date.getDate();
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      document.querySelector('.date-day').innerHTML = day + '/' + month + '/' + year;
+</script>

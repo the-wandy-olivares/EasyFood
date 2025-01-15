@@ -1,0 +1,53 @@
+<style>
+      .tb td 
+      {
+            color: rgba(255, 255, 255, 0.813);
+      }
+</style>
+<table class="w-100 tb">
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>Nombre y Apellidos</th>
+
+              <th>Correo Electrónico</th>
+              <th>Teléfono</th>
+              <th>Rol</th>
+              <th>Empresa</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for e in employee %}
+          <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ e.first_name }} {{ e.last_name }}</td>
+                  <td>{{ e.email }}</td>
+                  <td>{{ e.phone }}</td>
+                  <td>{{ e.get_role_display }}</td>
+                  <td>{{ e.company.name }}</td>
+                  <td> 
+                  {% if e.is_active %}
+                        Activo
+                        {% else %}
+                        Desactivado
+                  {% endif %} 
+                  </td>
+                  <td>
+                        <a href="{% url "company:update-employee" e.id %}" class='text-decoration-none text-white'>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                  </svg> Visualizar
+                        </a>
+                  </td>
+          </tr>
+          {% empty %}
+          <tr>
+              <td colspan="7" class="text-center">No hay empleados disponibles</td>
+          </tr>
+          {% endfor %}
+          
+      </tbody>
+  </table>

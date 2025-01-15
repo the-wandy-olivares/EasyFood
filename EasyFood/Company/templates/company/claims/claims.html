@@ -1,0 +1,79 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load humanize %}
+<style>
+      .clams {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .clams  svg   {
+            display: none;
+      }
+
+</style>
+
+<section>
+      <div class=" ">
+            <div data-aos="fade-left" style="transition: 0.7s; transition-delay: 0.4s !important;"> 
+                  <h5 class="m-0 p-0">
+                     Reclamaciones
+                  </h5>
+                  <p class="m-0 p-0">
+                        Aquí podrás ver y responder a las reclamaciones hechas por tus clientes.
+                  </p>
+            </div>
+
+            <a href="{% url "company:create-claim"  %}" class='btn position-absolute bottom-0 mt-3 end-0 border-0 me-3 rounded-5 p-2 pe-4 ps-4' style="background-color: var(--bg-primary);" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-plus text-white" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5"/>
+                    <path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z"/>
+                  </svg>
+                   <span style='font-weight:bold;' class='text-white' > Reclamar  </span>
+            </a>
+
+            {% if claims %}
+                <table class=" w-100 mt-5">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 20%;">Empleado</th>
+                            <th style="width: 35%;">Descripción</th>
+                            <th style="width:  15%;">Fecha</th>
+                            <th style="width:   7%;">Estado</th>
+                            <th style="width:   7%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for claim in claims %}
+                            <tr>
+                                <td >{{ forloop.counter }}</td>
+                                <td >{{ claim.employee }}</td>
+                                <td >{{ claim.description }}</td>
+                                <td >{{ claim.date_submitted|date:"d M Y - H:i" }}</td>
+                                <td>
+                                    <span  class="badge bg-warning rounded-5   {% if claim.status == 'pendiente' %}bg-warning  {% elif claim.status == 'resuelto' %}bg-primary{% else %}bg-secondary{% endif %}"  style="color: var(--bg-secundary); font-weight: bold;">
+                                        {{ claim.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'company:update-claim' claim.id %}" class="btn border-0 btn-sm rounded-5 btn-primary bg-transparent">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                              </svg> Ver
+                                    </a>
+                                    <!-- <a class="btn btn-sm btn-danger">Eliminar</a> -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center mt-4">No hay reclamaciones registradas.</p>
+            {% endif %}
+        </div>
+</section>
+
+
+{% endblock  %}
