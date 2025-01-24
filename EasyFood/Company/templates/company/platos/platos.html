@@ -2,12 +2,12 @@
 {% block content %}
 {% load humanize %}
 <style>
-      .administration {
+      .menu {
             background-color: var(--bg-primary) !important;
             color:  #857f94 !important;
             transform: scale(1.1);
       }
-      .administration svg   {
+      .menu svg   {
             display: none;
       }
 </style>
@@ -39,7 +39,6 @@
             {% csrf_token %}
             <button class='bg-transparent border-0 text-start'>
                   <div class="mt-3">
-                  
                         <strong class='text-start w-100'>
                               <span class='text-white-50'> Todos  los {% if categoria_show %} {{categoria_show}}   {% else %}   platos  {% endif %} </span>   
                         </strong>

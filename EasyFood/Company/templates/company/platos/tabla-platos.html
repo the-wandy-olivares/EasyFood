@@ -6,14 +6,12 @@
       <table class="w-100">
         <thead class="">
           <tr>
-            <!-- <th>.</th> -->
-            <th>Plato</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Categoría</th>
-            <!-- <th>Activo</th> -->
-            <th>Acciones</th>
+            <th style="width: 10%;">Plato</th>
+            <th style="width: 15%;">Nombre</th>
+            <th style="width: 23%;">Descripción</th>
+            <th style="width: 10%;">Precio</th>
+            <th style="width: 15%;">Categoría</th>
+            <th style="width: 15%;">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -23,7 +21,7 @@
             <td>
               {% if plato.img %}
               <img src="{{ plato.img.url }}" alt="{{ plato.name }}" class="rounded-4 mt-3" 
-              style="width: 80px; height: 80px; object-fit: cover;" >
+              style="width: 130px; height: 80px; object-fit: cover;" >
               {% else %}
               <span class="text-muted">Sin Imagen</span>
               {% endif %}
@@ -41,15 +39,14 @@
               {% endif %}
             </td> -->
             <td>
-              <a  href="{% url "company:update-plato" plato.id %}"  class="btn btn-warning btn-sm rounded-3 me-1" style="font-weight: bold;">Editar</a>
+              <a  href="{% url "company:update-plato" plato.id %}"  class="btn btn-warning btn-sm rounded-3 accordion rounded-start-5 me-1" style="font-weight: bold;">Modificar</a>
 
               {% if plato.is_active %}
-              <a href="{% url "company:desactivar-plato" plato.id %}"    class="btn  btn-danger btn-sm rounded-4" style="font-weight: bold;">
+              <a href="{% url "company:desactivar-plato" plato.id %}"    class="btn  btn-danger btn-sm rounded-4 rounded-start-3" style="font-weight: bold;">
                     Desactivar
                   {% else %}
-                  <a href="{% url "company:desactivar-plato" plato.id %}"    class="btn text-white  bg-black  rounded-4" style="font-weight: bold;">
+                  <a href="{% url "company:desactivar-plato" plato.id %}"    class="btn text-white  bg-black  rounded-4  rounded-start-3" style="font-weight: bold;">
                     Activar
-
             </td>
             {% endif %}
               </a>

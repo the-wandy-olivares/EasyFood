@@ -2,12 +2,12 @@
 {% block content %}
 {% load static %}
       <style>
-            .administration {
+            .contratos {
                   background-color: var(--bg-primary) !important;
                   color:  #857f94 !important;
                   transform: scale(1.1);
             }
-            .administration svg   {
+            .contratos svg   {
                   display: none;
             }
             td {
@@ -24,15 +24,15 @@
             </p>
             {% comment %} <a href="{% url 'create_contract' %}" class="btn btn-success mb-3">Crear Nuevo Contrato</a> {% endcomment %}
             
-            <input type="text" placeholder="Buscar contratos" class="position-absolute top-0 end-0 me-4 mt-4 p-2 border-0 text-center text-white-50" 
+            <input type="text" placeholder="Buscardo avanzado" class="position-absolute top-0 end-0 me-5 mt-5 p-2 border-0 text-center text-white-50" 
             style="border-radius: 1.5rem; height: 2.8rem; width: 15rem; background-color: var(--bg-primary);
             outline: none;">
 
             <table class="w-100">
               <thead>
                 <tr>
-                  <th>.</th>
-                  <th> . . .  </th>
+                  <th>#</th>
+                  <th>  </th>
                   <th>Cliente o empresa</th>
                   <th>Servicio</th>
                   <th>Horario de Entrega</th>

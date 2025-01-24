@@ -64,13 +64,13 @@
                                                         {% endif %}
                                                         </label>
                                                         <h6 style='font-size: 18px; font-weight: bold;' class="  ms-2 mt-4 text-center  w-100  d-flex align-content-center justify-content-center flex-wrap">
-                                                            {{ c.name }} 
+                                                            {{ c.name|truncatechars:'35' }} 
                                                         </h6> 
                                                     </div>
                                                  
                                                     {% if  c.platos_category.all %}
                                                         <span style='font-size: 14px;' class="  ms-2 text-white-50" >
-                                                            Listado de platos 
+                                                         ({{ c.platos_category.all|length }}) Platos 
                                                         </span>
                                                         {% else %}
                                                         <span style='font-size: 14px;' class="  ms-2 text-white-50" >
