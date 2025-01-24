@@ -12,13 +12,6 @@
       }
 </style>
 
-      {% comment %} <h5 class='m-0 p-0'>
-            Admistrar platos
-      </h5>
-      <p class='text-white-50 p-0 m-0'>
-            Aquí puedes administrar tus platos del restaurante, crear menus, editarlos, desactivarlos o eliminarlos
-      </p> {% endcomment %}
-
       <div class="mt-0">
             <strong class=''>
                   <span class='text-white-50'> Menus </span>   
@@ -37,8 +30,8 @@
                         {% include "company/platos/list-catergoria-admin.html" %}
                   {% else %}
                   <div class='text-center'>
-                        <h6>No hay categorías de platos registradas.</h6>
-                        <a >Agregar categorías de platos</a>
+                        <h6>No hay platos para mostrar.</h6>
+                        <a >Pulsa sobre alguna categoria</a>
                   </div>
             {% endif %}
       </section>
@@ -68,20 +61,12 @@
                         {% include "company/platos/tabla-platos.html" %}
                   {% else %}
                   <div class='text-center w-100 mt-5 pt-4'>
-                        <h6>No hay platos de platos registradas</h6>
-                        <p  class='text-white-50'>Agregar platos de platos</p>
+                        <h6>No hay platos para mostrar</h6>
+                        <p  class='text-white-50'>Pulsa sobre un menu</p>
                   </div>
             
             {% endif %}
       </section>
 
-      {% if categoria_show %}
-       <a href="{% url "company:platos" %}" style='text-decoration: none;' >
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle-fill text-white position-sticky bottom-0 start-0 ms-4 mt-3 " viewBox="0 0 16 16">
-                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                </svg> 
 
-      </a>
-
-      {% endif %}
 {% endblock  %}

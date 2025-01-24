@@ -28,10 +28,11 @@ urlpatterns = [
             path('platos', views.Platos.as_view(), name='platos'),
       # path('categorias', views.Categorias.as_view(), name='categorias'),
       path('create-category', views.CreateCategory.as_view(), name='create-category'),
-            path('create-plato', views.CreatePlato.as_view(), name='create-plato'),
-                  path('update-plato/<int:pk>', views.UpdatePlato.as_view(), name='update-plato'),
-            path('desactivar-plato/<int:pk>', views.DesactivarPlato.as_view(), name='desactivar-plato'),
-      path('realize-order-company/<int:pk>', views.RealizeOrderCompany.as_view(), name='realize-order-company'),
+            path('update-category/<int:pk>', views.UpdateCategory.as_view(), name='update-category'),
+                        path('create-plato', views.CreatePlato.as_view(), name='create-plato'),
+                              path('update-plato/<int:pk>', views.UpdatePlato.as_view(), name='update-plato'),
+                        path('desactivar-plato/<int:pk>', views.DesactivarPlato.as_view(), name='desactivar-plato'),
+                  path('realize-order-company/<int:pk>', views.RealizeOrderCompany.as_view(), name='realize-order-company'),
 
 # Finanzas 
       path('report', views.Report.as_view(), name='report'),

@@ -12,7 +12,7 @@
             <th>Descripción</th>
             <th>Precio</th>
             <th>Categoría</th>
-            <th>Activo</th>
+            <!-- <th>Activo</th> -->
             <th>Acciones</th>
           </tr>
         </thead>
@@ -33,13 +33,13 @@
             <td>${{ plato.price|intcomma }}.00</td>
             <td>{{ plato.category.name }}</td>
 
-            <td>
+            <!-- <td>
               {% if plato.is_active %}
               <span class="badge bg-primary rounded-circle d-flex justify-content-center align-content-center flex-wrap rounded-circle  p-0" style="width: 25px; height: 25px;">Sí</span>
               {% else %}
               <span class="badge bg-danger rounded-circle p-0 d-flex justify-content-center align-content-center flex-wrap"  style="width: 25px; height: 25px;">No</span>
               {% endif %}
-            </td>
+            </td> -->
             <td>
               <a  href="{% url "company:update-plato" plato.id %}"  class="btn btn-warning btn-sm rounded-3 me-1" style="font-weight: bold;">Editar</a>
 

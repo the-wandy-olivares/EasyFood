@@ -15,9 +15,6 @@
 
 
 </style>
-<input type="text" placeholder="Buscar empresas" class="position-absolute top-0 end-0 me-4 mt-4 p-2 border-0 text-center text-white-50" 
-style="border-radius: 1.5rem; height: 2.8rem; width: 15rem; background-color: var(--bg-primary);
-outline: none;">
 <section class="card-options d-flex   overflow-auto  ">
       {% for c in company  %}
       <a href="{% url "company:profile-company"  c.id %}" >

@@ -13,13 +13,15 @@
       </style>
       {% if company %} 
       <section class='d-flex justify-content-start flex-wrap align-content-start  w-100 h-100'>
+            <input type="text" placeholder="Buscador avanzado" class="position-absolute top-0 end-0  me-5 mt-5 p-2 border-0 text-center text-white-50" 
+                  style="border-radius: 1.5rem; height: 2.8rem; width: 15rem; background-color: var(--bg-primary); outline: none;">
                   <div>
                         <h6 class="m-0 p-0">
                                   Empresas <strong class="text-white-50" 
-                                  style="font-size: 12px;">(clientes)</strong>
+                                  style="font-size: 12px;"></strong>
                         </h6>
                         <p class="text-white-50 p-0 m-0">
-                              El listado de compañia estan agregadas todas las empresas para administrar facilmente
+                              Aqui estan agregadas todas las empresas para ser administrada facilmente
                         </p>
                   </div>
                   <div class="d-flex   overflow-auto mt-4  w-100">
@@ -39,13 +41,13 @@
       <section class='d-flex justify-content-center flex-wrap align-content-center w-100 h-100'>
             <div data-aos="zoom-in"  class='text-center d-flex justify-content-center flex-wrap align-content-center' style=" transition: 1s; width: 40rem; height:30rem;
             background-color: ; border-radius: 2.5rem;">
-            <div>
-                  {% if request.user.restaurant.img %}
-                        <img src="{{request.user.restaurant.img.url}}"  alt="No-Foun"
-                        style='width: 150px; height: 150px; border: 10px solid var(--bg-secundary);
-                        border: 8px solid rgb(59, 59, 59);' class="object-fit-cover rounded-circle"> 
-                  {% endif %}
-            </div>
+                  <div>
+                        {% if request.user.restaurant.img %}
+                              <img src="{{request.user.restaurant.img.url}}"  alt="No-Foun"
+                              style='width: 150px; height: 150px; border: 10px solid var(--bg-secundary);
+                              border: 8px solid rgb(59, 59, 59);' class="object-fit-cover rounded-circle"> 
+                        {% endif %}
+                  </div>
                   <h6 data-aos="fade-right" class="w-100 m-0 mt-3" 
                         style="
                         transition-delay: 0.5s;
@@ -62,7 +64,6 @@
                               </button>
                         </a>
                   </div>
-
             </div>
             {% endif %}
       </section>

@@ -15,9 +15,10 @@
 
 
       <span class="position-sticky top-0  w-100 d-flex  justify-content-end p-3 z-2 me-4   position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer; ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill" viewBox="0 0 16 16">
-                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
-                </svg> <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-heart-fill " viewBox="0 0 16 16">
+                  <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>
+                </svg>
+                <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
        style='width: 20px; height: 20px; color: var(--bg-primary);'>0</div>
       </span>
 
@@ -46,14 +47,14 @@
       </div>
 
 
-      <div>
+      {% comment %} <div>
             <strong>
                   <span class='text-white-50'> Menus </span>   
             </strong>
             <p class="text-white-50 p-0 m-0">
                   Los menus ayudan a organizar los platos (Desayuno, Almuerzo, Meriendas, Cenas y mas)
             </p>
-      </div>
+      </div> {% endcomment %}
       <section class='mt-0 d-flex   overflow-auto mt-4'>
             {% if categorias %}
                         {% include "company/platos/list-categorias.html" %}
@@ -79,10 +80,10 @@
                   <span class='text-white-50'> Todos los platos</span>   
             </strong>
             <p class="text-white-50">
-                  Aquí puedes ver todos los platos de todos los menus
+                  Aquí puedes ver todos los platos de este
             </p>
       </div>
-      <section class='mt-0 d-flex   overflow-auto flex-wrap justify-content-center '>
+      <section class='mt-0 d-flex   overflow-auto   '>
             {% include "company/platos/list-platos.html" %}
             {% else %}
       </section>

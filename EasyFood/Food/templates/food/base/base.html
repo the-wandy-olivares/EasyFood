@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="es">
     <head>
-        <title>Easy Food</title>
+        <title>Restaurant</title>
         <meta charset="utf-8">
         <link rel="icon" href="" type="image/png">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -10,7 +10,7 @@
         rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
         crossorigin="anonymous">
 
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
 
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <style>
@@ -25,7 +25,6 @@
                 }
                 .main {
                     padding: 0 !important;
-                    
                 }
             }
         </style>
@@ -33,13 +32,12 @@
     {% include "food/componentes/load-masive-users.html" %}
     <body>
         <main class=' main p-4 d-flex w-100 vh-100'>
-
                 {% if request.user.is_authenticated %}
                     <div style="width: 13%;" class=" nav m-1 me-3">
                         {% include "food/componentes/nav.html" %}
                     </div>
                 {% endif %}
-                <section data-aos="fade-in"  class='section-base {% if request.user.is_authenticated %}  {% else %} container {% endif %} p-4'>
+                <section data-aos="fade-in" class='section-base {% if request.user.is_authenticated %}  {% else %} container {% endif %} p-4'>
                     {% block content %}
                     {% endblock  %}
                 </section>
@@ -51,6 +49,13 @@
         <script src="{% static 'js/base.js' %}"></script>     
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>                 
+            $(document).on('keydown', function(event) {
+                if (event.key === "Escape") {
+                    document.querySelectorAll('.esc').forEach(function(element) {
+                        element.click();
+                    });
+                }
+            });
             AOS.init() // Inicializar animaciones AOS
         </script>
     </body>

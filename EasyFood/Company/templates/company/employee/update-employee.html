@@ -63,7 +63,7 @@
             ">
             </div>
             <div class='d-flex forms-inputs flex-wrap  ' style="width: 55rem;" >
-                
+                  {% if  messages %}
                                   {% for m in messages %}
                                <strong class='text-warning'> {{m}}</strong>
                                {% endfor %}

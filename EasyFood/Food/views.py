@@ -21,9 +21,10 @@ class Dashboard(TemplateView):
       def get(self, request, *args, **kwargs):
             if not request.user.is_authenticated:
                   return redirect(reverse('company:logins'))
-
-            if request.user.employee_profile.role == "estandar":
-                   return redirect('company:no-acces-to-view')  
+            
+            if not hasattr(request.user, 'restaurant') or not request.user.restaurant:
+                  if request.user.employee_profile.role == "estandar":
+                        return redirect('company:no-acces-to-view')  
             return super().get(request, *args, **kwargs)    
             
 
@@ -90,7 +91,7 @@ class Configuration(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['configuration'] = ConfigurationApp.objects.get(id=1)
+            context['configuration'] = ConfigurationApp.objects.get(id=2)
             return context
 
       def post(self, request, *args, **kwargs):

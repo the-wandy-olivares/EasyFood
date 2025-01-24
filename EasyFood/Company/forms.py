@@ -179,10 +179,11 @@ class Contract(forms.ModelForm):
 class Category(forms.ModelForm):
         class Meta:
             model = models.Category
-            fields = ['name', 'description', 'img', 'is_active']
+            fields = ['service', 'name', 'description', 'img', 'is_active' ]
             widgets = {
-                'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el nombre de la categoría'}),
-                'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Ingrese una descripción', 'rows': 3}),
+                'service': forms.Select(attrs={'class': 'form-control'}),
+                'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ' Nombre'}),
+                'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Detalles del menu ejemplo: Incluye nuestros mejores platos', 'rows': 3}),
                 'img': forms.ClearableFileInput(attrs={'class': 'form-control'}),
                 'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             }

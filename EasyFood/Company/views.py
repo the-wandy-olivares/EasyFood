@@ -27,7 +27,7 @@ from Company import forms
 def Check_Role(view_func):
       def _wrapped_view(request, *args, **kwargs):
             if request.user.is_authenticated:
-                  if request.user.username != 'admin' or 'untalwandy':
+                  if not hasattr(request.user, 'restaurant') or not request.user.restaurant:
                         if request.user.employee_profile.role == "ejecutivo" or "representante":
                               return view_func(request, *args, **kwargs)
             return redirect('company:no-acces-to-view')  # Reemplaza 'some_view_name' con el nombre de la vista a redirigir
@@ -48,7 +48,7 @@ class NoAcceso_to_View(TemplateView):
 
                   
                   
-@method_decorator(Check_Role, name='dispatch')
+
 class AdminCompany(TemplateView):
       template_name = "company/admin-company.html"
 
@@ -63,7 +63,7 @@ class AdminCompany(TemplateView):
             context['company'] =  models.Company.objects.filter(is_active=True, restaurant=self.request.user.restaurant)
             return context
     
-@method_decorator(Check_Role, name='dispatch')
+
 class CreateCompany(CreateView):
       model = models.Company
       form_class = forms.Company
@@ -114,9 +114,9 @@ class UpdateCompany(UpdateView):
                   return redirect(reverse('company:logins'))
             return super().get(request, *args, **kwargs)    
 
-@method_decorator(Check_Role, name='dispatch')
+# @method_decorator(Check_Role, name='dispatch')
 
-@method_decorator(login_required, name='dispatch')  # Asegurarse de que el usuario esté autenticado
+# @method_decorator(login_required, name='dispatch')  # Asegurarse de que el usuario esté autenticado
 class ProfileCompany(DetailView):
       model = models.Company
       form_class = forms.Company
@@ -228,8 +228,6 @@ class UpdateEmploye(UpdateView):
             user = User.objects.get(employee_profile=self.object)
             # Establecer la clave del usuario
             user.username = form.instance.email
-            password = form.instance.password  # Reemplázalo por la clave que necesites
-            user.set_password(password)
             user.save()
             form.instance.user = user
             form.instance.company = models.Company.objects.get(is_active=True, employee=self.object)
@@ -395,7 +393,7 @@ class Orders(TemplateView):
 
 
 
-@method_decorator(Check_Role, name='dispatch')
+
 class AllOrders(TemplateView):
     model = models.Order
     template_name = "company/order/all-orders.html"
@@ -630,7 +628,6 @@ class DetailContrato(DetailView):
 class Platos(TemplateView):
       template_name = "company/platos/platos.html"
 
-
             # context['categorias'] = models.Category.objects.all()
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
@@ -645,6 +642,7 @@ class Platos(TemplateView):
                   context['platos'] = models.Plato.objects.all()
 
             context['categorias'] = models.Category.objects.all()
+            print(models.Category.objects.all())
             return context
 
 
@@ -710,6 +708,17 @@ class DesactivarPlato(View):
 
 class CreateCategory(CreateView):
       template_name = "company/platos/create-category.html"
+      model = models.Category
+      form_class = forms.Category
+      success_url = reverse_lazy('company:platos')
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            form.instance.is_active = True
+            return super().form_valid(form)
+      
+class UpdateCategory(UpdateView):
+      template_name = "company/platos/update-category.html"
       model = models.Category
       form_class = forms.Category
       success_url = reverse_lazy('company:platos')

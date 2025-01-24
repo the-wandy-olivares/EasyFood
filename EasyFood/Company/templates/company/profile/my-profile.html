@@ -29,14 +29,32 @@
       </style>
 
 
-      <div class="">
-            <div class="profile-name" style="text-align:center; margin-top:20px;">
-                  <img src="{{request.user.employee_profile.company.img.url}}" alt="Profile Photo" style="width:80px; height:80px; border-radius:50%; border: 3px solid white;">
-                  <h5 class="p-0 m-0 mt-3">{{ request.user.first_name }} {{request.user.last_name}} </h5>
-                  <span class="text-white-50" style="font-size: 14px;">
-                        {{ request.user.employee_profile.company.name }}
-                  </span>
-            </div>
+{% if not request.user.restaurant %}
+                  <a href="{% url "company:profile-company"  request.user.employee_profile.company.id %}" 
+                              style="text-decoration: none;" class='d-flex justify-content-center flex-wrap'>
+                        <img src="{{request.user.employee_profile.company.img.url}}"  alt="No-Foun"
+                              style='width: 90px; height: 90px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
+                        <h5 class="w-100 text-center m-0 p-0 mt-1" 
+                              style="font-family: Lobster, sans-serif; " >
+                              {{ request.user.employee_profile.company.name }}
+                        </h5>
+                        <span style="font-weight: bold; font-size: 12px;" class="text-white-50 m-0 p-0">
+                              {{request.user.first_name}} {{request.user.last_name}} 
+                        </span>
+                  </a>
+            {% else %}  
+                  <a  style="text-decoration: none;" class='d-flex justify-content-center flex-wrap'>
+                        <img src="{{request.user.restaurant.img.url}}"  alt="No-Foun"
+                              style='width: 90px; height: 90px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
+                        <h5 class="w-100 text-center m-0 p-0 mt-1" 
+                              style="font-family: Lobster, sans-serif; " >
+                              {{request.user.restaurant.name}} 
+                        </h5>
+                        <span style="font-weight: bold; font-size: 12px;" class="text-white-50 m-0 p-0">
+                              {{request.user.first_name}} {{request.user.last_name}} 
+                        </span>
+                  </a>
+            {% endif %}
       </div>
 
       <div style="text-align:center; margin-top:20px;" class="position-absolute top-0 end-0 me-3">
