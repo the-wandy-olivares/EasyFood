@@ -286,6 +286,7 @@ class Menu(ListView):
             company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)# Devolver el primero que encuentre
             context['menus'] = models.Menu.objects.filter(company=self.request.user.employee_profile.company) 
             # context['categoria'] = models.Category.objects.filter()  # Filtrar las categorías por la compañía activa
+            context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
             context['company'] = company
             
             return context
@@ -311,7 +312,7 @@ class Menu(ListView):
 
                   models.MenuChoices.objects.create(menu=menu, company=request.user.employee_profile.company)
 
-            return redirect(reverse('food:restaurant'))
+            return redirect(reverse('company:menu'))
 
 
 
