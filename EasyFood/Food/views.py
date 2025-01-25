@@ -72,7 +72,7 @@ class Restaurant(TemplateView):
                   print(orden.name)
 
             messages.success(request, "Order created successfully!")
-            return redirect(reverse('food:restaurant'))
+            return redirect(reverse('company:orders'))
 
 
 # Administracion, Proveedores, Clientes, Comisiones y Ventas
