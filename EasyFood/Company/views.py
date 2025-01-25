@@ -407,27 +407,6 @@ class AllOrders(TemplateView):
 
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-
-            # Obtener los filtros de la URL
-            status_filter = self.request.GET.get('status', None)  # Filtro por estado (pendiente/completado)
-            date_filter = self.request.GET.get('date', None)  # Filtro por fecha (formato YYYY-MM-DD)
-
-            # Filtrar los pedidos según los criterios
-            orders = models.Order.objects.all()
-
-            # Filtrar por estado si se ha enviado el filtro
-            if status_filter:
-                  orders = orders.filter(status=status_filter)
-
-            # Filtrar por fecha si se ha enviado el filtro
-            if date_filter:
-                  try:
-                        filter_date = timezone.datetime.strptime(date_filter, "%Y-%m-%d").date()
-                        orders = orders.filter(date__date=filter_date)
-                  except ValueError:
-                        pass  # Si el formato de fecha es incorrecto, no aplicar el filtro
-
-            context['orders'] = orders  # Pasar los pedidos filtrados al contexto
             context['companys'] = models.Company.objects.filter(is_active=True)
             return context
 

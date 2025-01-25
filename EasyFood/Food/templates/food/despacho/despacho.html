@@ -2,12 +2,12 @@
 {% block content %}
 {% load humanize %}
             <style>
-                  .orders {
+                  .despacho {
                         background-color: var(--bg-primary) !important;
                         color:  #857f94 !important;
                         transform: scale(1.1);
                   }
-                  .orders  svg   {
+                  .despacho  svg   {
                         display: none;
                   }
                   form input, select
@@ -70,6 +70,7 @@
                                                       <th width='25%'>Plato</th>
                                                       <th width='25%'>Fecha del Pedido</th>
                                                       <th width='20%'>Estado de orden</th>
+                                                      <th width='20%'>Acciones</th>
                                                       
                                                 </thead>
                                                 <tbody>
@@ -97,6 +98,9 @@
                                                                               Realizada
                                                                         </td>
                                                                   {% endif %}
+                                                                  <td>
+                                                                  <a class="btn btn-warning btn-sm rounded-3 accordion rounded-end-5 me-1 mt-2" style="font-weight: bold;">Despachar</a>
+                                                                      </td>
                                                             </tr>
                                                       {% endfor %}      
                                                 </tbody>
@@ -109,16 +113,13 @@
                                                       <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
                                                     </svg> Imprimir
                                           </button>
-
-                                          <form action="" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="company" value="{{company.id}}">
+                                          <a href="{% url "company:realize-order-company" company.id %}">
                                                 <button  class="btn bg-white bg-opacity-10 text-white  rounded-5 pe-3 ps-3"
-                                                style="font-weight: bold; font-size: 14px;">
-                                                  Enviar ( {{company.orders_company.all | length}} )  al despacho    
+                                                      style="font-weight: bold; font-size: 14px;">
+                                                     ( {{company.orders_company.all | length}} ) 
+                                                        Despachar 
                                                 </button>
-                                          </form>
-
+                                          </a>
                                    </div>
                               {% endif %}
                               {% endfor %}

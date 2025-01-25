@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.utils.decorators import method_decorator
+from datetime import datetime
+from django.utils import timezone
 
 from Company import models
 
@@ -64,10 +66,13 @@ class Restaurant(TemplateView):
                   name = item.get('name')
                   price = item.get('price')
                   img = item.get('img')
-
-                  orden = models.Order(name=name, price=price, img=img, 
+                  category = item.get('category')
+                  print(category)
+                  orden = models.Order(name=name, price=price, img=img , category=models.Category.objects.get(id=category),
                               employee=request.user.employee_profile,
-                              company=request.user.employee_profile.company)
+                              company=request.user.employee_profile.company,
+
+                              )
                   orden.save()
                   print(orden.name)
 
@@ -104,3 +109,17 @@ class Configuration(TemplateView):
                         configuration.animations = True
                   configuration.save()
             return redirect(reverse('food:configuration'))
+
+
+
+class Despacho(TemplateView):
+      template_name = "food/despacho/despacho.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            orders = models.Order.objects.all()
+
+
+            context['orders'] = orders  # Pasar los pedidos filtrados al contexto
+            context['companys'] = models.Company.objects.filter(is_active=True)
+            return context

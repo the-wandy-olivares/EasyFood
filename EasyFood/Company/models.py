@@ -219,20 +219,22 @@ class Plato(models.Model):
 class Order(models.Model):
       company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="orders_company", blank=True, null= True)
       employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="orders", blank=True, null=True)
-      plato = models.ForeignKey(Plato, on_delete=models.CASCADE, blank=True, related_name='plato', default=1)  # Relacionado con el plato seleccionado
+      plato = models.ForeignKey(Plato, on_delete=models.SET_NULL, blank=True, related_name='plato', null=True)  # Relacionado con el plato seleccionado
+      category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name="order_menu", blank=True, null=True)
 
       name = models.CharField(max_length=255, verbose_name="Nombre del Plato", blank=True)
       price = models.IntegerField(default=0, verbose_name="Precio del Plato", blank=True)
       img = models.ImageField(upload_to='media/order/', null=True, blank=True)
 
       date = models.DateTimeField(auto_now_add=True)  # Fecha y hora del pedido
-      status = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'), ('completado', 'Completado')], default='pendiente')
+      status = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'), ('preparando', 'En preparacion'),
+                                                        ('listo', 'En camino'), ('entregado', 'Entregado')], default='pendiente')
 
 
 
       class Meta:
-            verbose_name = "Pedido"
-            verbose_name_plural = "Pedidos"
+            verbose_name = "Oden"
+            verbose_name_plural = "Ordenes"
 
       def __str__(self):
             return f"{self.employee} - {self.plato} - {self.date}"
