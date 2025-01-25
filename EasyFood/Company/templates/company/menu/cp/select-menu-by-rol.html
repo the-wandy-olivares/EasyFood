@@ -1,0 +1,29 @@
+<form action="" method="post" id="menuForm{{c.id}}">
+      {% csrf_token %}
+      <div class='d-flex w-100 overflow-auto'>
+            <div  class=' w-100 m-1 mt-1'> 
+                <input type="checkbox" name="menus" value="{{c.id}}" {% if c.is_active %} checked {% endif %} class='rounded-circle d-none ' style='border-radius: 50% !important;'>
+                        <select name="role_{{c.id}}" class="form-select border-0 text-white  bg-white bg-opacity-10 rounded-3" id="{{c.id}}">
+                                <option value="ejecutivo" {% if c.role == 'ejecutivo' %}selected{% endif %}> Ejecutivos</option>
+                                <option value="estandar" {% if c.role == 'estandar' %}selected{% endif %}>Estandares</option>
+                        </select>
+              </div>
+              <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                                const selects = document.querySelectorAll('select[name^="role_"]');
+                                selects.forEach(select => {
+                                          select.addEventListener('change', function () {
+                                                  if (this.value === 'representante') {
+                                                            selects.forEach(s => {
+                                                                    if (s !== this && s.value === 'representante') {
+                                                                              s.value = 'estandar';
+                                                                    }
+                                                            });
+                                                  }
+                                                  document.getElementById('menuForm'+this.id).submit();
+                                          });
+                                });
+                        });
+              </script>
+      </div>
+</form>

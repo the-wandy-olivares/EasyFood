@@ -295,22 +295,27 @@ class Menu(ListView):
             # Obtener los IDs seleccionados enviados como JSON
             selected_ids = request.POST.get('selected_ids')
             
-            if not selected_ids:
-                  return JsonResponse({"error": "No se recibieron IDs."}, status=400)
+            if selected_ids:
+                  try:
+                        # Convertir el JSON a una lista de IDs
+                        selected_ids = json.loads(selected_ids)
+                  except json.JSONDecodeError:
+                        return JsonResponse({"error": "Formato de IDs inválido."}, status=400)
 
-            try:
-                  # Convertir el JSON a una lista de IDs
-                  selected_ids = json.loads(selected_ids)
-            except json.JSONDecodeError:
-                  return JsonResponse({"error": "Formato de IDs inválido."}, status=400)
+                  # Iterar por cada ID y crear un registro en MenuChoices
+                  deleted_count, _ = models.MenuChoices.objects.filter(company=request.user.employee_profile.company).delete()
+                  for menu_id in selected_ids:
+                        menu = get_object_or_404(models.Category, id=menu_id)
+                        models.MenuChoices.objects.create(menu=menu, company=request.user.employee_profile.company)
 
-            # Iterar por cada ID y crear un registro en MenuChoices
-            deleted_count, _ = models.MenuChoices.objects.filter(company=request.user.employee_profile.company).delete()
-            for menu_id in selected_ids:
-                  menu = get_object_or_404(models.Category, id=menu_id)
-
-
-                  models.MenuChoices.objects.create(menu=menu, company=request.user.employee_profile.company)
+            else:
+                    menus_selected = request.POST.getlist('menus')  # Menús seleccionados
+                    all_menus = models.MenuChoices.objects.filter(company=self.request.user.employee_profile.company)  # Todos los menús relacionados
+                    for menu in all_menus:
+                              if str(menu.id) in menus_selected:  # Si el menú está seleccionado
+                                      role = request.POST.get(f'role_{menu.id}')
+                                      menu.role = role
+                              menu.save()
 
             return redirect(reverse('company:menu'))
 
