@@ -67,8 +67,9 @@ class Restaurant(TemplateView):
                   price = item.get('price')
                   img = item.get('img')
                   category = item.get('category')
-                  print(category)
+                  plato = models.Plato.objects.get(id=item.get('plato'))
                   orden = models.Order(name=name, price=price, img=img , category=models.Category.objects.get(id=category),
+                              plato=plato,
                               employee=request.user.employee_profile,
                               company=request.user.employee_profile.company,
 

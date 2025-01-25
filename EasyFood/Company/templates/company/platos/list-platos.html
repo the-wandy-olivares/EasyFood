@@ -93,8 +93,8 @@
                         <button class="btn rounded-5 text-black  w-100 bg-warning order-now-btn" 
                               style="font-weight: bold; font-size: 14px;
                                "
-                              data-category="{{p.category.id}}"  data-name="{{p.name}}" data-price="{{p.price}}" data-img="{% if p.img %}{{p.img.url}}{% endif %}" >
-                              Agregar a la lista {{p.category.id}}
+                              data-category="{{p.category.id}}"  data-plato="{{p.id}}"  data-name="{{p.name}}" data-price="{{p.price}}" data-img="{% if p.img %}{{p.img.url}}{% endif %}" >
+                              Agregar a la lista 
                         </button>
                   </div>
             </div>
@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   const price = parseFloat(this.getAttribute('data-price'));
                   const img = this.getAttribute('data-img');
                   const category = this.getAttribute('data-category');
+                  const plato = this.getAttribute('data-plato');
 
                   const item = document.createElement('div');
                   item.classList.add('list-item');
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                           <h6 class="m-0">${name}</h6>
                                           <span class="text-white-50" style="font-size: 14px; font-weight: bold;">$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                 </div>
-                                <button data-category='${category}' class="btn btn-danger p-2   bg-black border-0 text-white-50 rounded-5 btn-sm ms-auto remove-item-btn" > Remover ${category} </button>
+                                <button data-plato='${plato}' data-category='${category}' class="btn btn-danger p-2   bg-black border-0 text-white-50 rounded-5 btn-sm ms-auto remove-item-btn" > Remover ${category} </button>
                         </div>
               `;
                   listChoice.appendChild(item);
@@ -167,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   const price = parseFloat(item.querySelector('span').textContent.replace('$', '').replace(',', ''));
                   const img = item.querySelector('img').src;
                   const category = item.querySelector('button').getAttribute('data-category');
-                  orderData.push({ name, price, img, category });
+                  const plato = item.querySelector('button').getAttribute('data-plato');
+                  orderData.push({ name, price, img, category, plato });
             });
 
             const form = document.createElement('form');
