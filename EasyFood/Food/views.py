@@ -72,7 +72,6 @@ class Restaurant(TemplateView):
                               plato=plato,
                               employee=request.user.employee_profile,
                               company=request.user.employee_profile.company,
-
                               )
                   orden.save()
                   print(orden.name)
@@ -112,15 +111,35 @@ class Configuration(TemplateView):
             return redirect(reverse('food:configuration'))
 
 
-
 class Despacho(TemplateView):
       template_name = "food/despacho/despacho.html"
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
+            category_id = self.request.GET.get('category')
+            company_id = self.request.GET.get('company')
+            status = self.request.GET.get('status')
+            
             orders = models.Order.objects.all()
+            if status:
+                  orders = orders.filter(status=status)
+            if category_id:
+                  orders = orders.filter(category_id=category_id)
+            if company_id:
+                  orders = orders.filter(company_id=company_id)
+                  
+            orders_by_company = {}
+            for order in orders:
+                  company_name = order.company.name
+                  if company_name not in orders_by_company:
+                        orders_by_company[company_name] = []
+                  orders_by_company[company_name].append(order)
 
-
-            context['orders'] = orders  # Pasar los pedidos filtrados al contexto
-            context['companys'] = models.Company.objects.filter(is_active=True)
+            context['orders_by_company'] = orders_by_company  # Pass the grouped orders to the context
+            # context['companies'] = models.Company.objects.filter(is_active=True)
+            context['companies'] = models.Company.objects.filter(
+                        is_active=True,
+                        orders_company__status__in=['pendiente', 'preparando', 'enviado']
+            ).distinct()
+            context['categories'] = models.Category.objects.all()
             return context

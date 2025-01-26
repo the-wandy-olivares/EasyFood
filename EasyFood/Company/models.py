@@ -227,8 +227,10 @@ class Order(models.Model):
       img = models.ImageField(upload_to='media/order/', null=True, blank=True)
 
       date = models.DateTimeField(auto_now_add=True)  # Fecha y hora del pedido
-      status = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'), ('preparando', 'En preparacion'),
-                                                        ('listo', 'En camino'), ('entregado', 'Entregado')], default='pendiente')
+      status = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),
+                                                      ('preparando', 'En preparacion'),
+                                                      ('enviado', 'En camino'),
+                                                      ('entregado', 'Entregado')], default='pendiente')
 
 
 

@@ -401,14 +401,25 @@ class Orders(TemplateView):
 
 
 class AllOrders(TemplateView):
-    model = models.Order
-    template_name = "company/order/all-orders.html"
-    context_object_name = "employee"
+      model = models.Order
+      template_name = "company/order/all-orders.html"
+      context_object_name = "employee"
 
-    def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['companys'] = models.Company.objects.filter(is_active=True)
-            return context
+      def get_context_data(self, **kwargs):
+                  context = super().get_context_data(**kwargs)
+                  context['companys'] = models.Company.objects.filter(is_active=True)
+                  return context
+      
+
+      def post(self, request, *args, **kwargs):
+            # Obtener los platos seleccionados desde el formulario (IDs de platos seleccionados)
+            if request.POST.get('company'):
+                  company = models.Company.objects.get(id=int(request.POST.get('company')))
+                  orders = models.Order.objects.filter(company=company)
+                  for order in orders:
+                        order.status = 'preparando'
+                        order.save()
+            return redirect(reverse('company:all-orders'))
 
 
 
