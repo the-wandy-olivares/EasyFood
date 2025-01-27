@@ -33,6 +33,7 @@ urlpatterns = [
                               path('update-plato/<int:pk>', views.UpdatePlato.as_view(), name='update-plato'),
                         path('desactivar-plato/<int:pk>', views.DesactivarPlato.as_view(), name='desactivar-plato'),
                   path('realize-order-company/<int:pk>', views.RealizeOrderCompany.as_view(), name='realize-order-company'),
+            path('enviar-order',  views.EnviarOrder.as_view(), name='enviar-order' ),
 
 # Finanzas 
       path('report', views.Report.as_view(), name='report'),

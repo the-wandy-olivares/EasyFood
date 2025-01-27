@@ -1,0 +1,57 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+<style>
+      .card-options   a {
+            text-decoration: none;
+      }
+      .card-options .card     {
+            width: 30rem; height: 14rem;
+            background-color: var(--bg-primary);
+            margin: 0.6rem; 
+            cursor: pointer;
+      }
+      .card-options .card:hover     {
+            /* transform: scale(0.9);  */
+            /* transition: 0.2s !important; */
+      }
+      .envios {
+                        background-color: var(--bg-primary) !important;
+                        color:  #857f94 !important;
+                        transform: scale(1.1);
+                  }
+      .envios  svg   {
+            display: none;
+      }
+
+
+</style>
+<h2>
+      Seleccione empresa
+</h2>
+<p>
+      Aquí puedes ver las órdenes que se han estanpreparando
+</p>
+
+<section class="card-options d-flex   flex-wrap  ">
+      {% if company %}
+            {% for c in company  %}
+                  <a href="{% url "company:realize-order-company"  c.id %}" >
+                        <div data-aos="fade-in" style="transition-delay: 0.2s;" class='card d-flex rounded-5 p-4'>
+                              <div>
+                                    {% if c.img %}
+                                    <img src="{{c.img.url}}" width='90'  height='90' class='object-fit-cover rounded-circle' alt="">
+                                    {% endif %}
+                                    <h4>
+                                          {{c.name}}
+                                    </h4>
+                              </div>
+                              <p>
+                                    {{c.address}}
+                              </p>
+                        </div>
+                  </a>
+            {% endfor %}
+      {% endif %}
+</section>
+
+{% endblock  %}

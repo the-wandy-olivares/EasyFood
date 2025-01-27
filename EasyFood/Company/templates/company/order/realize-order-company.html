@@ -2,6 +2,14 @@
 {% block content %}
 {% load humanize %}
 <style>
+      .envios {
+            background-color: var(--bg-primary) !important;
+            color:  #857f94 !important;
+            transform: scale(1.1);
+      }
+      .envios  svg   {
+            display: none;
+      }
       #map {
             height: 100%;
             width: 100%;
@@ -53,7 +61,7 @@
                                           </td>
                                             <td>{{ order.name|truncatechars:20 }}</td>
                                           <td> ${{ order.price|intcomma}}.00</td>
-                                          <td>{{ order.status }} sssss</td>
+                                          <td>{{ order.status }} </td>
                                     </tr>
                                     {% endfor %}
                               </tbody>
@@ -62,11 +70,11 @@
                         <div class="position-absolute bottom-0 end-0 mb-4 me-4">
                               
                               <form action="" method="post">
-                              <a href="{% url 'company:all-orders' %}" class="btn text-white-50"> Atras </a>
+                              <a href="{% url 'company:enviar-order' %}" class="esc btn text-white-50"> Atras </a>
                                     {% csrf_token %}
                                     <input type="hidden" name="end">
                                     <button class="btn btn-warning text-black rounded-5  " style="font-weight: bold;">
-                                          ${{total|intcomma}}.00   Concluir 
+                                          ${{total|intcomma}}.00   Entregar
                                     </button>
                               </form>
                         </div>

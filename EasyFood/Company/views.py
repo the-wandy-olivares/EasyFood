@@ -451,6 +451,18 @@ class AllOrders(TemplateView):
             return redirect(reverse('company:all-orders'))
 
 
+class EnviarOrder(TemplateView):
+      template_name = "company/order/enviar-order.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            # orders = models.Order.objects.filter(company= company, status='pendiente')
+            context['company'] =  models.Company.objects.filter(
+                        is_active=True,)
+            # context['orders'] = orders
+            # context['total'] = sum(order.plato.price for order in orders)
+            return context
+
 
 class RealizeOrderCompany(TemplateView):
       model = models.Company
@@ -460,32 +472,31 @@ class RealizeOrderCompany(TemplateView):
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             company = models.Company.objects.get(id=self.kwargs['pk'])
-            orders = models.Order.objects.filter(company= company, status='pendiente')
+            orders = models.Order.objects.filter(company= company, status='enviado')
             context['company'] = company
             context['orders'] = orders
-            context['total'] = sum(order.plato.price for order in orders)
+            context['total'] = sum(order.price for order in orders)
             return context
 
       # Obtener las órdenes pendientes de la compañía
       def post(self, request, *args, **kwargs):
-            orders = models.Order.objects.filter(company__id= self.kwargs['pk'], status='pendiente')
+            orders = models.Order.objects.filter(company__id= self.kwargs['pk'], status='enviado')
             company = models.Company.objects.get(id=self.kwargs['pk'])
             models.Movements(
-                  mount = sum(order.plato.price for order in orders),
+                  mount = sum(order.price for order in orders),
                   description= company.name + 'Ingreso por ordenes total de ordenes' + str(orders.count()), 
             )
             for order in orders:
-                  order.status = 'completado'
+                  order.status = 'entregado'
                   order.save()
                   models.Movements(
-                        name = order.plato.name,
+                        name = order.name,
                         company= company,
                         employee= order.employee,
-                        mount= order.plato.price,
+                        mount= order.price,
                         date= datetime.now(),
                         type_move='ingreso',
                   ).save()
-                  order.delete()
      
             return redirect(reverse('company:orders'))
       
