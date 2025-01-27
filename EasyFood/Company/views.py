@@ -144,6 +144,15 @@ class ProfileCompany(DetailView):
             context['total_pending'] = total_billed - total_paid  # Monto pendiente
             context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
 
+            company = models.Company.objects.get(id=self.kwargs['pk'])
+            orders = models.Order.objects.filter(company= company, status='entregado')
+            orders_p = models.Order.objects.filter(company= company, status='pendiente')
+            orders_e = models.Order.objects.filter(company= company, status='entregado')
+            orders_p_p = models.Order.objects.filter(company=company, status__in=['pendiente', 'preparando', 'enviado'])
+
+            context['total'] = sum(order.price for order in orders)
+            context['total_pendiente'] = sum(order.price for order in orders_p_p)
+            context['total_entregado'] = sum(order.price for order in orders_e)
             return context
 
       def form_valid(self, form):
@@ -473,9 +482,9 @@ class RealizeOrderCompany(TemplateView):
             context = super().get_context_data(**kwargs)
             company = models.Company.objects.get(id=self.kwargs['pk'])
             orders = models.Order.objects.filter(company= company, status='enviado')
+            context['total'] = sum(order.price for order in orders)
             context['company'] = company
             context['orders'] = orders
-            context['total'] = sum(order.price for order in orders)
             return context
 
       # Obtener las órdenes pendientes de la compañía

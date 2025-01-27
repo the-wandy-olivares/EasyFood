@@ -213,6 +213,32 @@
             {% endif %}
       </ul>
 </div>
+<div>
+
+
+
+<section class="w-100 rounded-5 p-3 mt-3 position-relative" style="background-color: var(--bg-prim);">
+      <h4 class="text-white-50">Resumen de Facturación</h4>
+      <table class="table table-striped table-dark">
+            <thead>
+                  <tr>
+                        <th scope="col">Total Facturado</th>
+                        <th scope="col">Total Pagado</th>
+                        <th scope="col">Total Pendiente</th>
+                  </tr>
+            </thead>
+            <tbody>
+                  <tr>
+                        <td> ${{ total|intcomma }}</td>
+                        <td> ${{ total_entregado|intcomma }}</td>
+                        <td> ${{ total_pendiente|intcomma }}</td>
+                  </tr>
+            </tbody>
+      </table>
+</section>
+
+
+</div>
 <style>
       .dropdown-menu {
             border-radius: 1rem;
