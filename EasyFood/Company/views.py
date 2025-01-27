@@ -5,6 +5,7 @@ import json
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DetailView, ListView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
@@ -436,15 +437,14 @@ class AllOrders(TemplateView):
             return context
       
 
-      # def post(self, request, *args, **kwargs):
-      #       # Obtener los platos seleccionados desde el formulario (IDs de platos seleccionados)
-      #       if request.POST.get('company'):
-      #             company = models.Company.objects.get(id=int(request.POST.get('company')))
-      #             orders = models.Order.objects.filter(company=company)
-      #             for order in orders:
-      #                   order.status = 'preparando'
-      #                   order.save()
-      #       return redirect(reverse('company:all-orders'))
+      def post(self, request):
+            # Obtener los platos seleccionados desde el formulario (IDs de platos seleccionados)
+            if request.POST.getlist('ids[]'):
+                  orders = models.Order.objects.filter(id__in=request.POST.getlist('ids[]'))
+                  for order in orders:
+                        order.status = 'preparando'
+                        order.save()
+            return redirect(reverse('company:all-orders'))
 
 
 

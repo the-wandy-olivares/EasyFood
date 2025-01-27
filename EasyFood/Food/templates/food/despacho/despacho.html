@@ -25,7 +25,8 @@
       <div class="w-100">
             <div class='d-flex justify-content-end align-items-center'>
                   <button onclick="toggleAllColors()" class='btn bg-white bg-opacity-10 text-white me-1 rounded-start-4'>Seleccionados<span class='count-select'> (0) </span></button> 
-                  <button class='send-button btn bg-primary d-none rounded-end-4 text-white '>
+                  <button class='send-button btn bg-primary d-none rounded-end-4 text-white '
+                  onclick="getSelectedIds()">
                         Despachar
                   </button> 
             </div>
@@ -44,32 +45,6 @@
                               <th style="width: 15%;">Fecha</th>
                               <th style="width: 10%;">Estado</th>
                               <th style="width: 5%;" onclick='toggleAllColors()'>Acciones</th>
-                        <script>
-                              let count = 0;    
-                              const sendButton = document.querySelector('.send-button');
-                              function toggleAllColors() {
-                                    const buttons = document.querySelectorAll('.select');
-                                    buttons.forEach(button => {
-                                                  if (button.classList.contains('bg-black')) {
-                                                            button.classList.remove('bg-black');
-                                                            button.classList.add('bg-primary');
-                                                            count++;
-                                                  } else {
-                                                            button.classList.remove('bg-primary');
-                                                            button.classList.add('bg-black');
-                                                  }
-                                          });
-                                          document.querySelector('.count-select').textContent = `(${count})`;
-                                          
-                                       
-                                          if (count > 0) {
-                                                        sendButton.classList.remove('d-none');
-                                          } else {
-                                                        sendButton.classList.add('d-none');
-                                          }
-                                    count = 0;
-                                }
-                        </script>
                         </tr>
                   </thead>
                   <tbody>
@@ -98,7 +73,7 @@
                               </td>
                               <td>
                                     {% if order.status == 'preparando' %}
-                                    <button class="badge  border-0 text-white {% if order.status != 'enviado' %}select{% endif %} bg-black rounded-5" style="font-weight: bold;" onclick="toggleColor(this)">
+                                    <button data-id="{{order.id}}" class="badge  border-0 text-white {% if order.status != 'enviado' %}select{% endif %} bg-black rounded-5" style="font-weight: bold;" onclick="toggleColor(this)">
                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                                                 <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486z"/>
                                               </svg>
@@ -137,4 +112,37 @@
       <p> Ups!, no hay órdenes registradas</p>
       {% endif %}
 </section>
+<script>
+      let count = 0;    
+      const sendButton = document.querySelector('.send-button');
+      function toggleAllColors() {
+            const buttons = document.querySelectorAll('.select');
+            buttons.forEach(button => {
+                          if (button.classList.contains('bg-black')) {
+                                    button.classList.remove('bg-black');
+                                    button.classList.add('bg-primary');
+                                    count++;
+                          } else {
+                                    button.classList.remove('bg-primary');
+                                    button.classList.add('bg-black');
+                          }
+                  });
+                  document.querySelector('.count-select').textContent = `(${count})`;
+                  
+               
+                  if (count > 0) {
+                                sendButton.classList.remove('d-none');
+                  } else {
+                                sendButton.classList.add('d-none');
+                  }
+            count = 0;
+        }
+      function getSelectedIds() {
+            const selectedButtons = document.querySelectorAll('.select.bg-primary');
+            const selectedIds = Array.from(selectedButtons).map(button => button.getAttribute('data-id'));
+            console.log(selectedIds);
+            return selectedIds;
+      }
+
+</script>
 {% endblock %}

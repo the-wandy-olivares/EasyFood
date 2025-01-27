@@ -21,6 +21,13 @@
             background-color: transparent !important;
             margin-right: 0.3rem
       }
+      .no-select {
+            -webkit-user-select: none; /* Para navegadores basados en WebKit (Chrome, Safari) */
+            -moz-user-select: none;    /* Para Firefox */
+            -ms-user-select: none;     /* Para versiones antiguas de Edge/IE */
+            user-select: none;         /* Estándar */
+          }
+        
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +35,7 @@
 
 {% if user.is_authenticated %}
 
-<section>
+<section >
       <div class="d-flex justify-content-center flex-wrap position-relative">
             {% if not request.user.restaurant %}
                   <a href="{% url "company:profile-company"  request.user.employee_profile.company.id %}" 
@@ -231,4 +238,9 @@ listLinks.forEach(link => {
                   svg.classList.remove('d-none');
       });
 });
+document.addEventListener('selectstart', (event) => {
+      event.preventDefault(); // Bloquea la selección de texto
+    });
+
+
 </script>
