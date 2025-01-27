@@ -62,7 +62,12 @@
 
 </style>
 <section class="w-100">
-    
+      <h2>
+            Todas las ordenes
+      </h2>
+      <p>
+            Aqui se mostraran todas las ordenes que han sido realizadas por los clientes de cada empresa
+      </p>
 
       {% include 'company/order/cp/filter.html' %}
 
@@ -80,27 +85,47 @@
             </div>
       </div>
       {% if orders_by_company %}
-      <div class="w-100">
-            {% for company , company_orders in orders_by_company.items %}
-            <h2 class='mt-5'> {{ company }}</h2> 
+      {% for company, company_data in orders_by_company.items %}
+      <div  class=" company_orders w-100 p-0 mt-3  rounded-4 position-relative overflow-hidden" 
+            style="background-color: var(--bg-primary); 
+            height: 11rem;
+             border: 20px solid var(--bg-primary);">
+            {% if company_data.orders|length > 1 %}
+             <svg xmlns="http://www.w3.org/2000/svg" onclick='Expand()' width="20" height="20" fill="currentColor" class="bi bi-arrows-angle-expand  position-absolute top-0 end-0 me-2 mt-2" viewBox="0 0 16 16" style='cursor: pointer;'>
+                  <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"/>
+                </svg>
+
+                <svg xmlns="http://www.w3.org/2000/svg" onclick='Expand()' width="20" height="20" fill="currentColor" class="bi bi-arrows-angle-contract d-none  position-absolute top-0 end-0 me-2 mt-2" viewBox="0 0 16 16"  style='cursor: pointer;'>
+                  <path fill-rule="evenodd" d="M.172 15.828a.5.5 0 0 0 .707 0l4.096-4.096V14.5a.5.5 0 1 0 1 0v-3.975a.5.5 0 0 0-.5-.5H1.5a.5.5 0 0 0 0 1h2.768L.172 15.121a.5.5 0 0 0 0 .707M15.828.172a.5.5 0 0 0-.707 0l-4.096 4.096V1.5a.5.5 0 1 0-1 0v3.975a.5.5 0 0 0 .5.5H14.5a.5.5 0 0 0 0-1h-2.768L15.828.879a.5.5 0 0 0 0-.707"/>
+                </svg>
+                {% endif %}
+            <div class='d-flex mb-3  ' >
+                  <img src="{{ company_data.img }}" alt="{{ company }}" style="width: 30px; height: 30px; border-radius: 50%;">
+                  <h4 class='ms-2 '> {{ company }} </h4> 
+            </div>
             <table>
                   <thead>
                         <tr>
+                              <th style="width: 2%;">
+                                    <strong class='badge  bg-black d-flex justify-content-center align-content-center flex-wrap  rounded-circle' 
+                                    style='width: 25px; height: 25px;'>  {{company_data.orders|length}}</strong> 
+                              </th>
                               <th style="width: 20%;">Nombre del Plato</th>
                               <th style="width: 15%;">Tipo de menu</th>
                               <th style="width: 15%;">Precio</th>
                               <th style="width: 15%;">Fecha</th>
                               <th style="width: 10%;">Estado</th>
-                              <th style="width: 5%;" onclick='toggleAllColors()'>Acciones</th>
+                              <th style="width: 5%;" onclick='toggleAllColors()'>Seleccion</th>
                         </tr>
                   </thead>
                   <tbody>
-                        {% for order in company_orders %}
+                        {% for order in company_data.orders %}
                         <tr id='d{{order.id}}'>
+                              <td>  </td>
                               <td>{{ order.name }}</td>
                               <td>{{ order.category }}</td>
-                              <td>${{ order.price|intcomma }}</td>
-                              <td>{{ order.date|date:"m-d-Y" }} - {{ order.date|date:"h:i A" }}</td>
+                              <td>DOP${{ order.price|intcomma }}.00</td>
+                              <td>{{ order.date|date:"m/d/Y" }} - {{ order.date|date:"h:i A" }}</td>
                               <td>
                               {% if order.status == 'pendiente' %}
                                     <span class="badge bg-danger  text-white rounded-5"          
@@ -132,18 +157,24 @@
                                                       element.classList.add('bg-primary');
                                                       count++;
                                                 } else {
+                                                      count--;
                                                       element.classList.remove('bg-primary');
                                                       element.classList.add('bg-black');
                                                 }
-
+                                                
                                                 const buttons = document.querySelectorAll('.select.bg-primary');
                                                 document.querySelector('.count-select').textContent = `(${buttons.length})`;
-
-                                                if (buttons.length > 0) {
-                                                              sendButton.classList.remove('d-none');
+                                                if (count > 0) {
+                                                      sendButton.disabled = false;
+                                                      sendButton.classList.add('bg-primary');
+                                                      sendButton.classList.remove('bg-white', 'bg-opacity-10');
                                                 } else {
-                                                              sendButton.classList.add('d-none');
+                                                      sendButton.disabled = true;
+                                                      sendButton.classList.remove('bg-primary' );
+                                                      sendButton.classList.add('bg-white', 'bg-opacity-10');
+                                                      
                                                 }
+                                    
                                           }
                                     </script>
                               </td>
@@ -151,10 +182,10 @@
                         {% endfor %}
                   </tbody>
             </table>
-            {% endfor %}
       </div>
+            {% endfor %}
       {% else %}
-                  <div class="text-center vh-100 d-flex align-content-center flex-wrap justify-content-center pb-5 " >
+                  <div class="text-center h-100 mt-5 pt-5  d-flex align-content-center flex-wrap justify-content-center pb-5 " >
                   
                         <h5 class='w-100'>
                               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
@@ -173,7 +204,9 @@
 <script>
       let count = 0;    
       const sendButton = document.querySelector('.send-button');
-      function toggleAllColors() {
+      function toggleAllColors(e) {
+            document.querySelector(('#filter')).classList.toggle( 'bg-opacity-50');
+            ;
             const buttons = document.querySelectorAll('.select');
             buttons.forEach(button => {
                           if (button.classList.contains('bg-black')) {
@@ -181,6 +214,7 @@
                                     button.classList.add('bg-primary');
                                     count++;
                           } else {
+                              count--;
                                     button.classList.remove('bg-primary');
                                     button.classList.add('bg-black');
                           }
@@ -198,7 +232,7 @@
                         sendButton.classList.add('bg-white', 'bg-opacity-10');
 
                     }
-            count = 0;
+
         }
       function getSelectedIds() {
             const selectedButtons = document.querySelectorAll('.select.bg-primary');
@@ -249,6 +283,29 @@
             
                   }, 600);
             }, 1500);
+      }
+      function Expand() {
+
+            const expandIcons = document.querySelectorAll('.bi-arrows-angle-expand');
+            const contractIcons = document.querySelectorAll('.bi-arrows-angle-contract');
+
+            expandIcons.forEach(icon => {
+                  icon.addEventListener('click', function() {
+                        const parentOrder = this.closest('.company_orders');
+                        parentOrder.style.height = 'auto';
+                        this.classList.add('d-none');
+                        this.nextElementSibling.classList.remove('d-none');
+                  });
+            });
+
+            contractIcons.forEach(icon => {
+                  icon.addEventListener('click', function() {
+                        const parentOrder = this.closest('.company_orders');
+                        parentOrder.style.height = '11rem';
+                        this.classList.add('d-none');
+                        this.previousElementSibling.classList.remove('d-none');
+                  });
+            });
       }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

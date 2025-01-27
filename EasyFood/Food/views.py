@@ -119,8 +119,13 @@ class Despacho(TemplateView):
             category_id = self.request.GET.get('category')
             company_id = self.request.GET.get('company')
             status = self.request.GET.get('status')
-            
+
             orders = models.Order.objects.all()
+            if status ==  None:
+                  status = 'preparando'
+                  orders = orders.filter(status=status)
+
+
             if status:
                   orders = orders.filter(status=status)
             if category_id:
@@ -131,15 +136,19 @@ class Despacho(TemplateView):
             orders_by_company = {}
             for order in orders:
                   company_name = order.company.name
+                  company_img = order.company.img.url if order.company.img else None
                   if company_name not in orders_by_company:
-                        orders_by_company[company_name] = []
-                  orders_by_company[company_name].append(order)
+                              orders_by_company[company_name] = {
+                                    'orders': [],
+                                    'img': company_img
+                              }
+                  orders_by_company[company_name]['orders'].append(order)
 
             context['orders_by_company'] = orders_by_company  # Pass the grouped orders to the context
             # context['companies'] = models.Company.objects.filter(is_active=True)
             context['companies'] = models.Company.objects.filter(
                         is_active=True,
-                        orders_company__status__in=['pendiente', 'preparando', 'enviado']
+                        orders_company__status__in=[ 'preparando', 'enviado']
             ).distinct()
             context['categories'] = models.Category.objects.all()
             return context

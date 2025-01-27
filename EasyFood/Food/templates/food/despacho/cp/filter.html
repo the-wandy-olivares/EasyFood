@@ -1,4 +1,4 @@
-<div class="d-flex mb-3">
+<div class="d-flex  w-100 justify-content-end mt-5">
       <form method="GET" action="" class="me-2">
             <select name="category" class="  rounded-start-4 form-select bg-white bg-opacity-10 border-0 text-white"    onchange="this.form.submit()">
                   <option value="">Todas las Categorías</option>
@@ -19,8 +19,6 @@
       </form>
       <form method="GET" action="" class="me-2">
             <select name="status" class="   form-select bg-white bg-opacity-10 border-0 text-white" onchange="this.form.submit()">
-                  <option value="">Todos los Estados</option>
-                  <option value="pendiente" {% if request.GET.status == 'pendiente' %}selected{% endif %}>Pendiente</option>
                   <option value="preparando" {% if request.GET.status == 'preparando' %}selected{% endif %}>En preparación</option>
                   <option value="enviado" {% if request.GET.status == 'enviado' %}selected{% endif %}>En camino</option>
                   <option value="entregado" {% if request.GET.status == 'entregado' %}selected{% endif %}>Entregado</option>
@@ -30,14 +28,14 @@
       </form>
 
       <button 
-      onclick="toggleAllColors()"
+      onclick="toggleAllColors()" id="filter"
        class=' border-0 pe-3 ps-3 rounded-2 me-2 bg-white bg-opacity-10 text-white me-1  '>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-circle-fill" viewBox="0 0 16 16">
                   <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M3.5 5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1M5 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
                 </svg>
-            <span class='count-select'> (0) </span></button> 
+          </button> 
       <button class='send-button border-0 ps-3 pe-3 rounded-2 bg-white bg-opacity-10 rounded-end-4 text-white border-0 ' 
       style='font-weight: bold;' onclick="sendSelectedIds()" disabled=true> 
-            Enviar al despacho
+            Enviar   <span class='count-select'> (0) </span>
       </button> 
 </div>

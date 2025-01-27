@@ -422,16 +422,20 @@ class AllOrders(TemplateView):
                   
             orders_by_company = {}
             for order in orders:
-                  company_name = order.company.name
-                  if company_name not in orders_by_company:
-                        orders_by_company[company_name] = []
-                  orders_by_company[company_name].append(order)
+                    company_name = order.company.name
+                    company_img = order.company.img.url if order.company.img else None
+                    if company_name not in orders_by_company:
+                              orders_by_company[company_name] = {
+                                      'orders': [],
+                                      'img': company_img
+                              }
+                    orders_by_company[company_name]['orders'].append(order)
 
             context['orders_by_company'] = orders_by_company  # Pass the grouped orders to the context
             # context['companies'] = models.Company.objects.filter(is_active=True)
             context['companies'] = models.Company.objects.filter(
                         is_active=True,
-                        orders_company__status__in=['pendiente', 'preparando', 'enviado']
+                        orders_company__status__in=['pendiente', ]
             ).distinct()
             context['categories'] = models.Category.objects.all()
             return context
