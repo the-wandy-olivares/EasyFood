@@ -17,25 +17,67 @@
             width: 15rem;
             color: white;
       }
+      .fade-down {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+
+      .fade-up {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+
+      }
+      @keyframes fadeInDown {
+            0% {
+                  opacity: 0;
+                  transform: translateY(-20px);
+            }
+            100% {
+                  opacity: 1;
+                  transform: translateY(0);
+            }
+      }
+
+      @keyframes fadeOutUp {
+            0% {
+                  opacity: 1;
+                  transform: translateY(0);
+            }
+            100% {
+                  opacity: 0;
+                  transform: translateY(-20px);
+            }
+      }
+
+      .fade-down {
+            animation: fadeInDown 0.3s ease-out forwards;
+      }
+
+      .fade-up {
+            animation: fadeOutUp 0.3s ease-in forwards;
+      }
 </style>
 <section class="w-100">
       {% include 'food/despacho/cp/filter.html' %}
-      
+      <div data-aos='fade-down' class=' exito d-none position-absolute top-0 bg-white bg-opacity-10  end-0    text-white p-3  blur-20 '
+      style='margin-top: 0rem; width: 100%; transition: 0.6s; border-top-left-radius: 2rem;  border-bottom-left-radius: 2rem; border-top-right-radius: 2rem; border-bottom-right-radius: 2rem; !important'>
+      <div  class="alert ">
+            <strong class='text-white' style='font-size:25px;'>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                        <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486z"/>
+                      </svg>  Se despacharon <span class='count-depacho'></span>
+            </strong>
+            <p class='text-white mt-3'> 
+                  Las órdenes seleccionadas se han despachado correctamente, la puedes encontrar en envios lista para ser entregadas.
+            </p>
+      </div>
+</div>
       {% if orders_by_company %}
       <div class="w-100">
-            <div class='d-flex justify-content-end align-items-center'>
-                  <button onclick="toggleAllColors()" class='btn bg-white bg-opacity-10 text-white me-1 rounded-start-4'>Seleccionados<span class='count-select'> (0) </span></button> 
-                  <button class='send-button btn bg-primary d-none rounded-end-4 text-white '
-                  onclick="getSelectedIds()">
-                        Despachar
-                  </button> 
-            </div>
-            
             {% for company, company_orders in orders_by_company.items %}
-            <h2 class='mt-5'> {{ company }}      
-                
-            </h2> 
-     
+            <h2 class='mt-5'> {{ company }}</h2> 
             <table>
                   <thead>
                         <tr>
@@ -49,7 +91,7 @@
                   </thead>
                   <tbody>
                         {% for order in company_orders %}
-                        <tr>
+                        <tr id='d{{order.id}}'>
                               <td>{{ order.name }}</td>
                               <td>{{ order.category }}</td>
                               <td>${{ order.price|intcomma }}</td>
@@ -128,21 +170,71 @@
                           }
                   });
                   document.querySelector('.count-select').textContent = `(${count})`;
+                  document.querySelector('.count-depacho').textContent = `(${count})`;
                   
                
                   if (count > 0) {
-                                sendButton.classList.remove('d-none');
+                        sendButton.disabled = false;
+                        sendButton.classList.add('bg-primary');
+                        sendButton.classList.remove('bg-white', 'bg-opacity-10');
                   } else {
-                                sendButton.classList.add('d-none');
-                  }
+                        sendButton.disabled = true;
+                        sendButton.classList.remove('bg-primary' );
+                        sendButton.classList.add('bg-white', 'bg-opacity-10');
+
+                    }
             count = 0;
         }
       function getSelectedIds() {
             const selectedButtons = document.querySelectorAll('.select.bg-primary');
             const selectedIds = Array.from(selectedButtons).map(button => button.getAttribute('data-id'));
-            console.log(selectedIds);
             return selectedIds;
       }
+      function sendSelectedIds() {
+            const selectedButtons = document.querySelectorAll('.select.bg-primary');
+            const selectedIds = Array.from(selectedButtons).map(button => {
+                  document.querySelector('#d'+button.getAttribute('data-id')).remove();
+                  return button.getAttribute('data-id');
+            });
 
+            const url = window.location.href;
+            $.ajax({
+                  type: 'POST',
+                  url: url,
+                  data: {
+                        ids: selectedIds,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  success: function(data) {
+                        console.log('Success:', data);
+                        showSuccessMessage()
+                        sendButton.disabled = true;
+
+
+                  },
+                  error: function(error) {
+                        console.error('Error:', error);
+                  }
+            });
+      }
+
+      function showSuccessMessage() {
+            const successMessage = document.querySelector('.exito');
+            successMessage.classList.remove('d-none');
+            successMessage.classList.remove('fade-up');
+            successMessage.classList.add('fade-down');
+
+            setTimeout(function() {
+                  successMessage.classList.add('fade-up');
+                  successMessage.classList.remove('fade-down');
+                  sendButton.classList.remove('bg-primary' );
+                  sendButton.classList.add('bg-white', 'bg-opacity-10');
+                  setTimeout(function() {
+                        successMessage.classList.add('d-none');
+            
+                  }, 600);
+            }, 1500);
+      }
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock %}

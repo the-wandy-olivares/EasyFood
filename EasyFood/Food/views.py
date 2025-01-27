@@ -143,3 +143,13 @@ class Despacho(TemplateView):
             ).distinct()
             context['categories'] = models.Category.objects.all()
             return context
+      
+
+      def post(self, request):
+      # Obtener los platos seleccionados desde el formulario (IDs de platos seleccionados)
+            if request.POST.getlist('ids[]'):
+                  orders = models.Order.objects.filter(id__in=request.POST.getlist('ids[]'))
+                  for order in orders:
+                        order.status = 'enviado'
+                        order.save()
+            return redirect(reverse('food:despacho'))
