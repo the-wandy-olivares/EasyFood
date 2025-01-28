@@ -57,7 +57,7 @@
                                     <tr>
                                           <td>{{ forloop.counter }}</td>
                                           <td> 
-                                                <img src="{{ order.plato.img.url }}" width="40" height="40" class="object-fit-cover rounded-circle mt-2" alt="" srcset=""> 
+                                                <img src="{{ order.plato.img.url }}" width="40" height="40" class="object-fit-cover rounded-circle mt-2"  > 
                                           </td>
                                             <td>{{ order.name|truncatechars:20 }}</td>
                                           <td> ${{ order.price|intcomma}}.00</td>

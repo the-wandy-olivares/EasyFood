@@ -25,15 +25,15 @@
 
 
 </style>
+{% if company %}
 <h2>
       Seleccione empresa
 </h2>
 <p>
       Aquí puedes ver las órdenes que se han estanpreparando
 </p>
-
 <section class="card-options d-flex   flex-wrap  ">
-      {% if company %}
+
               {% for company, company_data in company.items %}
                   <a  href="{% url "company:realize-order-company"  company_data.id %}">
                         <div data-aos="fade-in" style="transition-delay: 0.2s;" class='card d-flex rounded-5 p-4'>
@@ -52,8 +52,17 @@
                         </div>
                   </a>
             {% endfor %}
+      </section>
+            {% else %}
+            <div class="d-flex vh-100 text-center justify-content-center align-content-center flex-wrap"> 
+                  <h5 class='w-100'>
+                        No hay despachos
+                  </h5>
+                   <p class='text-white-50'> 
+                        Los despachos pasan al envio
+                   </p>
+            </div>
       {% endif %}
-</section>
 
 {% endblock  %}
 <!-- href="{% url "company:realize-order-company"  c.id %}" -->

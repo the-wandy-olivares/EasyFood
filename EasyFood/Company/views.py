@@ -468,7 +468,6 @@ class EnviarOrder(TemplateView):
             # orders = models.Order.objects.filter(company= company, status='pendiente')
             # context['company'] =  models.Company.objects.filter(
             #             is_active=True, orders_company__status='enviado')
-            
 
             orders = models.Order.objects.filter(status='enviado')
             orders_by_company = {}
@@ -524,7 +523,7 @@ class RealizeOrderCompany(TemplateView):
                         type_move='ingreso',
                   ).save()
      
-            return redirect(reverse('company:orders'))
+            return redirect(reverse('company:enviar-order'))
       
 
 
