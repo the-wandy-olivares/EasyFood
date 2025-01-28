@@ -129,9 +129,6 @@ class ProfileCompany(DetailView):
             context = super().get_context_data(**kwargs)
             company = self.object  # Obtener la empresa actual
 
-            # Agrupar menús por día
-
-
             # Obtener empleados activos en la empresa
             context['employee'] = models.Employee.objects.filter(company=company)
             context['count'] = models.Employee.objects.filter(company=company, is_active=True).count()
@@ -157,7 +154,6 @@ class ProfileCompany(DetailView):
 
       def form_valid(self, form):
             company = form.save()
-            
             return super().form_valid(form)
 
       def get(self, request, *args, **kwargs):
@@ -470,8 +466,25 @@ class EnviarOrder(TemplateView):
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             # orders = models.Order.objects.filter(company= company, status='pendiente')
-            context['company'] =  models.Company.objects.filter(
-                        is_active=True,)
+            # context['company'] =  models.Company.objects.filter(
+            #             is_active=True, orders_company__status='enviado')
+            
+
+            orders = models.Order.objects.filter(status='enviado')
+            orders_by_company = {}
+            for order in orders:
+                    company_name = order.company.name
+                    company_img = order.company.img.url if order.company.img else None
+                    company_id =order.company.id
+                    if company_name not in orders_by_company:
+                              orders_by_company[company_name] = {
+                                      'orders': [],
+                                      'img': company_img,
+                                      'id': company_id,
+                              }
+                    orders_by_company[company_name]['orders'].append(order)
+
+            context['company'] = orders_by_company  # Pass the grouped orders to the context
             # context['orders'] = orders
             # context['total'] = sum(order.plato.price for order in orders)
             return context

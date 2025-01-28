@@ -5,7 +5,7 @@
             text-decoration: none;
       }
       .card-options .card     {
-            width: 30rem; height: 14rem;
+            width: 16rem; height: 16rem;
             background-color: var(--bg-primary);
             margin: 0.6rem; 
             cursor: pointer;
@@ -34,20 +34,21 @@
 
 <section class="card-options d-flex   flex-wrap  ">
       {% if company %}
-            {% for c in company  %}
-                  <a href="{% url "company:realize-order-company"  c.id %}" >
+              {% for company, company_data in company.items %}
+                  <a  href="{% url "company:realize-order-company"  company_data.id %}">
                         <div data-aos="fade-in" style="transition-delay: 0.2s;" class='card d-flex rounded-5 p-4'>
-                              <div>
-                                    {% if c.img %}
-                                    <img src="{{c.img.url}}" width='90'  height='90' class='object-fit-cover rounded-circle' alt="">
+                              <div class="d-flex justify-content-center">
+                                    {% if company_data.img %}
+                                    <img src="{{company_data.img}}" width='150'  height='150' class='object-fit-cover rounded-circle' >
                                     {% endif %}
-                                    <h4>
-                                          {{c.name}}
-                                    </h4>
                               </div>
-                              <p>
-                                    {{c.address}}
-                              </p>
+                              <h4 class="mt-3 text-center">
+                                    {{company|truncatechars:10}} 
+                              </h4>
+                              <div class="position-absolute d-flex justify-content-center align-content-center flex-wrap top-0 end-0 text-white me-3 mt-3"
+                                    style="font-size: 16px; background-color: var(--bg-secundary); width: 30px; height: 30px; border-radius: 50%; font-weight: bold;">
+                                    {{ company_data.orders|length}}
+                              </div>
                         </div>
                   </a>
             {% endfor %}
@@ -55,3 +56,4 @@
 </section>
 
 {% endblock  %}
+<!-- href="{% url "company:realize-order-company"  c.id %}" -->
