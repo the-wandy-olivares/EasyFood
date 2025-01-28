@@ -147,7 +147,7 @@ class ProfileCompany(DetailView):
             company = models.Company.objects.get(id=self.kwargs['pk'])
             orders = models.Order.objects.filter(company= company, status='entregado')
             orders_p = models.Order.objects.filter(company= company, status='pendiente')
-            orders_e = models.Order.objects.filter(company= company, status='entregado')
+            orders_e = models.Order.objects.filter(company= company, status='enviado')
             orders_p_p = models.Order.objects.filter(company=company, status__in=['pendiente', 'preparando', 'enviado'])
 
             context['total'] = sum(order.price for order in orders)

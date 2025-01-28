@@ -24,15 +24,15 @@
             </p>
             {% comment %} <a href="{% url 'create_contract' %}" class="btn btn-success mb-3">Crear Nuevo Contrato</a> {% endcomment %}
             
-            <input type="text" placeholder="Buscardo avanzado" class="position-absolute top-0 end-0 me-5 mt-5 p-2 border-0 text-center text-white-50" 
+            {% comment %} <input type="text" placeholder="Buscardo avanzado" class="position-absolute top-0 end-0 me-5 mt-5 p-2 border-0 text-center text-white-50" 
             style="border-radius: 1.5rem; height: 2.8rem; width: 15rem; background-color: var(--bg-primary);
-            outline: none;">
+            outline: none;"> {% endcomment %}
 
             <table class="w-100">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>  </th>
+                  {% comment %} <th>#</th> {% endcomment %}
+                  <th> #  </th>
                   <th>Cliente o empresa</th>
                   <th>Servicio</th>
                   <th>Horario de Entrega</th>
@@ -46,7 +46,7 @@
               <tbody>
                 {% for contract in contratos %}
                 <tr>
-                  <td>{{ forloop.counter }}</td>
+                  {% comment %} <td>{{ forloop.counter }}</td> {% endcomment %}
                   <td>
                     {% if  contract.company.img %}
                       <div class="d-flex align-items-center">
