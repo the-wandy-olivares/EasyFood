@@ -8,10 +8,13 @@ urlpatterns = [
 
 # Administracion de compañias
       path('admin-company', views.AdminCompany.as_view(), name='admin-company'),
-            path('create-company', views.CreateCompany.as_view(), name='create-company'),
+            path('create-company/<int:pk>', views.CreateCompany.as_view(), name='create-company'),
                   path('update-company/<int:pk>', views.UpdateCompany.as_view(), name='update-company'),
                         path('profile-company/<int:pk>', views.ProfileCompany.as_view(), name='profile-company'),
                   
+
+      path('create-user/', views.CreateUser.as_view(), name='create-user'),
+            
 #Administracion empleados
       path('create-employee/<int:pk>', views.CreateEmploye.as_view(), name='create-employee'),
             path('update-employe/<int:pk>', views.UpdateEmploye.as_view(), name='update-employee'),

@@ -71,7 +71,7 @@ class Employee(models.Model):
       )
       
       company = models.ForeignKey( 'Company', on_delete=models.CASCADE, 
-      related_name='employee', verbose_name='Company', blank=True)
+      related_name='employee', verbose_name='Company', blank=True, null=True)
       username = models.CharField(default='', max_length=80, blank=True)
       password = models.CharField(max_length=100, blank=True)
       first_name = models.CharField(max_length=255, verbose_name="Nombre", blank=True)
@@ -87,7 +87,7 @@ class Employee(models.Model):
             verbose_name_plural = "Employees"
 
       def __str__(self):
-            return f"{self.first_name} {self.last_name} "
+            return f"{self.user.username} {self.last_name} "
 
 
 class GlobalMenu(models.Model):

@@ -79,6 +79,9 @@ class CreateCompany(CreateView):
       def form_valid(self, form):            
             form.instance.restaurant = self.request.user.restaurant
             form.save()
+            employe = models.Employee.objects.get(id=self.kwargs.get('pk'))
+            employe.company = form.instance
+            employe.save()
             # Agrega lógica adicional aquí si es necesario
             return super().form_valid(form)
 
@@ -888,6 +891,38 @@ class DeleteAccount(DeleteView):
             print(form.errors)  # Imprime los errores del formulario
             return super().form_invalid(form)
 
+
+
+
+class CreateUser(CreateView):
+      model = models.Employee
+      form_class = forms.Employee
+      template_name = "company/user/create-user.html"  # Tu plantilla personalizada
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+            
+      def form_valid(self, form):
+            form.instance.company = None
+            form.instance.role = 'representante'
+            form.instance.first_name  = 'Userio' + str(random.randint(0, 1000))
+            form.instance.is_active = True
+            user  = User(
+                  username= form.instance.email,
+                  email= form.instance.email,
+            )
+            # Establecer la clave del usuario
+            password = form.instance.password # Reemplázalo por la clave que necesites
+            user.set_password(password)
+            user.save()
+            
+            form.instance.user = user
+            form.save()
+            return super().form_valid(form)
+
+      def get_success_url(self):
+            return reverse_lazy('company:create-company', kwargs={'pk': self.object.id})
 
 
 def Logout(request):
