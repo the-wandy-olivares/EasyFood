@@ -52,6 +52,14 @@
                   width: 1rem;
             }
       </style>
+      <section class="sec text-center position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-10  blur-20 d-flex justify-content-center align-content-center flex-wrap d-none">
+                  <h6 class="w-100 text-white" style="font-size: 25px; font-weight: bold;">
+                        Ups!, parece que te falta algo
+                  </h6>
+                  <p>
+                        Por favor rellena todos los campos, asegurate que los campos de correo terminen en @gmail.com
+                  </p>
+      </section>
       <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="d-flex justify-content-center align-content-center flex-wrap vh-100 ">
@@ -72,6 +80,7 @@
                                     Ingrese los datos legales de la empresa
                               </p>
                         </div>
+
                         <div class="d-flex">
                               {{form.name}}
                               {{form.tax_id}} 
@@ -90,8 +99,6 @@
                               {{form.address}}
                         </div>
                         
-                        
-                        
                    
                         <div class="w-100 ps-3 mt-4">
                               <h6 class="p-0 m-0">
@@ -108,32 +115,21 @@
                        <div class="d-flex">
                         {{form.contact_representante}} {{form.dni}}
                        </div>
-                
-
-                        <!-- <h6 class="w-100 text-start m-0 p-0 mt-3">
-                              Servicios a contratar
-                        </h6> -->
-                        <!-- <p class="w-100 p-0 m-0">
-                              Los servicios ofrecidos representan las opciones que cada empresa podrá contratar según sus necesidades.
-                        </p> -->
-                      <!-- <div class='d-flex overflow-auto w-100 flex-wrap sevices-select  ' style="max-width: 20rem;
-                      height: 8rem;">
-                              {{form.services}}
-                      </div> -->
- 
 
       
                         <div class="w-100 d-flex justify-content-end mt-3">
                               <a href="{% url "company:admin-company" %}" >
-                                    <span class=" p-2 border-0 btn bg-transparent text-white-50 rounded-5 pe-4 ps-4" style="font-weight: bold
+                                    <span class=" esc p-2 border-0 btn bg-transparent text-white-50 rounded-5 pe-4 ps-4" style="font-weight: bold
                                     ;">
-                                          Atras
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                        </svg>
                                     </span>
                               </a>
-                              <button class=" p-2 border-0 bg-warning text-black  me-5 rounded-5 pe-4 ps-4"
+                              <button class=" p-2 border-0 submit-button bg-warning bg-opacity-50 text-black  me-5 rounded-5 pe-4 ps-4"
                                     style="font-weight: bold;">
                                     Siguiente
-                              </button>
+                        </button>
                         </div>
                   </div>
             </div>
@@ -143,31 +139,31 @@
             // Obtener los elementos
             const imgLoad = document.querySelector('.img-load');
             const imgInput = document.getElementById('id_img');
-        
+            
             // Cuando se haga clic en .img-load, simula un clic en el input
             imgLoad.addEventListener('click', function() {
-                imgInput.click();
+                  imgInput.click();
             });
-        
+            
             // Cuando se selecciona un archivo en el input
             imgInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-        
-                if (file) {
-                    // Crear un objeto URL para la imagen seleccionada
-                    const reader = new FileReader();
-        
-                    reader.onload = function(e) {
+                  const file = event.target.files[0];
+            
+                  if (file) {
+                        // Crear un objeto URL para la imagen seleccionada
+                        const reader = new FileReader();
+            
+                        reader.onload = function(e) {
                         // Establecer el fondo de .img-load a la imagen seleccionada
                         imgLoad.style.backgroundImage = `url(${e.target.result})`;
                         imgLoad.style.backgroundSize = 'cover';  // Opcional, para ajustar la imagen al contenedor
                         imgLoad.style.backgroundPosition = 'center';  // Opcional, para centrar la imagen
-                    };
-        
-                    reader.readAsDataURL(file);  // Leer el archivo como una URL
-                }
+                        };
+            
+                        reader.readAsDataURL(file);  // Leer el archivo como una URL
+                  }
             });
-        </script>
+      </script>
 
   <script>
       document.getElementById('id_tax_id').addEventListener('input', function(e) {
@@ -187,5 +183,68 @@
   
           input.value = value;
       });
+
+
+      // Obtener los elementos de los inputs
+      const nameInput = document.getElementById('id_name');
+      const taxIdInput = document.getElementById('id_tax_id');
+      const emailInput = document.getElementById('id_email');
+      const phoneInput = document.getElementById('id_phone');
+      const addressInput = document.getElementById('id_address');
+      const representativeInput = document.getElementById('id_representative');
+      const cargoRepresentanteInput = document.getElementById('id_cargo_representante');
+      const contactRepresentanteInput = document.getElementById('id_contact_representante');
+      const dniInputsw = document.getElementById('id_dni');
+      const imgInputs = document.getElementById('id_img');
+      const submitButton = document.querySelector('.submit-button');
+
+      // Función para verificar si todos los campos tienen datos
+      function checkInputs() {
+        if (nameInput.value && taxIdInput.value && emailInput.value && phoneInput.value && addressInput.value && representativeInput.value && cargoRepresentanteInput.value && contactRepresentanteInput.value && dniInputsw.value && imgInput.value) {
+              submitButton.setAttribute('type', 'submit');
+              submitButton.classList.remove('bg-opacity-50');
+        } else {
+              submitButton.setAttribute('type', 'button');
+              submitButton.classList.add('bg-opacity-50');
+              submitButton.classList.add('bg-opacity-50');
+          }
+      }
+
+      // Agregar eventos de entrada a los inputs para verificar los datos
+      nameInput.addEventListener('input', checkInputs);
+      taxIdInput.addEventListener('input', checkInputs);
+      emailInput.addEventListener('input', checkInputs);
+      phoneInput.addEventListener('input', checkInputs);
+      addressInput.addEventListener('input', checkInputs);
+      representativeInput.addEventListener('input', checkInputs);
+      cargoRepresentanteInput.addEventListener('input', checkInputs);
+      contactRepresentanteInput.addEventListener('input', checkInputs);
+      dniInputsw.addEventListener('input', checkInputs);
+      imgInputs.addEventListener('change', checkInputs);
+
+      // Verificar los inputs al cargar la página
+      checkInputs();
+
+ // Crear el modal
+ document.querySelector('.submit-button').addEventListener('click', function(event) {
+    // Verifica si el botón no está deshabilitado
+if (submitButton.getAttribute('type') === 'button') {
+        // Quita la clase 'd-none' para mostrar el modal
+        document.querySelector('.sec').classList.toggle('d-none');
+        // Previene la acción predeterminada del formulario
+        event.preventDefault();
+    }
+
+});
+
+
+document.querySelector('.sec').addEventListener('click', function() {
+            // Oculta el modal al hacer clic en él
+            this.classList.toggle('d-none');
+        });
+
+
+
+
   </script>
 {% endblock  %}

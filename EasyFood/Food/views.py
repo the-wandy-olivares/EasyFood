@@ -44,6 +44,8 @@ class Restaurant(TemplateView):
       def get(self, request, *args, **kwargs):
             if not request.user.is_authenticated:
                   return redirect(reverse('company:logins'))
+            if  hasattr(request.user, 'restaurant'):
+               return redirect(reverse('company:admin-company'))
             return super().get(request, *args, **kwargs)
 
       def get_context_data(self, **kwargs):
