@@ -402,6 +402,10 @@ class Orders(TemplateView):
             orders = models.Order.objects.filter(employee=self.request.user.employee_profile)
             move = models.Movements.objects.filter(employee=self.request.user.employee_profile)
 
+            status = self.request.GET.get('status')
+            if status:
+                    orders = orders.filter(status=status)
+            
             context['orders'] = orders  # Pasar los pedidos filtrados al contexto
             context['move'] = move
        
