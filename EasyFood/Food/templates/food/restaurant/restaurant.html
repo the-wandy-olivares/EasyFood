@@ -12,7 +12,7 @@
                   display: none;
             }
       </style>
-
+      {% if platos.choices_menu.all %}
 
       <span class="position-sticky top-0  w-100 d-flex  justify-content-end p-3 z-2 me-4   position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer; ">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-heart-fill " viewBox="0 0 16 16">
@@ -21,6 +21,7 @@
                 <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
        style='width: 20px; height: 20px; color: var(--bg-primary);'>0</div>
       </span>
+      {% endif %}
 
       <div style="width: 24rem; "
       class=" position-absolute orders-list    d-none  rounded-5 p-1 me-2 position-relative  top-0 end-0 z-2">
