@@ -91,6 +91,7 @@
             <table>
                   <thead>
                         <tr>
+                              <th style="width: 16%;">Nombre </th>
                               <th style="width: 20%;">Nombre del Plato</th>
                               <th style="width: 15%;">Tipo de menu</th>
                               <th style="width: 15%;">Precio</th>
@@ -102,7 +103,11 @@
                   <tbody>
                         {% for order in company_data.orders %}
                         <tr id='d{{order.id}}'>
-                              <td>{{ order.name }}</td>
+                              <td>
+                                    {{ order.employee.first_name|truncatechars:"10" }} 
+                                    {{ order.employee.last_name|truncatechars:"10" }}
+                              </td>
+                              <td>{{ order.name|truncatechars:"18" }}</td>
                               <td>{{ order.category }}</td>
                               <td>${{ order.price|intcomma }}</td>
                               <td>{{ order.date|date:"m-d-Y" }} - {{ order.date|date:"h:i A" }}</td>

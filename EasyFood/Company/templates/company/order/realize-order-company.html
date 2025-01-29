@@ -47,6 +47,7 @@
                                     <tr>
                                           <th style="width: 6%;" scope="col"> #</th>
                                           <th style="width: 8%;" scope="col">Imagen</th>
+                                          <th  style='width: 10%;'>Nombre</th>
                                           <th style="width: 30%;" scope="col">Plato</th>
                                           <th style="width: 20%;" scope="col">Precio</th>
                                           <th style="width: 20%;" scope="col">Estado</th>
@@ -55,9 +56,14 @@
                               <tbody>
                                     {% for order in orders %}
                                     <tr>
+                                          
                                           <td>{{ forloop.counter }}</td>
                                           <td> 
                                                 <img src="{{ order.plato.img.url }}" width="40" height="40" class="object-fit-cover rounded-circle mt-2"  > 
+                                          </td>
+                                          <td>
+                                                {{ order.employee.first_name|truncatechars:"10" }} 
+                                                {{ order.employee.last_name|truncatechars:"10" }}
                                           </td>
                                             <td>{{ order.name|truncatechars:20 }}</td>
                                           <td> ${{ order.price|intcomma}}.00</td>
@@ -70,7 +76,11 @@
                         <div class="position-absolute bottom-0 end-0 mb-4 me-4">
                               
                               <form action="" method="post">
-                              <a href="{% url 'company:enviar-order' %}" class="esc btn text-white-50"> Atras </a>
+                              <a href="{% url 'company:enviar-order' %}" class="esc btn text-white-50"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                        </svg>      
+                              </a>
                                     {% csrf_token %}
                                     <input type="hidden" name="end">
                                     <button class="btn btn-warning text-black rounded-5  " style="font-weight: bold;">
