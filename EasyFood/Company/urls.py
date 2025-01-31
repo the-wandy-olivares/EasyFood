@@ -29,6 +29,7 @@ urlpatterns = [
             path('orders', views.Orders.as_view(), name='orders'),
                   path('all-orders', views.AllOrders.as_view(), name='all-orders'),
             path('platos', views.Platos.as_view(), name='platos'),
+      path('plato-detail/<int:pk>', views.PlatoDetail.as_view(), name='plato-detail' ),
       # path('categorias', views.Categorias.as_view(), name='categorias'),
       path('create-category', views.CreateCategory.as_view(), name='create-category'),
             path('update-category/<int:pk>', views.UpdateCategory.as_view(), name='update-category'),

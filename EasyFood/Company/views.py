@@ -753,6 +753,16 @@ class UpdatePlato(UpdateView):
             return super().form_invalid(form)
       
 
+class PlatoDetail(DetailView):
+      template_name = "company/platos/plato-detail.html"
+      model = models.Plato
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      
+
 
 class DesactivarPlato(View):
       def get(self, request, *args, **kwargs):
