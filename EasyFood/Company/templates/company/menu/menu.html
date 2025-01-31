@@ -22,6 +22,7 @@
 </style>
 
 
+{% if company.services.all %}
 <meta name="csrf-token" content="{{ csrf_token }}">
     <section class="overflow-auto p-3 pt-3" >
         <div class="mt-1">
@@ -108,7 +109,7 @@
                   </strong> puedes selecionar los menus que quieras para que tus empleados  ordenar los platos que gusten
             </p>
         </div>
-        {% if company.services.all %}
+
             {% for s in company.services.all %}
                     <section style='height: 25rem;' class="mt-5">   
 
@@ -189,7 +190,7 @@
                             </div>
                     </section>
             {% endfor %}
-        {% endif %}
+    
     </section>
     <section style="height: 7rem; width: 100%;" class="position-sticky  d-flex  start-0 bottom-0 blur-10">
         <div style="width: 20rem;" class="d-flex">
@@ -232,6 +233,19 @@
         
         </div>
     </section>
+
+    {% else %}
+
+    <div class=' w-100 text-center  d-flex justify-content-center align-content-center flex-wrap h-100 '>
+        <div style="width: 40rem; " class="bg-white bg-opacity-10 p-4 rounded-5">
+              <strong class='text-white-50 text-center ' > No hay servicios contratados <strong> 
+                    <p  style='font-weight: 400;' class='text-white-50'>
+                          Debe haber un contrato vigente para poder administrar los menus
+                    </p>
+        </div>
+  </div>
+
+    {% endif %}
     <style>
       .list
         {

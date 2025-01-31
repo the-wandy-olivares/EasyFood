@@ -3,44 +3,59 @@
       {
             color: rgba(255, 255, 255, 0.813);
       }
+      .a:hover{
+            color: #ffd000 !important;
+            font-weight: bold;
+      }
+      .select-employee {
+            cursor: pointer;
+      }
 </style>
 <table class="w-100 tb">
       <thead>
-          <tr>
-              <th>#</th>
+          <tr class="">
+              <th>            
+                  <svg onclick="ChangeStatus()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" style="cursor: pointer;" class="bi bi-filter-circle-fill " viewBox="0 0 16 16"><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M3.5 5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1M5 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/></svg> 
+            </th>
               <th>Nombre y Apellidos</th>
-
               <th>Correo Electrónico</th>
               <th>Teléfono</th>
-              <th>Rol</th>
+              <th>Roles</th>
               <th>Empresa</th>
               <th>Estado</th>
-              <th>Acciones</th>
+              <th>
+      
+              </th>
           </tr>
       </thead>
       <tbody>
-          {% for e in employee %}
-          <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ e.first_name }} {{ e.last_name }}</td>
+            {% for e in employee %}
+            <tr>
+                  <td>
+                              <input type="checkbox" class=' form-check-input mt-2  select-employee rounded-circle' name="" id="select-employee{{e.id}}" style="width: 13px !important ; height: 13px !important; margin-left: 2px;">
+                              <label for="select-employee{{e.id}}" class="select-employee mt-0">   {{ forloop.counter }} </label>
+                  </td>
+                        <td>
+                        <a href="{% url "company:update-employee" e.id %}" class='a text-decoration-none text-white' style='font-size: 14px;'>
+                              {{ e.first_name }} {{ e.last_name }}
+                      </a>
+                  </td>
                   <td>{{ e.email }}</td>
                   <td>{{ e.phone }}</td>
                   <td>{{ e.get_role_display }}</td>
                   <td>{{ e.company.name }}</td>
                   <td> 
                   {% if e.is_active %}
-                        Activo
+                              <span style="cursor: pointer;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                        </svg> Activo
+                              </span>
                         {% else %}
                         Desactivado
                   {% endif %} 
                   </td>
                   <td>
-                        <a href="{% url "company:update-employee" e.id %}" class='text-decoration-none text-white'>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                                  </svg> Visualizar
-                        </a>
                   </td>
           </tr>
           {% empty %}

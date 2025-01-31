@@ -26,7 +26,7 @@
                   color: #7e7e7e;
             }
             .forms-inputs input:focus {
-                  background-color: transparent;
+                  background-color: var(--bg-primary);
                   color: #7e7e7e;
             }
             .forms-inputs #id_address {
@@ -35,7 +35,7 @@
 
             }
             .forms-inputs #id_address:focus {
-                  background-color: transparent;
+                  background-color: var(--bg-primary);
                   color: #7e7e7e;
             }
             .forms-inputs #id_img 
@@ -140,12 +140,14 @@
                               <a href="{% url "company:profile-company"  object.id %}" >
                                     <span class=" p-2 border-0 btn bg-transparent text-white-50 rounded-5 pe-4 ps-4" style="font-weight: bold
                                     ;">
-                                          Atras
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                              </svg>
                                     </span>
                               </a>
                               <button class=" p-2 border-0 bg-warning text-black  me-5 rounded-5 pe-4 ps-4"
                                     style="font-weight: bold;">
-                                    Siguiente
+                                    Aplicar
                               </button>
                         </div>
                   </div>

@@ -64,7 +64,7 @@ function LoadMasiveImport() {
       const element = document.querySelector('.sec-top');
       if (element) {
             element.classList.toggle('d-none');
-            element.classList.add('flip-up-ai')
+            element.classList.add('flip-down-ai')
       }
 }
 

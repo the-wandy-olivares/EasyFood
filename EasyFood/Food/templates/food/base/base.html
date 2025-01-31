@@ -70,6 +70,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     
         <script src="{% static 'js/base.js' %}"></script>     
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        {% if request.user.restaurant %}
         <script>                 
             $(document).on('keydown', function(event) {
                 if (event.key === "Escape") {
@@ -78,7 +79,11 @@
                     });
                 }
             });
+        </script>
+        {% endif %}
+        <script>
             AOS.init() // Inicializar animaciones AOS
         </script>
+
     </body>
 </html>
