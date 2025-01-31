@@ -28,12 +28,13 @@ class Company(models.Model):
       dni = models.CharField(max_length=15, verbose_name="DNI", blank=True)
 
 
-      services = models.ManyToManyField('Service', related_name='companies', verbose_name="Contracted Services", blank=True)
+      services = models.ManyToManyField('Service', related_name='companies', 
+                                        verbose_name="Servicios contratados", blank=True)
       is_active = models.BooleanField(default=True)
 
       class Meta:
-            verbose_name = "Client Company"
-            verbose_name_plural = "Client Companies"
+            verbose_name = "Compañia"
+            verbose_name_plural = "Compañias"
 
       def __str__(self):
             return self.name
@@ -284,7 +285,7 @@ class Claim(models.Model):
 
 
 class Contract(models.Model):
-      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="contracts", verbose_name="Cliente", blank=True, null=True)
+      company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="contracts", verbose_name="Contrato de compañia", blank=True, null=True)
       service_type = models.ManyToManyField(Service, verbose_name="Tipo de Servicio")
 
       number_contract = models.CharField(max_length=100, verbose_name="Número de Contrato", default='', blank=True, null=True)
@@ -301,7 +302,7 @@ class Contract(models.Model):
 
 
       def __str__(self):
-            return f"Contrato con {self.company.name} - {self.service_type}"
+            return f"Contrato con {self.company.name if None else 'Ups'} - {self.start_date}"
       
 
 class Restaurant(models.Model):

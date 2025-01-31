@@ -22,25 +22,26 @@
 </style>
 
 
-{% if company.services.all %}
+{% if contrato %}
 <meta name="csrf-token" content="{{ csrf_token }}">
-    <section class="overflow-auto p-3 pt-3" >
-        <div class="mt-1">
-            <strong class='mt-5'>
-                  <span class='text-white-50'> Menus selecionados <span> 
-            </strong>
-            <p class="text-white-50">
-               Estos puedes selecionar los menus que quieras para que tus empleados  ordenar los platos que gusten
-            </p>
-        </div>
+    <section class="overflow-auto p-3 " >
+            <section class="d-flex justify-content-start ps-3 w-100">
+                <div class="  bg-white bg-opacity-10 d-none p-2  ps-4 pe-4 rounded-5 text-center" >
+                    <strong class='mt-5'>
+                          <span class='text-white-50'> Menus seleccionados <span> 
+                    </strong>
+                    <p class="text-white-50 d-none">
+                        Estos puedes selecionar los menus que quieras para que tus empleados  ordenar los platos que gusten
+                    </p>
+                </div>
+            </section>
     <div class='d-flex overflow-auto'>
-                {% if menus_choices %}
-                <a class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-circle-fill text-white" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                      </svg>
-            </a> 
+        {% if menus_choices %}
+            <span class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
+                    {{menus_choices|length}}
+            </span> 
                 {% for c in menus_choices %}
+
                     <div style='max-width: 23rem; min-width: 23rem; width: 100%;  height: 21rem; background-color: var(--bg-primary); border: 6px solid rgba(141, 141, 141, 0.158); border-radius: 3rem;' class='   m-2  overflow-hidden position-relative' >
                         <!--Seleccionado-->
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check position-absolute bottom-0 end-0 me-4 mb-4" viewBox="0 0 16 16">
@@ -83,49 +84,53 @@
                                                 <h5 class='text-capitalize text-white-50 m-0 p-0 mt-1 w-100' style='font-size: 14px;'> 
                                                     {{ p.name }}
                                             </h5>
-                                                <span>
-                                                </span>
                                         </div>
                                     </div>
                                     {% endif %}
                             {% endfor %}
                         </div>
                         <div class=" d-flex  ps-3">
-                            <!-- <strong class="mt-2 ms-2">Para</strong>  -->
                             {% include 'company/menu/cp/select-menu-by-rol.html' %}
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="mt-5">
-            <strong class='mt-5'>
-                  <span class='text-white-50'> Menus por sevicios contrados <span> 
-            </strong>
-            <p class="text-white-50">
-                  Como representate de
-                   <strong>
-                    {{request.user.employee_profile.company.name}}
-                  </strong> puedes selecionar los menus que quieras para que tus empleados  ordenar los platos que gusten
-            </p>
-        </div>
+        
+        <section class="d-flex justify-content-start ps-3 w-100">
+            <div class="mt-5  bg-white bg-opacity-10  p-2  ps-4 pe-4 text-center rounded-5" >
+                <strong class='mt-5'>
+                      <span class='text-white-50'> Sevicios por contrato <span> 
+                </strong>
+                <p class="text-white-50 d-none">
+                      Como representate de
+                       <strong>
+                        {{request.user.employee_profile.company.name}}
+                      </strong> puedes selecionar los menus que quieras para que tus empleados 
+                </p>
+            </div>    
+        </section>
 
-            {% for s in company.services.all %}
-                    <section style='height: 25rem;' class="mt-5">   
+            {% for s in contrato.service_type.all%}
+                    <section style='height: 25rem;' class="mt-1">   
 
-                        <div  class='mt-0 ms-5 ps-2'>
-                            <strong class='text-capitalize text-white-50 ms-3 pt-4' 
-                            style="font-size: 14px;"> {{ s.name }}s</strong>
+
+                        <div  class='mt-0  ps-2'>
+                            {% if s.img %}
+                                <img src="{{s.img.url}}" alt="" width="20" height="20" class="rounded-circle">
+                            {% endif %}
+                            <span class='text-capitalize text-white-50 ms-1 pt-4' 
+                            style="font-size: 14px;"> {{ s.name }}s</span>
                               <p style='font-size: 12px;' class='text-white-50 p-0 m-0 ms-3'>
                                 <!-- {{ s.description|truncatechars:20 }}  -->
                               </p>
                         </div>
                             <div class=' d-flex overflow-auto' >
-                                    <a href="{% url "company:create-category-for-company" s.id %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
+                                    <!-- <a href="{% url "company:create-category-for-company" s.id %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi text-white bi-plus-circle-fill text-white" style="" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
                                         </svg>
-                                </a> 
+                                </a>  -->
                                 {% for c in s.categories_service.all %}
                                         {% if c.is_active %}
                                             <div style='max-width: 23rem; min-width: 23rem; width: 100%;  height: 21rem; background-color: var(--bg-primary); 

@@ -133,6 +133,7 @@ class ProfileCompany(DetailView):
             company = self.object  # Obtener la empresa actual
 
             # Obtener empleados activos en la empresa
+            context['contrato'] = models.Contract.objects.get(company=company, is_active=True)
             context['employee'] = models.Employee.objects.filter(company=company)
             context['count'] = models.Employee.objects.filter(company=company, is_active=True).count()
 
@@ -292,11 +293,12 @@ class Menu(ListView):
             context = super().get_context_data(**kwargs)
             # context['services'] = models.Service.objects.filter(company=self.request.user.employee_profile.company)  # Filtrar los servicios por la compañía activa
             # Obtener la compañía activa (solo una)
-            company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)# Devolver el primero que encuentre
-            context['menus'] = models.Menu.objects.filter(company=self.request.user.employee_profile.company) 
             # context['categoria'] = models.Category.objects.filter()  # Filtrar las categorías por la compañía activa
-            context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
+            company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)
             context['company'] = company
+            context['menus'] = models.Menu.objects.filter(company=self.request.user.employee_profile.company) 
+            context['contrato'] = models.Contract.objects.get(company=company, is_active=True)
+            context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
             
             return context
 
@@ -628,10 +630,9 @@ class CreateContrato(CreateView):
             company = models.Company.objects.get(id=self.kwargs['pk'])
             form.instance.company = company
             form.instance.is_active = True
-                        # Guardar el formulario, pero sin guardar aún el campo ManyToMany
+            # Guardar el formulario, pero sin guardar aún el campo ManyToMany
             form.save(commit=False)
             selected_services = self.request.POST.getlist('service_type')  
-            
             # Limpiar los servicios existentes
 
             for contract in company.contracts.all():
