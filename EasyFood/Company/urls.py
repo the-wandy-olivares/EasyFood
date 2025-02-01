@@ -47,7 +47,7 @@ urlpatterns = [
       path('menu', views.Menu.as_view(), name='menu'),
             path('select-Menu/<int:pk>', views.SelectMenu.as_view(), name='select-menu'),
                   path('create-category-for-company/<int:pk>', views.CreateCategoryForCompany.as_view(), name='create-category-for-company'),
-
+                        path('menu-select/<int:pk>', views.MenuSelect.as_view(), name='menu-select'),
 #  Reclamaciones o solicitudes
       path('claims', views.Claims.as_view(), name='claims'),
             path('create-claim', views.CreateClaim.as_view(), name='create-claim'),

@@ -1,5 +1,11 @@
 
       <style>
+
+            /* Evita hacer zoom con dos toques */
+            body {
+                  touch-action: manipulation;
+            }
+
             body {
                   margin: 0;
                   font-family: Arial, sans-serif;
@@ -33,43 +39,162 @@
                   width: 24px;
                   height: 24px;
             }
+            /* Efecto de desenfoque */
+            .blur-5 {
+                  -webkit-backdrop-filter: blur(5px) !important;
+                  backdrop-filter: blur(5px) !important;
+            }
+            .blur-10 {
+                  -webkit-backdrop-filter: blur(10px) !important;
+                  backdrop-filter: blur(10px) !important;
+            }
+            .blur-20 {
+                  -webkit-backdrop-filter: blur(80px) !important;
+                  backdrop-filter: blur(80px) !important;
+            }
+            .profile-container {
+                    text-align: center;
+                    padding: 20px;
+                    background-color: rgba(255, 255, 255, 0.1);
+                    border-radius: 40px;
+            }
+            .profile-header {
+                    margin-bottom: 20px;
+            }
+            .profile-picture {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-bottom: 20px;
+            }
+            .profile-header h2 {
+                    margin: 10px 0 5px;
+                    color: #ffffff;
+            }
+            .profile-header p {
+                    color: #bebebe;
+                    font-size: 14px;
+            }
+            .profile-details, .profile-posts {
+                    text-align: left;
+                    margin-top: 20px;
+            }
+            .profile-details h3, .profile-posts h3 {
+                    color: #ffffff;
+                    margin-bottom: 10px;
+            }
+            .profile-details p, .profile-posts p {
+                    color: #bebebe;
+                    font-size: 14px;
+            }
+            .profile-posts .post {
+                    margin-bottom: 15px;
+            }
+            .profile-posts .post h4 {
+                    margin: 0;
+                    color: #ffffff;
+            }
+            .profile-posts .post a {
+                    color: #4c4c4c;
+                    text-decoration: none;
+            }
+            .profile-posts .post a:hover {
+                    text-decoration: underline;
+            }
       </style>
 </head>
 <body>
+      <div class='position-absolute bottom-0 blur-20 d-none perfil-more bg-white bg-opacity-10 p-3  z-n1  end-0 me-2'  style='margin-bottom: 5.4rem; border-radius: 2.8rem;
+            width: 80vw; height: max-content;'>
+
+                  <div class="profile-container mb-3">
+                        <div class="profile-header mt-3">
+                              <img src="{{request.user.employee_profile.company.img.url}}" alt="Profile Picture" class="profile-picture">
+                        </div>
+                        <div class="profile-details">
+                              <h3 class='m-0 p-0'> 
+                                    {{request.user.employee_profile.first_name|truncatechars:8}}      
+                                    {{request.user.employee_profile.last_name|truncatechars:8}}   
+                              </h3>
+                              <p class='m-0 p-0'> {{ request.user.email }}</p>
+                        </div>
+                  </div>
+
+                  <div class='d-flex'>
+                        <a  href="{% url "company:claims" %}" class='d-flex  w-100 me-1 bg-white bg-opacity-10 p-2  rounded-5 text-white text-decoration-none justify-content-center'>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill mt-1 me-2 ms-2" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                              </svg>
+                              <div>Reclamos </div>
+                        </a>
+                        <a  href="{% url "company:logout" %}" class='d-flex w-100   bg-white bg-opacity-10 p-2 rounded-5 text-white text-decoration-none justify-content-center'>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right mt-1 me-2 ms-2" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                                  </svg>
+                              <div>Cerrar  </div>
+                        </a>
+                  </div>
+
+     </div>
+     <div class=" bg-black bg-opacity-10 blur-10 d-none position-fixed bottom-0  ms-3 d-flex justify-content-center align-content-center flex-wrap  start-0   back rounded-circle" style="margin-bottom: 5rem; width: 40px; height: 40px;">
+           <a href="javascript:history.back()" class=" ">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill text-white" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/></svg>
+           </a>
+     </div>
       <div class="nav-container blur-20">
-            <div class="nav-item">
+            <div class="nav-item restaurante-mov">
                   <a href="{% url "food:restaurant" %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cup-hot-fill" viewBox="0 0 16 16">
-                              <path fill-rule="evenodd" d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6zM13 12.5a2 2 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5"/>
-                              <path d="m4.4.8-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 3.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 6.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 9.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8"/>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-egg-fried" viewBox="0 0 16 16">
+                              <path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                              <path d="M13.997 5.17a5 5 0 0 0-8.101-4.09A5 5 0 0 0 1.28 9.342a5 5 0 0 0 8.336 5.109 3.5 3.5 0 0 0 5.201-4.065 3.001 3.001 0 0 0-.822-5.216zm-1-.034a1 1 0 0 0 .668.977 2.001 2.001 0 0 1 .547 3.478 1 1 0 0 0-.341 1.113 2.5 2.5 0 0 1-3.715 2.905 1 1 0 0 0-1.262.152 4 4 0 0 1-6.67-4.087 1 1 0 0 0-.2-1 4 4 0 0 1 3.693-6.61 1 1 0 0 0 .8-.2 4 4 0 0 1 6.48 3.273z"/>
+                            </svg>
                       <div>  Restaurante </div>
 
                   </a>
             </div>
-            <div class="nav-item">
+            <div class="nav-item historial">
                   <a    href="{% url 'company:orders' %}">  
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-fill" viewBox="0 0 16 16">
-                              <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5z"/>
+                   
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16">
+                              <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                              <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+                              <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
                             </svg>
-                      <div>  Ordenes</div>
-                  </a>
-            </div>
-            <div class="nav-item">
-                  <a  href="{% url "company:my-profile" %}">
-                        <img src="{{request.user.employee_profile.company.img.url}}"  alt="No-Foun"
-                        style='width: 30px; height: 30px; ' class="object-fit-cover rounded-circle"> 
-                        <div>
-                              {{request.user.first_name|truncatechars:8}}
-                        </div>
+                      <div>  Historial</div>
                   </a>
             </div>
             <div class="nav-item">
                   <a  href="{% url "company:claims" %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
-                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
-                        </svg>
-                        <div>Reclamaciones </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                            </svg>
+                        <div> Ordenes </div>
                   </a>
             </div>
+            <div class="nav-item">
+                  <a  class='more'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-fill" viewBox="0 0 16 16">
+                              <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5z"/>
+                            </svg>
+                        <div>
+                              Mas
+                        </div>
+                  </a>
+            </div>
+
+    
       </div>
+
+
+<script>
+
+      
+      document.querySelector('.more').addEventListener('click', ()=> { 
+            document.querySelector('.perfil-more ').classList.toggle('d-none');
+      });
+
+      
+      
+</script>

@@ -1,20 +1,24 @@
+<style>
+      @media (max-width: 700px) {
+            .categorias {
+                  max-width: 100% !important;
+            }
+      }
+</style>
 
 {% for c in categorias %}
-      <form method="get" >
-            <input type="hidden" name="id" value="{{ c.menu.id }}">
-            <button type="submit" style="all: unset; cursor: pointer;">
-                  <div data-aos='fade-in' style="min-width: 20rem; width: 20rem; height: 13rem; 
-                        transition-delay: 0.{{ forloop.counter }}s;
-                        {% if c.menu.img %}
-                              background-image: url({{c.menu.img.url}});
-                              background-position: center; background-repeat: no-repeat;
-                              background-size: cover;
-                        {% endif %}" class="rounded-5 ms-3 position-relative">
-                        <span class="bg-black bg-opacity-75 d-flex justify-content-center flex-wrap align-content-center rounded-5 position-absolute top-0 h-100 w-100"
+      <a href="{% url "company:menu-select" c.id %}"
+            class='text-text-decoration-none text-white  categorias m-2  w-100' style=' max-width: 22rem;'>
+            <div style=" height: 16rem; 
+                  transition-delay: 0.{{ forloop.counter }}s;
+                  {% if c.menu.img %}   background-image: url({{c.menu.img.url}});
+                  background-position: center; background-repeat: no-repeat; 
+                  background-size: cover; border-radius: 2.8rem;
+                  {% endif %}" class="  position-relative w-100 overflow-hidden" >
+                  <span class="bg-black bg-opacity-75 d-flex justify-content-center flex-wrap align-content-center rounded-5 position-absolute top-0 h-100 w-100"
                         style="font-weight: bold;">
-                              {{c.menu.name}} {{c.menu.platos.count}}
-                        </span>
-                  </div>
-            </button>
-      </form>
+                        {{c.menu.name}} {{c.menu.platos.count}}
+                  </span>
+            </div>
+      </a>
 {% endfor %}

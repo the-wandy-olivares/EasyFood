@@ -15,6 +15,7 @@ from Company import models
 from .models  import ConfigurationApp
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.views.decorators.cache import cache_page
 
 
 class Dashboard(TemplateView):
@@ -38,6 +39,7 @@ class Dashboard(TemplateView):
 
 
     # Restaurante, Menu, Plato, Ingrediente, Categoria y Producto
+
 class Restaurant(TemplateView):
       template_name = "food/restaurant/restaurant.html"
 

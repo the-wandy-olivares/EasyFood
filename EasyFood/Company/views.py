@@ -331,7 +331,16 @@ class Menu(ListView):
             return redirect(reverse('company:menu'))
 
 
+class MenuSelect(DetailView):
+      model = models.MenuChoices
+      template_name =  "company/menu/menu-select.html"
 
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+      #       company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile) 
+            context['platos'] = models.Category.objects.get(id=self.object.menu.id)
+            return context          
+      
 class CreateCategoryForCompany(CreateView):
       model = models.Category
       form_class = forms.Category
@@ -754,8 +763,8 @@ class UpdatePlato(UpdateView):
       
 
 class PlatoDetail(DetailView):
-      template_name = "company/platos/plato-detail.html"
       model = models.Plato
+      template_name = "company/platos/plato-detail.html"
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
