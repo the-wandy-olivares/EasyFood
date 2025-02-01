@@ -18,7 +18,7 @@
                   display: flex;
                   justify-content: space-around;
                   padding: 10px 10px;
-                  border-radius: 2rem;
+                  border-radius: 1.5rem;
                   margin-bottom: 0.5rem;
             }
             .nav-item {
@@ -56,7 +56,7 @@
                     text-align: center;
                     padding: 20px;
                     background-color: rgba(255, 255, 255, 0.1);
-                    border-radius: 40px;
+                    border-radius: 30px;
             }
             .profile-header {
                     margin-bottom: 20px;
@@ -66,7 +66,7 @@
                     height: 120px;
                     border-radius: 50%;
                     object-fit: cover;
-                    margin-bottom: 20px;
+                    margin-bottom: 10px;
             }
             .profile-header h2 {
                     margin: 10px 0 5px;
@@ -105,7 +105,7 @@
       </style>
 </head>
 <body>
-      <div class='position-absolute bottom-0 blur-20 d-none perfil-more bg-white bg-opacity-10 p-3  z-n1  end-0 me-2'  style='margin-bottom: 5.4rem; border-radius: 2.8rem;
+      <div class='position-absolute bottom-0 d-none blur-20  perfil-more bg-white bg-opacity-10 p-3  z-n1  end-0 me-2'  style='margin-bottom: 5.4rem; border-radius: 2.5rem;
             width: 80vw; height: max-content;'>
 
                   <div class="profile-container mb-3">
@@ -129,12 +129,33 @@
                               <div>Reclamos </div>
                         </a>
                         <a  href="{% url "company:logout" %}" class='d-flex w-100   bg-white bg-opacity-10 p-2 rounded-5 text-white text-decoration-none justify-content-center'>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle mt-1 me-2 ms-2" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                  </svg>
+                                  </svg>
+                              <div> Cuenta  </div>
+                        </a>
+                  </div>
+                  <div class='d-flex mt-2 w-100 ' >
+                        <a  href="{% url "company:claims" %}" class='d-flex flex-wrap align-content-center  justify-content-center text-center me-1 bg-white bg-opacity-10 p-2  rounded-circle text-white text-decoration-none w-100 h-100 justify-content-center' 
+                        style="max-width: 45px; max-height: 45px;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down-fill" viewBox="0 0 16 16">
+                                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708"/>
+                                  </svg>
+                              <div class="w-100" style="font-size: 12px;"> Ins.. </div>
+                        </a>
+                        <a  href="{% url "company:logout" %}" class='d-flex  w-100 flex-wrap align-content-center   bg-white bg-opacity-10 p-2 rounded-5 text-white text-decoration-none justify-content-center'>
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right mt-1 me-2 ms-2" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
                                     <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                                   </svg>
-                              <div>Cerrar  </div>
+                              <div>Cerrar  session</div>
                         </a>
+
+
+
+
                   </div>
 
      </div>
@@ -193,6 +214,11 @@
       
       document.querySelector('.more').addEventListener('click', ()=> { 
             document.querySelector('.perfil-more ').classList.toggle('d-none');
+
+            if (!document.querySelector('.perfil-more').classList.contains('d-none')) {
+                  document.querySelector('.perfil-more').classList.add('flip-up-ai');
+            } 
+
       });
 
       
