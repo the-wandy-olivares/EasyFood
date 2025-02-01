@@ -116,14 +116,15 @@ class Claim(forms.ModelForm):
         fields = ['title', 'description', 'order']
         widgets = {
             'title': forms.TextInput(attrs={
+                'class': 'form-control',
                 'placeholder': 'Ejemplo: "Retraso en la entrega del pedido" '
             }),
             'description': forms.Textarea(attrs={
-                'placeholder': 'El pedido #3722 estaba programado para entregarse el 10/12/24, pero aún no he recibido el producto',
-
+                'class': 'form-control',
+                'placeholder': 'Descripción de la reclamación (opcional)',
             }),
             'order': forms.Select(attrs={
-
+                'class': 'form-control',
             }),
         }
 

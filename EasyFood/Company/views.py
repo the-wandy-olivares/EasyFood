@@ -565,7 +565,7 @@ class Claims(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['claims'] = models.Claim.objects.filter(company=self.request.user.employee_profile.company)
+            context['claims'] = models.Claim.objects.filter( status='pending',  employee=self.request.user.employee_profile) 
             return context
 
       def form_valid(self, form):
