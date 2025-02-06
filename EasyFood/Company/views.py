@@ -137,12 +137,9 @@ class ProfileCompany(DetailView):
             context['employee'] = models.Employee.objects.filter(company=company)
             context['count'] = models.Employee.objects.filter(company=company, is_active=True).count()
 
-            # Si necesitas un total de lo facturado o pendiente, puedes usar aggregates
-            total_billed = company.invoices.aggregate(Sum('amount'))['amount__sum'] or 0
-            total_paid = company.invoices.filter(paid=True).aggregate(Sum('amount'))['amount__sum'] or 0
-            context['total_billed'] = total_billed
-            context['total_paid'] = total_paid
-            context['total_pending'] = total_billed - total_paid  # Monto pendiente
+            total_facturado = company.invoices.filter(is_facturado=True).aggregate(Sum('amount'))['amount__sum'] or 0
+            
+            context['total_facturado'] = total_facturado
             context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
 
             company = models.Company.objects.get(id=self.kwargs['pk'])
@@ -178,6 +175,16 @@ class ProfileCompany(DetailView):
                   else:  # Si el menú no está seleccionado
                         menu.is_active = False
                   menu.save()
+            
+            if request.POST.get('pay'):
+                  company = models.Company.objects.get(id=self.kwargs['pk'])
+                  company.total_to_pay -=  int(request.POST.get('pay'))
+                  company.total_pay +=  int(request.POST.get('pay'))
+                  company.save()
+                  models.Movements(
+                        mount = company.total_to_pay,
+                        description= company.name + 'Pago de ordenes',
+                  ).save()
             
             return redirect(reverse('company:profile-company', kwargs={'pk': self.kwargs['pk']}))
 
@@ -521,6 +528,8 @@ class RealizeOrderCompany(TemplateView):
       def post(self, request, *args, **kwargs):
             orders = models.Order.objects.filter(company__id= self.kwargs['pk'], status='enviado')
             company = models.Company.objects.get(id=self.kwargs['pk'])
+            company.total_to_pay +=  sum(order.price for order in orders)
+            company.save()
             models.Movements(
                   mount = sum(order.price for order in orders),
                   description= company.name + 'Ingreso por ordenes total de ordenes' + str(orders.count()), 

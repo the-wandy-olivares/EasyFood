@@ -32,6 +32,11 @@ class Company(models.Model):
                                         verbose_name="Servicios contratados", blank=True)
       is_active = models.BooleanField(default=True)
 
+
+      # Montos a pagar, se hace periodicamente
+      total_to_pay = models.IntegerField(default=0, verbose_name="Total a pagar", blank=True)
+      total_pay = models.IntegerField(default=0, verbose_name="Total pagado", blank=True)
+
       class Meta:
             verbose_name = "Compañia"
             verbose_name_plural = "Compañias"
@@ -231,6 +236,7 @@ class Order(models.Model):
       status = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),
                                                       ('preparando', 'En preparacion'),
                                                       ('enviado', 'En camino'),
+                                                      ('facturado', 'Facturado'),
                                                       ('entregado', 'Entregado')], default='pendiente')
 
 
@@ -249,8 +255,12 @@ class Invoice(models.Model):
       amount = models.DecimalField(max_digits=10, decimal_places=2)
       date_issued = models.DateField()
       due_date = models.DateField()
-      paid = models.BooleanField(default=False)
+      paid = models.BooleanField(default=False) # Si la factura ha sido pagada o entregada
       payment_date = models.DateField(null=True, blank=True)
+
+      # Estado de factura
+      is_facturado = models.BooleanField(default=False) 
+      
 
       def __str__(self):
             return f"Invoice {self.id} - {self.company.name}"

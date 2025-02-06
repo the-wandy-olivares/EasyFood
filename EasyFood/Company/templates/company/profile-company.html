@@ -29,6 +29,9 @@
                   width: 30px; height: 30px;
               
             }
+            input::placeholder {
+                  color: rgb(102, 102, 102) !important;
+            }
       </style>
                   <a href="{% url "company:admin-company" %}"  class='esc d-none btn position-absolute  end-0 border-0  rounded-5 top-0 mt-5   p-2 pe-4 ps-4' style=" 
                       margin-right: 14rem;" >
@@ -181,18 +184,33 @@
 
 
 <section class="w-100 rounded-5 p-3 mt-5 position-relative text-start" style="background-color: var(--bg-prim);">
-      <strong class="text-white-50 ">Datos de facturación</strong>
+
+      <strong class="text-white-50 d-flex ">
+            <div class="dropdown ">
+                  <button class="btn btn-dark  bg-black text-white rounded-5 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mas
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark bg-black" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#"> Todas las facturas </a></li>
+                        <li><a class="dropdown-item" href="#">  Imprimir PDF o enviar por correo </a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Acci</a></li> -->
+                  </ul>
+            </div>
+            <span class="mt-2 ms-2">Datos de facturación</span>
+      </strong>
       <table class="w-100">
             <thead>
                   <tr>
-                        <th scope="col"> Facturado</th>
+                        <th scope="col">Facturado</th>
+                        <th scope="col">Por facturar</th>
                         <th scope="col"> Enviado</th>
                         <th scope="col"> Pendiente</th>
                   </tr>
             </thead>
             <tbody>
                   <tr>
-                        <td> ${{ total|intcomma }}.00</td>
+                        <td>$ {{company.total_pay}}.00 </td>
+                        <td> ${{ company.total_to_pay|intcomma }}.00</td>
                         <td> ${{ total_entregado|intcomma }}.00</td>
                         <td> ${{ total_pendiente|intcomma }}.00</td>
                   </tr>
@@ -202,17 +220,23 @@
 
 {% if request.user.restaurant %}
       <section class="p-3">
-            <h4 class="text-white-50">
-                  Estado de empresa
-            </h4>
-            {% if company.is_active %}
-                  Desactivar empresa
-            {% else %}
-                        <span class="badge bg-primary rounded-5 bg-transparent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all text-primary" viewBox="0 0 16 16"><path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/>
-                        <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/>
-                        </svg>    Activar
-            {% endif %}
+
+                  <strong class="text-white-50">Cobrar</strong>
+                  <form method="post">
+                        {% csrf_token %}
+                        <label for="amount" class="form-label text-white-50">Monto a cobrar, cada monto que se pague se genera una factura</label>
+                        <div class="mb-3 d-flex">
+                              <input type="number"  value="{{company.total_to_pay}}"
+                              class="form-control text-white border-0 p-2 me-2 bg-white bg-opacity-10" 
+                              style="width: 10rem;" 
+                               id="amount" name="pay" required>
+                               <button type="submit" class="btn btn-primary">Cobrar</button>
+                        </div>
+                  </form>
+
+      </section>
+      <section>
+ 
       </section>
 {% endif %}
 
