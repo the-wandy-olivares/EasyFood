@@ -133,7 +133,7 @@ class ProfileCompany(DetailView):
             company = self.object  # Obtener la empresa actual
 
             # Obtener empleados activos en la empresa
-            context['contrato'] = models.Contract.objects.get(company=company, is_active=True)
+            context['contrato'] = models.Contract.objects.get(company=company, is_active=True) if models.Contract.objects.filter(company=company, is_active=True).exists() else None
             context['employee'] = models.Employee.objects.filter(company=company)
             context['count'] = models.Employee.objects.filter(company=company, is_active=True).count()
 
@@ -309,7 +309,7 @@ class Menu(ListView):
             company = models.Company.objects.get(is_active=True, employee=self.request.user.employee_profile)
             context['company'] = company
             context['menus'] = models.Menu.objects.filter(company=self.request.user.employee_profile.company) 
-            context['contrato'] = models.Contract.objects.get(company=company, is_active=True)
+            context['contrato'] = models.Contract.objects.get(company=company, is_active=True) if models.Contract.objects.filter(company=company, is_active=True).exists() else None
             context['menus_choices'] = models.MenuChoices.objects.filter(company=company)
             
             return context

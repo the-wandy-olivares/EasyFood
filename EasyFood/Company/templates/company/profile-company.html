@@ -209,7 +209,7 @@
             </thead>
             <tbody>
                   <tr>
-                        <td>$ {{company.total_pay}}.00 </td>
+                        <td>$ {{company.total_pay|intcomma}}.00 </td>
                         <td> ${{ company.total_to_pay|intcomma }}.00</td>
                         <td> ${{ total_entregado|intcomma }}.00</td>
                         <td> ${{ total_pendiente|intcomma }}.00</td>
