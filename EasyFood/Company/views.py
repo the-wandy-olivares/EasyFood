@@ -151,6 +151,7 @@ class ProfileCompany(DetailView):
             context['total'] = sum(order.price for order in orders)
             context['total_pendiente'] = sum(order.price for order in orders_p_p)
             context['total_entregado'] = sum(order.price for order in orders_e)
+            context['invoice'] = models.Invoice.objects.filter(company=company)
             return context
 
       def form_valid(self, form):
@@ -184,6 +185,10 @@ class ProfileCompany(DetailView):
                   models.Movements(
                         mount = company.total_to_pay,
                         description= company.name + 'Pago de ordenes',
+                  ).save()
+                  models.Invoice(
+                        company= company,
+                        amount= int(request.POST.get('pay')),
                   ).save()
             
             return redirect(reverse('company:profile-company', kwargs={'pk': self.kwargs['pk']}))

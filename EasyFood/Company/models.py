@@ -253,8 +253,8 @@ class Order(models.Model):
 class Invoice(models.Model):
       company = models.ForeignKey(Company, related_name='invoices', on_delete=models.CASCADE)
       amount = models.DecimalField(max_digits=10, decimal_places=2)
-      date_issued = models.DateField()
-      due_date = models.DateField()
+      date_issued = models.DateField(auto_now_add=True)
+
       paid = models.BooleanField(default=False) # Si la factura ha sido pagada o entregada
       payment_date = models.DateField(null=True, blank=True)
 

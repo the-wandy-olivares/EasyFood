@@ -186,7 +186,7 @@
 <section class="w-100 rounded-5 p-3 mt-5 position-relative text-start" style="background-color: var(--bg-prim);">
 
       <strong class="text-white-50 d-flex ">
-            <div class="dropdown ">
+            {% comment %} <div class="dropdown ">
                   <button class="btn btn-dark  bg-black text-white rounded-5 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         Mas
                   </button>
@@ -195,8 +195,8 @@
                         <li><a class="dropdown-item" href="#">  Imprimir PDF o enviar por correo </a></li>
                         <!-- <li><a class="dropdown-item" href="#">Acci</a></li> -->
                   </ul>
-            </div>
-            <span class="mt-2 ms-2">Datos de facturación</span>
+            </div> {% endcomment %}
+            <span class="mt-2 ">Datos de facturación</span>
       </strong>
       <table class="w-100">
             <thead>
@@ -219,22 +219,50 @@
 </section>
 
 {% if request.user.restaurant %}
+      {% if company.total_to_pay != 0  %}
       <section class="p-3">
-
-                  <strong class="text-white-50">Cobrar</strong>
-                  <form method="post">
-                        {% csrf_token %}
-                        <label for="amount" class="form-label text-white-50">Monto a cobrar, cada monto que se pague se genera una factura</label>
-                        <div class="mb-3 d-flex">
-                              <input type="number"  value="{{company.total_to_pay}}"
-                              class="form-control text-white border-0 p-2 me-2 bg-white bg-opacity-10" 
-                              style="width: 10rem;" 
-                               id="amount" name="pay" required>
-                               <button type="submit" class="btn btn-primary">Cobrar</button>
-                        </div>
-                  </form>
-
+            <strong class="text-white-50">Cobrar</strong>
+            <form method="post">
+                  {% csrf_token %}
+                  <label for="amount" class="form-label text-white-50">Monto a cobrar, cada monto que se pague se genera una factura</label>
+                  <div class="mb-3 d-flex">
+                        <input type="number"  value="{{company.total_to_pay}}"
+                        class="form-control text-white border-0 p-2 me-2 bg-white bg-opacity-10" 
+                        style="width: 10rem;" 
+                        id="amount" name="pay" required>
+                        <button type="submit" class="btn btn-primary">Cobrar</button>
+                  </div>
+            </form>
       </section>
+      {% endif %}
+
+
+      <section class="p-3 mt-2">
+            <strong class="text-white-50">Facturas</strong>
+            <table class="table table-dark table-striped ">
+                  <thead>
+                        <tr>
+                              <th scope="col">Monto</th>
+                              <th scope="col">Fecha de Emisión</th>
+                              <th scope="col">Fecha de Pago</th>
+                              <th scope="col">Facturado</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        {% for invoice in invoice %}
+                        <tr>
+                              <td>${{ invoice.amount }}</td>
+                              <td>{{ invoice.date_issued }}</td>
+                              <td>{{ invoice.payment_date|default:"N/A" }}</td>
+                              <td>{{ invoice.is_facturado|yesno:"Sí,No" }}</td>
+                        </tr>
+                        {% endfor %}
+                  </tbody>
+            </table>
+      </section>
+
+
+
       <section>
  
       </section>
