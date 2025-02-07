@@ -22,6 +22,14 @@
     input::placeholder  {
         color: white !important;
     }
+    .form-select {
+        background-color: var(--bg-primary);
+        border: none; outline: none;
+        padding: 0.6rem; border-radius: 2rem;
+        width: 10rem;
+        text-align: center;
+        color: white;
+    }
 </style>
       
 <section>
@@ -30,19 +38,15 @@
             <table class=" w-25">
                 <thead>
                     <tr>
-
                         <th>Total facturado</th>
                         <th>Pendiente</th>
                     </tr>
                 </thead>
                 <tbody>
-
                     <tr>
-
                         <td> ${{total|intcomma}}.00 </td>
                         <td>${{ total_pendiente|intcomma }}.00</td>
                     </tr>
-
                 </tbody>
             </table>
       </div>
@@ -54,80 +58,51 @@
        <p class="m-0 p-0 mt-2 mb-1"> 
         Realiza un reporte de las ordenes realizadas de inicio de periodo de (Inicio - Fin)
       </p> 
-      <div class='d-flex mb-4'>
-            <input type="text" class="form-control me-1" placeholder="Encontrar empresa" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 14rem; text-align: center; height: 2.8rem;">
-     
-
-            <form method="get" action="" class="d-flex">
-                <select name="month" class="form-control me-1" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 10rem; text-align: center; height: 2.8rem;">
-                    <option value="">Mes</option>
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
-                </select>
-                <select name="year" class="form-control me-1" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 10rem; text-align: center; height: 2.8rem;">
-                    <option value="">Año</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                </select>
-                <select name="day" class="form-control me-1" style="background-color: var(--bg-primary); color: white; border: none; outline: none; border-radius: 2rem; width: 10rem; text-align: center; height: 2.8rem;">
-                <option value="" >Dia</option>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-                </select>
-            </form>
-
-            </form>
+      <div class='d-flex mb-4  '>
+        <form method="GET" action="" class="d-flex" id="reportForm">
+            <select class='form-select w-50 rounded-end-1 me-1' id="start_month" name="start_month" required>
+                <option value="" disabled>Inicio</option>
+                <option value="1" {% if request.GET.start_month == '1' %}selected{% endif %}>Enero</option>
+                <option value="2" {% if request.GET.start_month == '2' %}selected{% endif %}>Febrero</option>
+                <option value="3" {% if request.GET.start_month == '3' %}selected{% endif %}>Marzo</option>
+                <option value="4" {% if request.GET.start_month == '4' %}selected{% endif %}>Abril</option>
+                <option value="5" {% if request.GET.start_month == '5' %}selected{% endif %}>Mayo</option>
+                <option value="6" {% if request.GET.start_month == '6' %}selected{% endif %}>Junio</option>
+                <option value="7" {% if request.GET.start_month == '7' %}selected{% endif %}>Julio</option>
+                <option value="8" {% if request.GET.start_month == '8' %}selected{% endif %}>Agosto</option>
+                <option value="9" {% if request.GET.start_month == '9' %}selected{% endif %}>Septiembre</option>
+                <option value="10" {% if request.GET.start_month == '10' %}selected{% endif %}>Octubre</option>
+                <option value="11" {% if request.GET.start_month == '11' %}selected{% endif %}>Noviembre</option>
+                <option value="12" {% if request.GET.start_month == '12' %}selected{% endif %}>Diciembre</option>
+            </select>
+            <select class='form-select w-50 rounded-start-2 rounded-end-2' id="end_month" name="end_month" required>
+                <option value="" disabled>Fin</option>
+                <option value="1" {% if request.GET.end_month == '1' %}selected{% endif %}>Enero</option>
+                <option value="2" {% if request.GET.end_month == '2' %}selected{% endif %}>Febrero</option>
+                <option value="3" {% if request.GET.end_month == '3' %}selected{% endif %}>Marzo</option>
+                <option value="4" {% if request.GET.end_month == '4' %}selected{% endif %}>Abril</option>
+                <option value="5" {% if request.GET.end_month == '5' %}selected{% endif %}>Mayo</option>
+                <option value="6" {% if request.GET.end_month == '6' %}selected{% endif %}>Junio</option>
+                <option value="7" {% if request.GET.end_month == '7' %}selected{% endif %}>Julio</option>
+                <option value="8" {% if request.GET.end_month == '8' %}selected{% endif %}>Agosto</option>
+                <option value="9" {% if request.GET.end_month == '9' %}selected{% endif %}>Septiembre</option>
+                <option value="10" {% if request.GET.end_month == '10' %}selected{% endif %}>Octubre</option>
+                <option value="11" {% if request.GET.end_month == '11' %}selected{% endif %}>Noviembre</option>
+                <option value="12" {% if request.GET.end_month == '12' %}selected{% endif %}>Diciembre</option>
+            </select>
+            <button type="submit" class="btn bg-white bg-opacity-10 text-white ms-2 rounded-end-5"
+                style='font-weight: bold;'>Filtrar</button>
+        </form>
     </div>
 
       <!-- {{report}} -->
 
-    <div style="height: 67vh; border: 10px solid var(--bg-primary); background-color: var(--bg-primary);" class=" p-3 rounded-5 pt-0 overflow-auto">
+    <div style="height: 60vh; border: 10px solid var(--bg-primary); background-color: var(--bg-primary);" class=" p-3 rounded-5 pt-0 overflow-auto">
         <table class="w-100 mt-1">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Estado</th>
                     <th>Empleado</th>
-                    <th>Plato</th>
                     <th>Compañía</th>
                     <th>Fecha y hora</th>
                 </tr>
@@ -136,20 +111,7 @@
                     {% for m in movements %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>
-                                {% if m.status == 'pendiente' %}
-                                    <span class="badge bg-warning rounded-5 " 
-                                    style="color: var(--bg-secundary); font-weight: bold;">Pendiente</span>
-                                {% else %}
-                                    <span class="badge bg-primary rounded-5 bg-transparent">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all text-primary" viewBox="0 0 16 16">
-                                            <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/>
-                                            <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/>
-                                          </svg>
-                                    </span>
-                                {% endif %}
-                            </td>
-                            <td> <img src="request.user.employee_profile.company.img.url" alt=""> {{ m.employee }}</td>
+
                             <td>{{ m.name }}</td>
                             <td>{{ m.company.name }}</td>
                             <td>{{ m.date|date:"d/m/Y - H:i" }}</td>
@@ -158,6 +120,22 @@
             </tbody>
         </table>
     </div>
+    <div class="input-group mb-3 mt-2 d-flex justify-content-end me-2">
+        <button type="button" class="btn btn-outline-secondary rounded-start-4"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+            <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
+            <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+          </svg> Imprimir</button>
+        <button type="button" class="btn rounded-end-4 btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu ">
+          <li><a class="dropdown-item" href="#">PDF</a></li>
+          <li><a class="dropdown-item" href="#">EXCEL</a></li>
+          <li><a class="dropdown-item" href="#">TEXT</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Enviar PDF a (@gmail)</a></li>
+        </ul>
+      </div>
 </section>
 
 {% if report %}

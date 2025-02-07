@@ -12,11 +12,11 @@ from django.http import HttpResponseForbidden
 from django.utils.decorators import method_decorator
 from django.db.models import Sum
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime,  timedelta
 from django.utils import timezone
 from django.core.mail import send_mail
 import random
-
+import calendar
 # http://127.0.0.1:8000/company/logins
 
 # From my apps
@@ -562,13 +562,24 @@ class Report(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            orders_pendiente = models.Order.objects.filter(status='pendiente') 
+            start_month = self.request.GET.get('start_month')
+            end_month = self.request.GET.get('end_month')
             move = models.Movements.objects.all()
+
+            if start_month and end_month:
+                  start_date = datetime(datetime.now().year, int(start_month), 1)
+                  end_date = datetime(datetime.now().year, int(end_month), calendar.monthrange(datetime.now().year, int(end_month))[1])
+                  move = move.filter(date__range=(start_date, end_date))
+
+            orders_pendiente = models.Order.objects.filter(status='entregado')
             context['movements'] = move
             context['total'] = sum(mount.mount for mount in move)
             context['total_pendiente'] = sum(order.plato.price for order in orders_pendiente)
-
             return context
+
+
+
+
 
 
 
