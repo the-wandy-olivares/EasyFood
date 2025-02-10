@@ -33,7 +33,8 @@
 
 
 {% if object.is_active %}
-<a href="{% url "company:plato-detail" object.id %}" class="text-decoration-none">
+<form action="" method="post">
+      {% csrf_token %}
       <div style='min-width: 15rem; width: 15rem;' class="m-4 mt-1 plato-item ">
             <div class=" d-flex w-100 justify-content-center"> 
                   {% if object.img %}
@@ -87,15 +88,17 @@
                   <p style="height: 3rem; font-size: 14px;" class=" text-start overflow-auto text-white-50 p-0 m-0">-{{object.description}}</p>
                   <div class="w-100 d-flex justify-content-end mt-0"> 
                         <span class="text-white me-4 p-0 ps-3 pe-3 d-flex flex-wrap justify-content-center align-content-center  rounded-5 bg-white bg-opacity-10" style="font-size: 18px; font-weight: bold;">${{object.price|intcomma}}</span>
+                        {% if exist_order != True %}
                         <button class="btn rounded-5  text-black  w-100 bg-warning order-now-btn" 
-                              style="font-weight: bold; font-size: 14px;"
-                              data-category="{{p.category.id}}"  data-plato="{{p.id}}"  data-name="{{p.name}}" data-price="{{p.price}}" data-img="{% if p.img %}{{p.img.url}}{% endif %}" >
-                              Agregar 
+                        style="font-weight: bold; font-size: 14px;"
+                        data-category="{{p.category.id}}"  data-plato="{{p.id}}"  data-name="{{p.name}}" data-price="{{p.price}}" data-img="{% if p.img %}{{p.img.url}}{% endif %}" >
+                        Ordenar 
                         </button> 
+                  {% endif %}
                   </div>
             </div>
       </div>
-</a>
+</form>
 {% endif %}
 
 {% endblock %}

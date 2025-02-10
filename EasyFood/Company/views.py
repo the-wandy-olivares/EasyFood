@@ -790,12 +790,24 @@ class UpdatePlato(UpdateView):
 class PlatoDetail(DetailView):
       model = models.Plato
       template_name = "company/platos/plato-detail.html"
-
+      
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
+            context['exist_order'] = models.Order.objects.filter(          
+                  employee=self.request.user.employee_profile, 
+                  company=self.request.user.employee_profile.company,  ).exists()
             return context
 
       
+      def post(self, request, *args, **kwargs):
+            plato= self.get_object()  
+            models.Order.objects.create(
+                  employee=self.request.user.employee_profile, 
+                  company=self.request.user.employee_profile.company,  
+                  name= plato.name, price = plato.price,  img= plato.img, status='pendiente'
+            ).save()
+            return redirect(reverse('company:orders'))
+
 
 
 class DesactivarPlato(View):
