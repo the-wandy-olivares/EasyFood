@@ -795,7 +795,9 @@ class PlatoDetail(DetailView):
             context = super().get_context_data(**kwargs)
             context['exist_order'] = models.Order.objects.filter(          
                   employee=self.request.user.employee_profile, 
-                  company=self.request.user.employee_profile.company,  ).exists()
+                  company=self.request.user.employee_profile.company,  
+                  status__in=['pendiente', 'preparando', 'enviado']
+                  ).exists()
             return context
 
       
