@@ -78,6 +78,7 @@ class Employee(models.Model):
       
       company = models.ForeignKey( 'Company', on_delete=models.CASCADE, 
       related_name='employee', verbose_name='Company', blank=True, null=True)
+      img = models.ImageField(upload_to='media/employee/', null=True, blank=True)
       username = models.CharField(default='', max_length=80, blank=True)
       password = models.CharField(max_length=100, blank=True)
       first_name = models.CharField(max_length=255, verbose_name="Nombre", blank=True)
