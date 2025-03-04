@@ -21,7 +21,7 @@
                               Aqui estan agregadas todas las empresas para ser administrada facilmente
                         </p>
                   </div> -->
-                  <div class="d-flex   overflow-auto mt-0  w-100">
+                  <div class="d-flex   overflow-auto mt-0  w-100 d-none">
                         
                         <a href="{% url "company:create-user" %}" class="d-flex rounded-5 me-2 bg-white bg-opacity-10 justify-content-center align-content-center flex-wrap" style="height: max-content; min-height: 40px; min-width: 40px; transform: scale(1.0);">
                               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi text-white bi-plus-circle-fill text-white" style="" viewBox="0 0 16 16">
@@ -29,7 +29,7 @@
                               </svg>
                         </a>
                        <div class="w-100 ">
-                              {% include "company/list-company.html" %}
+                              <!-- {% include "company/list-company.html" %} -->
                        </div>
 
                   </div>
