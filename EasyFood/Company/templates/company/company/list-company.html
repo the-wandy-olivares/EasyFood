@@ -1,0 +1,24 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+<style>
+      .list-company {
+                  background-color: var(--bg-secundary) !important;
+                  transform: scale(1.1);
+      }
+      .card-options   a {
+            text-decoration: none;
+      }
+      .card-options .card     {
+            width: 18rem; height: max-content;
+            background-color: rgba(254, 254, 254, 0.035);
+            margin: 0.3rem; 
+            cursor: pointer;
+      }
+
+</style>
+<section class="card-options d-flex  overflow-auto">
+      {% include "company/company/cp/tablet-companys.html" %}
+</section>
+
+{% endblock  %}

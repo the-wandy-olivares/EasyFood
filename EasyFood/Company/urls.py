@@ -11,6 +11,8 @@ urlpatterns = [
             path('create-company/<int:pk>', views.CreateCompany.as_view(), name='create-company'),
                   path('update-company/<int:pk>', views.UpdateCompany.as_view(), name='update-company'),
                         path('profile-company/<int:pk>', views.ProfileCompany.as_view(), name='profile-company'),
+                  path('list-company', views.ListCompany.as_view(), name='list-company'),
+            path('delete-company/<int:pk>', views.DeleteCompany.as_view(), name='delete-company'),
                   
 
       path('create-user/', views.CreateUser.as_view(), name='create-user'),

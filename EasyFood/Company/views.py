@@ -987,3 +987,32 @@ class CreateUser(CreateView):
 def Logout(request):
       logout(request)
       return redirect('company:logins')
+
+
+class ListCompany(ListView):
+      model = models.Company
+      template_name = "company/company/list-company.html"
+      context_object_name = 'companys'  # Esto cambiará el nombre del contexto de la lista de menús
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['companys'] = models.Company.objects.filter(is_active=True)
+            return context
+      
+
+class DeleteCompany(DeleteView):
+      template_name = "company/company/delete-company.html"
+      model = models.Company
+      success_url = reverse_lazy('company:admin-company')
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
+
+      def form_valid(self, form):
+            form.instance.user = self.request.user
+            return super().form_valid(form)
+
+      def form_invalid(self, form):
+            print(form.errors)  # Imprime los errores del formulario
+            return super().form_invalid(form)
