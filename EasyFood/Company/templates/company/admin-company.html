@@ -3,13 +3,10 @@
 {% load static %}
       <style>
             .admin-company {
-                  background-color: var(--bg-primary) !important;
-                  color:  #857f94 !important;
+                  background-color: var(--bg-secundary) !important;
                   transform: scale(1.1);
             }
-            .admin-company svg   {
-                  display: none;
-            }
+
       </style>
       {% if company %} 
       <section class='d-flex justify-content-start flex-wrap align-content-start  w-100 h-100'>
@@ -66,6 +63,7 @@
                   </div>
             </div>
             {% endif %}
+            {% include "company/company/cp/graficos-wave.html" %}
       </section>
 
 {% endblock  %}

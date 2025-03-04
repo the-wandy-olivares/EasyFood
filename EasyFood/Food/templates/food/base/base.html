@@ -11,7 +11,6 @@
         crossorigin="anonymous">
 
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <style>
             @media (max-width: 700px) {
@@ -53,13 +52,13 @@
         <main class=' main p-4 d-flex w-100 vh-100'>
                 {% if request.user.is_authenticated %}
                     <div style="width: 13%;" class=" nav m-1  me-3">
-                    {% include "food/componentes/nav.html" %}
+                            {% include "food/componentes/nav.html" %}
                     </div>
                     <div  class=" nav-mobile position-fixed bottom-0  d-flex justify-content-center  z-3   w-100  ">
                         {% include "food/componentes/nav-mobile.html" %}
-                        </div>
+                    </div>
                 {% endif %}
-                <section data-aos="fade-in" class='section-base {% if request.user.is_authenticated %}  {% else %} container {% endif %} p-4'>
+                <section data-aos="fade-in" class='section-base {% if request.user.is_authenticated %}  {% else %} container  {% endif %} p-4 '>
                     {% block content %}
                     {% endblock  %}
                 </section>

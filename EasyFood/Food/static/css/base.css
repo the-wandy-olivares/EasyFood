@@ -47,7 +47,8 @@ td{
       
 .section-base     {
       background-color: var(--bg-secundary); 
-      border-radius: 2.5rem !important; transition: 0.9s !important;
+      transition: 0.9s !important;
+      border-radius: 1.8rem !important; 
       width: 86%;
       overflow: auto;
       height: 100%;

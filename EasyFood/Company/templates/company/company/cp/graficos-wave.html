@@ -1,0 +1,67 @@
+<div  data-aos="fade-in" style="transition: 1s; transition-delay: 0s; margin-top: 4rem; max-height: 42rem;" 
+class="  d-flex  justify-content-center  align-content-end flex-wrap   lineChart  w-100 "  >
+<canvas id="lineChart" class="h-100"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const lineCtx = document.getElementById('lineChart').getContext('2d');
+
+new Chart(lineCtx, {
+      type: "line",
+      data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: [{
+                    label: 'Periodo',
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  borderColor: 'rgba(255, 255, 255, 1)',
+                    data: [10, 20, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    fill: true,
+                    tension: 0.4, // Adds curve to the line
+
+            }]
+      },
+      options: {
+            responsive: true,
+            scales: {
+                  x: {
+                        grid: {
+                              display: false // Elimina las líneas verticales
+                        }
+                  },
+                  y: {
+                        beginAtZero: true,  // Asegura que el eje Y empiece en 0
+                        ticks: {
+                              stepSize: 1,  // Muestra solo números enteros
+                              callback: function(value) {
+                                    return Number.isInteger(value) ? value : null;
+                              }
+                        },
+                        grid: {
+                              display: false // Elimina las líneas horizontales
+                        }
+                  }
+            },
+            plugins: {
+                  legend: {
+                        position: 'end',
+                  },
+                  tooltip: {
+                        callbacks: {
+                              label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                          label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                          label += Math.round(context.parsed.y); // Asegura valores enteros
+                                    }
+                                    return label;
+                              }
+                        }
+                  }
+            }
+      }
+});
+
+
+</script>
