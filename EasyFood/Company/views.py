@@ -110,7 +110,7 @@ class UpdateCompany(UpdateView):
 
       def get_success_url(self):
             # Usamos self.object para acceder al objeto actualizado
-            return reverse_lazy('company:profile-company', kwargs={'pk': self.object.id})
+            return reverse_lazy('company:update-company', kwargs={'pk': self.object.id})
 
 
       def get(self, request, *args, **kwargs):

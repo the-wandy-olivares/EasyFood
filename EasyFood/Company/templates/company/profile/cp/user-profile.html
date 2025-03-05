@@ -51,8 +51,8 @@
       <div>
             <a   {% if request.user.restaurant %} 
                         href="{% url "company:restaurant-update" request.user.restaurant.id %}"  
-                   {% else %}  
-                        href="{% url "company:profile" %}" 
+                   {% else %}
+                        href="{% url "company:update-company" request.user.employee_profile.company.id %}" 
                    {% endif %}>
                   <button class="btn text-white bg-black bg-opacity-25"
                   style="border-radius: 2rem; font-weight: bold;">
