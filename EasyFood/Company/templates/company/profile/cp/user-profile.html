@@ -49,9 +49,15 @@
             </p>
       </div>
       <div>
-            <button class="btn text-white bg-black bg-opacity-25"
-                  style="border-radius: 2rem; font-weight: bold; width: 9rem;">
-                  Ver empresa
-            </button>
+            <a   {% if request.user.restaurant %} 
+                        href="{% url "company:restaurant-update" request.user.restaurant.id %}"  
+                   {% else %}  
+                        href="{% url "company:profile" %}" 
+                   {% endif %}>
+                  <button class="btn text-white bg-black bg-opacity-25"
+                  style="border-radius: 2rem; font-weight: bold;">
+                        Ver compañía
+                  </button>
+            </a>
       </div>
 </div>

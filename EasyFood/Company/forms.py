@@ -207,3 +207,21 @@ class Plato(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+
+class Restaurant(forms.ModelForm):
+    class Meta:
+        model = models.Restaurant
+        fields = [
+            'user', 'name', 'tax_id', 'img', 'address', 'phone', 'email', 'is_active'
+        ]
+        widgets = {
+            'user': forms.Select(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre del Restaurante'}),
+            'tax_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tax ID'}),
+            'img': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Teléfono'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo '}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }

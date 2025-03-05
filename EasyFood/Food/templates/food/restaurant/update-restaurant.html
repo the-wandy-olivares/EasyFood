@@ -1,14 +1,6 @@
 {% extends "food/base/base.html" %}
 {% block content %}
       <style>
-            .my-profile {
-                  background-color: var(--bg-primary) !important;
-                  color:  #857f94 !important;
-                  transform: scale(1.1);
-            }
-            .my-profile svg   {
-                  display: none;
-            }
             .forms-inputs input, #id_address
             {
                   background-color: var(--bg-primary);
@@ -26,7 +18,7 @@
                   color: #7e7e7e;
             }
             .forms-inputs input:focus {
-                  background-color: var(--bg-primary);
+                  background-color: transparent;
                   color: #7e7e7e;
             }
             .forms-inputs #id_address {
@@ -35,7 +27,7 @@
 
             }
             .forms-inputs #id_address:focus {
-                  background-color: var(--bg-primary);
+                  background-color: transparent;
                   color: #7e7e7e;
             }
             .forms-inputs #id_img 
@@ -60,16 +52,23 @@
                   width: 1rem;
             }
       </style>
+      <section class="sec text-center position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-10  blur-20 d-flex justify-content-center align-content-center flex-wrap d-none">
+                  <h6 class="w-100 text-white" style="font-size: 25px; font-weight: bold;">
+                        Ups!, parece que te falta algo
+                  </h6>
+                  <p>
+                        Por favor rellena todos los campos, asegurate que los campos de correo terminen en @gmail.com
+                  </p>
+      </section>
       <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="d-flex justify-content-center align-content-center flex-wrap vh-100 ">
                   <div style='width: 160px; height: 160px; 
-                        {% if object.img %}
-                              background-image: url("{{object.img.url}}"); 
-                        {% endif %}
-                        background-position: center; background-repeat: no-repeat;
-                        background-size: cover;
-                        border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer;'
+                        border-radius: 50%; border: 4px solid #7e7e7e; cursor: pointer;
+                        background-image: url("{% if restaurant.img %}{{ restaurant.img.url }}{% endif %}");
+                        background-position: center; background-repeat: no-repeat; background-size: cover;
+                        '
+                        
                         class="d-flex flex-wrap align-content-center img-load justify-content-center mb-5 " >
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
                               <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
@@ -79,18 +78,20 @@
                   <div class='d-flex forms-inputs flex-wrap  ' style="width: 55rem;" >
                         <div class="w-100 ps-3">
                               <h6 class="p-0 m-0">
-                                    Datos de la empresa
-                              </h6>
+                                    Datos del restaurant
+                              </h6> 
                               <p class="p-0 m-0 text-white-50">
-                                    Ingrese los datos legales de la empresa
+                                    Ingrese los datos legales del restaurante
                               </p>
                         </div>
+
                         <div class="d-flex">
                               {{form.name}}
                               {{form.tax_id}} 
                         </div>
                         <div class="w-100">
                               <span class="d-none">
+                                    {{form.user}}
                                     {{form.img}}
                                     {{form.is_active}}
                               </span>
@@ -102,52 +103,19 @@
                         <div class="w-100">
                               {{form.address}}
                         </div>
-                        
-                        
-                        
-                   
-                        <div class="w-100 ps-3 mt-4">
-                              <h6 class="p-0 m-0">
-                                    Datos del representate
-                              </h6>
-                              <p class="p-0 m-0 text-white-50">
-                                    Ingrese los datos del representate de la empresa
-                              </p>
-                        </div>
-                        <div class="d-flex">
-                              {{form.representative}} 
-                              {{form.cargo_representante}}
-                        </div>
-                       <div class="d-flex">
-                        {{form.contact_representante}} {{form.dni}}
-                       </div>
-                
-
-                        <!-- <h6 class="w-100 text-start m-0 p-0 mt-3">
-                              Servicios a contratar
-                        </h6> -->
-                        <!-- <p class="w-100 p-0 m-0">
-                              Los servicios ofrecidos representan las opciones que cada empresa podrá contratar según sus necesidades.
-                        </p> -->
-                      <!-- <div class='d-flex overflow-auto w-100 flex-wrap sevices-select  ' style="max-width: 20rem;
-                      height: 8rem;">
-                              {{form.services}}
-                      </div> -->
- 
-
       
                         <div class="w-100 d-flex justify-content-end mt-3">
-                              <a href="{% url "company:profile-company"  object.id %}" >
-                                    <span class=" p-2 border-0 btn bg-transparent text-white-50 rounded-5 pe-4 ps-4" style="font-weight: bold
+                              <a href="{% url "company:profile" %}" >
+                                    <span class=" esc p-2 border-0 btn bg-transparent text-white-50 rounded-5 pe-4 ps-4" style="font-weight: bold
                                     ;">
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                                              </svg>
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                                          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                        </svg>
                                     </span>
                               </a>
-                              <button class=" p-2 border-0 bg-warning text-black  me-5 rounded-5 pe-4 ps-4"
+                              <button class=" p-2 border-0 submit-button bg-warning bg-opacity-50 text-black  me-5 rounded-5 pe-4 ps-4"
                                     style="font-weight: bold;">
-                                    Aplicar
+                                    Guardar
                               </button>
                         </div>
                   </div>
@@ -158,31 +126,31 @@
             // Obtener los elementos
             const imgLoad = document.querySelector('.img-load');
             const imgInput = document.getElementById('id_img');
-        
+            
             // Cuando se haga clic en .img-load, simula un clic en el input
             imgLoad.addEventListener('click', function() {
-                imgInput.click();
+                  imgInput.click();
             });
-        
+            
             // Cuando se selecciona un archivo en el input
             imgInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-        
-                if (file) {
-                    // Crear un objeto URL para la imagen seleccionada
-                    const reader = new FileReader();
-        
-                    reader.onload = function(e) {
+                  const file = event.target.files[0];
+            
+                  if (file) {
+                        // Crear un objeto URL para la imagen seleccionada
+                        const reader = new FileReader();
+            
+                        reader.onload = function(e) {
                         // Establecer el fondo de .img-load a la imagen seleccionada
                         imgLoad.style.backgroundImage = `url(${e.target.result})`;
                         imgLoad.style.backgroundSize = 'cover';  // Opcional, para ajustar la imagen al contenedor
                         imgLoad.style.backgroundPosition = 'center';  // Opcional, para centrar la imagen
-                    };
-        
-                    reader.readAsDataURL(file);  // Leer el archivo como una URL
-                }
+                        };
+            
+                        reader.readAsDataURL(file);  // Leer el archivo como una URL
+                  }
             });
-        </script>
+      </script>
 
   <script>
       document.getElementById('id_tax_id').addEventListener('input', function(e) {
@@ -202,5 +170,28 @@
   
           input.value = value;
       });
+
+
+      // Obtener los elementos de los inputs
+      const nameInput = document.getElementById('id_name');
+      const taxIdInput = document.getElementById('id_tax_id');
+      const emailInput = document.getElementById('id_email');
+      const phoneInput = document.getElementById('id_phone');
+      const addressInput = document.getElementById('id_address');
+
+      const dniInputsw = document.getElementById('id_dni');
+      const imgInputs = document.getElementById('id_img');
+      const submitButton = document.querySelector('.submit-button');
+
+
+
+document.querySelector('.sec').addEventListener('click', function() {
+            // Oculta el modal al hacer clic en él
+            this.classList.toggle('d-none');
+        });
+
+
+
+
   </script>
 {% endblock  %}

@@ -13,8 +13,6 @@ urlpatterns = [
                         path('profile-company/<int:pk>', views.ProfileCompany.as_view(), name='profile-company'),
                   path('list-company', views.ListCompany.as_view(), name='list-company'),
             path('delete-company/<int:pk>', views.DeleteCompany.as_view(), name='delete-company'),
-                  
-
       path('create-user/', views.CreateUser.as_view(), name='create-user'),
             
 #Administracion empleados
@@ -32,6 +30,8 @@ urlpatterns = [
                   path('all-orders', views.AllOrders.as_view(), name='all-orders'),
             path('platos', views.Platos.as_view(), name='platos'),
       path('plato-detail/<int:pk>', views.PlatoDetail.as_view(), name='plato-detail' ),
+
+
       # path('categorias', views.Categorias.as_view(), name='categorias'),
       path('create-category', views.CreateCategory.as_view(), name='create-category'),
             path('update-category/<int:pk>', views.UpdateCategory.as_view(), name='update-category'),
@@ -40,6 +40,7 @@ urlpatterns = [
                         path('desactivar-plato/<int:pk>', views.DesactivarPlato.as_view(), name='desactivar-plato'),
                   path('realize-order-company/<int:pk>', views.RealizeOrderCompany.as_view(), name='realize-order-company'),
             path('enviar-order',  views.EnviarOrder.as_view(), name='enviar-order' ),
+
 
 # Finanzas 
       path('report', views.Report.as_view(), name='report'),
@@ -50,6 +51,8 @@ urlpatterns = [
             path('select-Menu/<int:pk>', views.SelectMenu.as_view(), name='select-menu'),
                   path('create-category-for-company/<int:pk>', views.CreateCategoryForCompany.as_view(), name='create-category-for-company'),
                         path('menu-select/<int:pk>', views.MenuSelect.as_view(), name='menu-select'),
+
+
 #  Reclamaciones o solicitudes
       path('claims', views.Claims.as_view(), name='claims'),
             path('create-claim', views.CreateClaim.as_view(), name='create-claim'),
@@ -74,6 +77,10 @@ urlpatterns = [
 # Recuperar contraseña
       path('recovery-password', views.RecoveryPassword.as_view(), name='recovery-password'),
             path('verify-code', views.VerifyCode.as_view(), name='verify-code'),
+
+
+# Restaurant 
+      path('restaurant-update/<int:pk>', views.UpdateRestaurant.as_view(), name='restaurant-update'),
 
 
 # Solicitudes ajax asincronas
