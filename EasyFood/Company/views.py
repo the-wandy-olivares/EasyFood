@@ -1016,3 +1016,11 @@ class DeleteCompany(DeleteView):
       def form_invalid(self, form):
             print(form.errors)  # Imprime los errores del formulario
             return super().form_invalid(form)
+      
+
+class Profile(TemplateView):
+      template_name = "company/profile/profile.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context

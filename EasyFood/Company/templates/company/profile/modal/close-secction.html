@@ -1,0 +1,15 @@
+<div class="confirm-secction  w-100 vh-100 d-none position-fixed d-flex justify-content-center align-content-center flex-wrap top-0 start-0  bg-black bg-opacity-10 blur-20 "
+      style="z-index: 100;">
+      <div class=" text-center p-2 rounded-4" 
+            style="width: 25rem; height: max-content;">
+            <h5>
+                  ¿Estás seguro de cerrar la sesión?
+            </h5>
+            <button onclick="ConfirmCloseSecction()"  href="#" class="btn bg-transparent text-white rounded-5">
+                  Cancelar
+            </button>
+            <a  href="{% url "company:logout" %}" class="btn bg-black bg-opacity-25 text-white   rounded-5">
+                  Si, cerrar 
+            </a>
+      </div>
+</div>

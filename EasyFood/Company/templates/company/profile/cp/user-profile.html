@@ -1,0 +1,57 @@
+<style>
+      body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+      }
+
+      .profile-container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff0a;
+            border-radius: 1.5rem
+
+      }
+
+      .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+      }
+
+      .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #333;
+      }
+
+      .username {
+            font-size: 2em;
+            margin: 10px 0;
+      }
+
+</style>
+<div class="profile-container position-relative">
+      <button class="position-absolute top-0 end-0 mt-3 me-3 bg-white bg-opacity-10 rounded-3 border-0 text-white p-2">
+            Editar
+      </button>
+      <div class="profile-header">
+            {% if request.user.employee_profile.img %}
+                  <img src="{{request.user.employee_profile.img.url}}" alt="Profile Picture" class="profile-picture">
+            {% endif %}
+            <h1 class="username p-0 m-0 mt-2">
+                        {{request.user.first_name|slice:":5"}} {{request.user.last_name|slice:":8"}}
+            </h1>
+            <p class=" p-0 m-0">
+                  {{request.user.email}}
+            </p>
+      </div>
+      <div>
+            <button class="btn text-white bg-black bg-opacity-25"
+                  style="border-radius: 2rem; font-weight: bold; width: 9rem;">
+                  Ver empresa
+            </button>
+      </div>
+</div>

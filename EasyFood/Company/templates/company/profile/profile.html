@@ -1,0 +1,19 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load humanize %}
+{% load static %}
+
+      <section class="h-100 w-100 d-flex justify-content-center align-content-center flex-wrap">
+            <!--Modal-->
+            {%  include 'company/profile/modal/close-secction.html' %}
+            <!--Perfil del usuario-->
+            {%  include 'company/profile/cp/user-profile.html' %}
+            <button onclick="ConfirmCloseSecction()" class="btn bg-danger position-absolute bottom-0 mb-3 me-3 end-0 text-white rounded-5">Cerrar sesión
+            </button>
+      </section>
+      <script>
+            function ConfirmCloseSecction() {
+                  document.querySelector('.confirm-secction').classList.toggle('d-none');
+            }
+      </script>
+{% endblock  %}
