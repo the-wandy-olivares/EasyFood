@@ -1042,3 +1042,12 @@ class UpdateRestaurant(UpdateView):
 
       def get_success_url(self):
             return reverse_lazy('company:restaurant-update' , kwargs={'pk': self.object.id})
+      
+
+class Facturacion(TemplateView):
+      template_name = "company/facturacion/facturacion.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['companys'] = models.Company.objects.filter(is_active=True)
+            return context

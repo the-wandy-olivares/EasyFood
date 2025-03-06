@@ -1,0 +1,130 @@
+{% extends "food/base/base.html" %}
+{% block content %}
+{% load static %}
+      <style>
+            .facturacion {
+                  background-color: var(--bg-secundary) !important;
+                  transform: scale(1.1);
+            }
+
+            .top-bar {
+                  background-color: var(--bg-primary);
+                  padding: 10px;
+                  border-radius: 5px;
+                  margin-bottom: 20px;
+            }
+
+            .table-container {
+                  margin-top: 20px;
+            }
+
+            table {
+                  width: 100%;
+                  border-collapse: collapse;
+            }
+
+            th, td {
+                  padding: 10px;
+                  text-align: left;
+                  border-bottom: 1px solid #101010;
+            }
+
+            th {
+                  background-color: var(--bg-primary);
+                  color: white;
+            }
+
+            tr:hover {
+                  background-color: var(--bg-hover);
+            }
+
+            button {
+                  margin-right: 5px;
+                  padding: 5px 10px;
+                  background-color: var(--btn-primary);
+                  color: white;
+                  border: none;
+                  border-radius: 3px;
+                  cursor: pointer;
+            }
+
+            button:hover {
+                  background-color: var(--btn-hover);
+            }
+
+            .sidebar {
+                  margin-top: 20px;
+                  padding: 10px;
+                  background-color: var(--bg-primary);
+                  border-radius: 5px;
+            }
+
+            .sidebar nav ul {
+                  list-style-type: none;
+                  padding: 0;
+            }
+
+            .sidebar nav ul li {
+                  margin-bottom: 10px;
+            }
+
+            .sidebar nav ul li a {
+                  text-decoration: none;
+                  color: white;
+                  padding: 5px 10px;
+                  display: block;
+                  border-radius: 3px;
+            }
+
+            .sidebar nav ul li a:hover {
+                  background-color: var(--bg-hover);
+            }
+      </style>
+      <section>
+            <div class='d-flex overflow-auto'>
+                  {% include "company/facturacion/cp/list-company.html" %}
+            </div>
+            <div class="top-bar">
+                  <h2>Nombre del Cliente: Juan Pérez</h2>
+                  <p>Resumen del Contrato: Contrato anual, 20 empleados, servicio de catering completo</p>
+            </div>
+
+            <div class="w-100">
+                  <table>
+                        <thead>
+                              <tr>
+                                    <th>Empleado</th>
+                                    <th>Plato</th>
+                                    <th>Costo Total</th>
+                                    <th>Acciones</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <tr>
+                                    <td>Empleado 1</td>
+                                    <td>Plato 1</td>
+                                    <td>$10.00</td>
+                                    <td>
+                                          <button>Ver Detalles</button>
+                                          <button>Generar PDF</button>
+                                    </td>
+                              </tr>
+                              <!-- Agrega más filas según sea necesario -->
+                        </tbody>
+                  </table>
+            </div>
+
+            <div class="sidebar">
+                    <nav>
+                              <ul>
+                                      <li><a href="#">Facturación</a></li>
+                                      <li><a href="#">Empleados</a></li>
+                                      <li><a href="#">Platos</a></li>
+                                      <li><a href="#">Total</a></li>
+                              </ul>
+                    </nav>
+            </div>
+
+      </section>
+
+{% endblock  %}

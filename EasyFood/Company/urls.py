@@ -82,6 +82,8 @@ urlpatterns = [
 # Restaurant 
       path('restaurant-update/<int:pk>', views.UpdateRestaurant.as_view(), name='restaurant-update'),
 
+# Facturacion 
+      path('facturacion', views.Facturacion.as_view(), name='facturacion'),
 
 # Solicitudes ajax asincronas
       path('verify-username-ajax', views_ajax.Verify_Username_Ajax, name='verify-username-ajax'),
