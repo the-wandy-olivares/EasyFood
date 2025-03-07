@@ -157,6 +157,7 @@ class Despacho(TemplateView):
             context['categories'] = models.Category.objects.all()
             return context
       
+    
 
       def post(self, request):
       # Obtener los platos seleccionados desde el formulario (IDs de platos seleccionados)

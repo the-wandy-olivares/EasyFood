@@ -68,7 +68,8 @@ class AdminCompany(TemplateView):
 class CreateCompany(CreateView):
       model = models.Company
       form_class = forms.Company
-      template_name = "company/create-company.html"  # Tu plantilla personalizada
+      template_name = "company/create-company.html" 
+       # Tu plantilla personalizada
       # success_url = reverse_lazy('company:admin')  # Redirige después de guardar
 
       def get_context_data(self, **kwargs):
@@ -1049,8 +1050,10 @@ class Facturacion(TemplateView):
 
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['companys'] = models.Company.objects.filter(is_active=True)
-            context['company'] = models.Company.objects.get(name='Super Mercado')
+            context['list_companys'] = models.Company.objects.filter(is_active=True)
+            if self.request.GET.get('company_id'):
+                  context['company'] = models.Company.objects.get(id= int(self.request.GET.get('company_id')),
+                  is_active=True)
             return context
       
 
@@ -1058,6 +1061,13 @@ class Facturacion(TemplateView):
 class POS(TemplateView):
       template_name = "company/pos/pos.html"
 
+      help = "Ayuda"
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
+       
             return context
+      
+# Hola mundo
+""" 
+            Hola
+"""
