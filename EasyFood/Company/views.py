@@ -1050,4 +1050,14 @@ class Facturacion(TemplateView):
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context['companys'] = models.Company.objects.filter(is_active=True)
+            context['company'] = models.Company.objects.get(name='Super Mercado')
+            return context
+      
+
+
+class POS(TemplateView):
+      template_name = "company/pos/pos.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
             return context

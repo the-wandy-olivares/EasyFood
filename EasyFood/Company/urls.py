@@ -85,6 +85,9 @@ urlpatterns = [
 # Facturacion 
       path('facturacion', views.Facturacion.as_view(), name='facturacion'),
 
+# Punto de venta POS
+      path('pos', views.POS.as_view(), name='pos'),
+
 # Solicitudes ajax asincronas
       path('verify-username-ajax', views_ajax.Verify_Username_Ajax, name='verify-username-ajax'),
             path('upload-masive-user', views_ajax.Upload_Masive_User, name='upload-masive-user'),

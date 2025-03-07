@@ -55,48 +55,34 @@
             .sidebar {
                   margin-top: 20px;
                   padding: 10px;
-                  background-color: var(--bg-primary);
                   border-radius: 5px;
+
+            }
+            .sidebar span
+            {
+                  background-color: #101010;
+                  padding: 10px 15px; margin: 0.2rem;
+                  border-radius: 2rem;
             }
 
-            .sidebar nav ul {
-                  list-style-type: none;
-                  padding: 0;
-            }
 
-            .sidebar nav ul li {
-                  margin-bottom: 10px;
-            }
-
-            .sidebar nav ul li a {
-                  text-decoration: none;
-                  color: white;
-                  padding: 5px 10px;
-                  display: block;
-                  border-radius: 3px;
-            }
-
-            .sidebar nav ul li a:hover {
-                  background-color: var(--bg-hover);
-            }
       </style>
       <section>
             <div class='d-flex overflow-auto'>
+                  {% include "company/facturacion/cp/selected-company.html" %}
                   {% include "company/facturacion/cp/list-company.html" %}
             </div>
-            <div class="top-bar">
-                  <h2>Nombre del Cliente: Juan Pérez</h2>
-                  <p>Resumen del Contrato: Contrato anual, 20 empleados, servicio de catering completo</p>
-            </div>
-
+            <span style='font-size:12px ;' class='text-white-50'>
+                  Tabla de pedidos
+            </span>
             <div class="w-100">
                   <table>
                         <thead>
                               <tr>
                                     <th>Empleado</th>
                                     <th>Plato</th>
-                                    <th>Costo Total</th>
-                                    <th>Acciones</th>
+                                    <th>Precio</th>
+                                    <th>...</th>
                               </tr>
                         </thead>
                         <tbody>
@@ -104,26 +90,31 @@
                                     <td>Empleado 1</td>
                                     <td>Plato 1</td>
                                     <td>$10.00</td>
-                                    <td>
-                                          <button>Ver Detalles</button>
-                                          <button>Generar PDF</button>
-                                    </td>
+                                    <td>...</td>
                               </tr>
                               <!-- Agrega más filas según sea necesario -->
                         </tbody>
                   </table>
             </div>
 
-            <div class="sidebar">
-                    <nav>
-                              <ul>
-                                      <li><a href="#">Facturación</a></li>
-                                      <li><a href="#">Empleados</a></li>
-                                      <li><a href="#">Platos</a></li>
-                                      <li><a href="#">Total</a></li>
-                              </ul>
-                    </nav>
-            </div>
+            <section class='position-fixed bottom-0 position-relative ' style='width: max-content;'>
+                  <div class="sidebar mt-0 rounded-4 mb-4" style='width: 82vw;'>
+                              <span>
+                                    Empleados: <strong>30</strong>
+                              </span>
+                              <span>
+                                    Platos encargados <strong>25</strong>
+                              </span>
+                              <span>
+                                    Total <strong>$32,000.00</strong>
+                              </span>
+                              <!--BTN de aplicar pago-->
+                              <button class="bg-warning p-2 bottom-0 mb-4 text-black  rounded-5 position-absolute end-0" 
+                                    style="font-weight: bold;">
+                                    Aplicar pago
+                              </button>
+                  </div>
+            </section>
 
       </section>
 

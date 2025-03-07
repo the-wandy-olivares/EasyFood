@@ -1,5 +1,5 @@
-<div  data-aos="fade-in" style="transition: 1s; transition-delay: 0s; margin-top: 15rem; max-height: ;" 
-class="  d-flex  justify-content-center  align-content-end flex-wrap   lineChart  w-100 "  >
+<div  data-aos="fade-in" style="transition: 1s; transition-delay: 0s; " 
+class="  d-flex  justify-content-center position-fixed bottom-0  align-content-end flex-wrap   lineChart  w-100 "  >
 <canvas id="lineChart" class="h-100"></canvas>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,9 +14,9 @@ new Chart(lineCtx, {
                     label: 'Periodo',
                     backgroundColor: '#131313',
                     borderColor: '#131313',
-                    data: [16, 15, 5, 5, 4, 0, 0, 0, 0, 0, 0, 0],
+                    data: [14, 15, 5, 5, 4, 0, 0, 0, 0, 0, 0, 0],
                     fill: true,
-                    tension: 0.4, // Adds curve to the line
+                    tension: 0.6, // Adds curve to the line
 
             }]
       },
