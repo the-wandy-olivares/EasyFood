@@ -7,8 +7,21 @@
                   transform: scale(1.1);
       }
 </style>
-<section>
-      
+<section class="w-100 d-flex">
+      <button onclick="OpenPanel()" class="position-absolute top-0 end-0 btn bg-white bg-opacity-10">
+            <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-fill text-white" viewBox="0 0 16 16">
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+                </svg>
+      </button>
+      <div class="w-100">
+            {% include "company/pos/cp/categorias.html" %}
+            {% include "company/pos/cp/items.html" %}
+      </div>
+      {% include "company/pos/cp/panel-lateral.html" %}
 </section>
-
+<script>
+      function OpenPanel() {
+            document.querySelector('.panel-lateral').classList.toggle('d-none');
+      }
+</script>
 {% endblock  %}
