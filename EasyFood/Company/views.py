@@ -1061,12 +1061,15 @@ class Facturacion(TemplateView):
 class POS(TemplateView):
       template_name = "company/pos/pos.html"
 
-      help = "Ayuda"
       def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-       
+            context['list_categorias'] = models.Category.objects.filter(is_active=True)
+            categoria_id = self.request.GET.get('categoria')
+            if categoria_id:
+                  context['platos'] = models.Plato.objects.filter(category_id=categoria_id)
+            else:
+                  context['platos'] = models.Plato.objects.all()[:10]
             return context
-      
 # Hola mundo
 """ 
             Hola

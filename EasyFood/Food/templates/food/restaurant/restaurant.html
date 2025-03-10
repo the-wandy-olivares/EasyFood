@@ -60,32 +60,12 @@
       </div>
 
 
-      {% comment %} <div>
-            <strong>
-                  <span class='text-white-50'> Menus </span>   
-            </strong>
-            <p class="text-white-50 p-0 m-0">
-                  Los menus ayudan a organizar los platos (Desayuno, Almuerzo, Meriendas, Cenas y mas)
-            </p>
-      </div> {% endcomment %}
+
       <section class='mt-0 d-flex   overflow-auto mt-0 flex-wrap justify-content-start '>
             {% if categorias %}
                         {% include "company/platos/list-categorias.html" %}
-                  {% else %}
-                  {% comment %} <div class='text-center'>
-                        <h6>No hay categorías de platos registradas.</h6>
-                        <a >Agregar categorías de platos</a> {% endcomment %}
-
             {% endif %}
       </section>
-
-      {% comment %} {{platos.choices_menu.all}}
-
-      {% if platos.choices_menu.all %}
-            {% for c in   platos.platos_category.all %}
-                  {{c.name}}
-            {% endfor %}
-      {% endif %} {% endcomment %}
 
       {% if platos.choices_menu.all %}
       <div class="mt-3">
