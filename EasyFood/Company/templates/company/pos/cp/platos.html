@@ -30,10 +30,10 @@
 <section class="d-flex flex-wrap w-100  mt-5 bg-transparent">
       {% for plato in platos %}
             <div class="plato">
-                  <div style="height: 10rem; width: 100%;">
-                        <img src="{{plato.img.url}}" class="rounded-5 h-100 w-100 object-fit-cover" alt="..?"> 
+                  <div style="height: 13rem; width: 100%;">
+                        <img src="{{plato.img.url}}" class="rounded-5 h-100 w-100 object-fit-contain" alt="..?"> 
                   </div>
-                  <p> {{plato.name}} </p> <span>$ {{plato.price}} </span>
+                    <p> {{plato.name}} </p> <span style="font-size: 20px;">$ {{plato.price|floatformat:2|intcomma}} </span>
             </div>
       {% endfor %}
 </section>
