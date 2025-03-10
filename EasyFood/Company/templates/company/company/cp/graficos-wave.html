@@ -1,3 +1,8 @@
+<style>
+            .section-base {
+            padding: 0.4rem !important;
+      }
+</style>
 <div  data-aos="fade-in" style="transition: 1s; transition-delay: 0s; " 
 class="  d-flex  justify-content-center position-fixed bottom-0  align-content-end flex-wrap   lineChart  w-100 "  >
 <canvas id="lineChart" class="h-100"></canvas>
@@ -12,8 +17,8 @@ new Chart(lineCtx, {
             labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             datasets: [{
                     label: 'Periodo',
-                    backgroundColor: '#131313',
-                    borderColor: '#131313',
+                  backgroundColor: 'rgba(255, 165, 0, 0.1)',  // Orange with 10% opacity
+                  borderColor: 'rgba(255, 165, 0, 0.7)',  // Orange with 70% opacity
                     data: [14, 15, 5, 5, 4, 0, 0, 0, 0, 0, 0, 0],
                     fill: true,
                     tension: 0.6, // Adds curve to the line

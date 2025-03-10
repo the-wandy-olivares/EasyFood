@@ -167,3 +167,13 @@ class Despacho(TemplateView):
                         order.status = 'enviado'
                         order.save()
             return redirect(reverse('food:despacho'))
+
+
+
+# Configuracion, Cambiar contraseña, Cambiar correo electronico y Mas
+class Configuracion(TemplateView):
+      template_name = "restaurante/configuracion.html"
+
+      def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            return context
