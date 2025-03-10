@@ -7,34 +7,24 @@
                   background-color: var(--bg-secundary) !important;
                   transform: scale(1.1);
             }
-
-
-
-            
       </style>
       <div class="d-flex  mb-3 mt-3  w-100 justify-content-start " >
-
             <img src="{{request.user.employee_profile.company.img.url}}"  alt="No-Foun"
                   style='width: 70px; height: 70px; border: 10px solid var(--bg-secundary);' class="object-fit-cover rounded-circle"> 
             <h5 class=" text-start ms-2 m-0 p-0 mt-4" 
                   style="font-family: Lobster, sans-serif; " >
                   {{ request.user.employee_profile.company.name|truncatechars:20 }}
             </h5>
-
-
       </div>
       {% if platos.choices_menu.all %}
-      
-
-      <span class="position-sticky top-0  w-100 d-flex d-none  justify-content-end p-3 z-2 me-4   position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer; ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-heart-fill " viewBox="0 0 16 16">
-                  <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>
-                </svg>
-                <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
-       style='width: 20px; height: 20px; color: var(--bg-primary);'>0</div>
-      </span>
+            <span class="position-sticky top-0  w-100 d-flex d-none  justify-content-end p-3 z-2 me-4   position-relative" onclick="Orders()" style="font-weight: bold; cursor: pointer; ">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-heart-fill " viewBox="0 0 16 16">
+                        <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>
+                  </svg>
+                  <div class="item-count rounded-circle position-absolute top-0 end-0 d-flex  justify-content-center align-content-center flex-wrap   bg-warning"  
+            style='width: 20px; height: 20px; color: var(--bg-primary);'>0</div>
+            </span>
       {% endif %}
-
       <div style="width: 24rem; "
       class=" position-absolute orders-list    d-none  rounded-5 p-1 me-2 position-relative  top-0 end-0 z-2">
       <svg xmlns="http://www.w3.org/2000/svg" onclick="Orders()" width="25" height="25" fill="currentColor" class="bi bi-x-circle-fill me-1 position-absolute end-0 z-3" viewBox="0 0 16 16" style="cursor: pointer;">
@@ -59,8 +49,6 @@
                   </div>
       </div>
 
-
-
       <section class='mt-0 d-flex   overflow-auto mt-0 flex-wrap justify-content-start '>
             {% if categorias %}
                         {% include "company/platos/list-categorias.html" %}
@@ -68,18 +56,18 @@
       </section>
 
       {% if platos.choices_menu.all %}
-      <div class="mt-3">
-            <strong>
-                  <span class='text-white-50'> Todos los platos</span>   
-            </strong>
-            <p class="text-white-50">
-                  Aquí puedes ver todos los platos de este
-            </p>
-      </div>
-      <section class='mt-0 d-flex   overflow-auto   '>
-            {% include "company/platos/list-platos.html" %}
-            {% else %}
-      </section>
+            <div class="mt-3">
+                  <strong>
+                        <span class='text-white-50'> Todos los platos</span>   
+                  </strong>
+                  <p class="text-white-50">
+                        Aquí puedes ver todos los platos de este
+                  </p>
+            </div>
+            <section class='mt-0 d-flex   overflow-auto   '>
+                  {% include "company/platos/list-platos.html" %}
+                  {% else %}
+            </section>
       {% endif %}
       <script>
             function Orders() {

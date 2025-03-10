@@ -2,25 +2,22 @@
       .categorias {
             width: 15rem; height: 6rem; 
             position: relative;
-            border-radius: 1.9rem;
+            border-radius: 1.4rem;
             overflow: hidden;
       }
       .categorias span {
             background-color: rgba(0, 0, 0, 0.7);
             display: flex; text-align: center;
-            justify-content: center;  flex-wrap: wrap; 
-            align-content: center;
-            border-radius: 0.3125rem; /* 5px */
+            justify-content: center; flex-wrap: wrap;  align-content: center;
+            border-radius: 0.3125rem; padding: 0.5rem;
             position: absolute; top: 0; font-size: 14px;
             height: 100%; width: 100%; font-weight: bold;
-            padding: 0.5rem;
       }
 </style>
-
 <div class="d-flex overflow-auto" >
       {% for categoria in list_categorias %}
       <form method="get" class='text-text-decoration-none text-white categorias m-2' onsubmit="this.submit()">
-            <input type="hidden" name="categoria" value="{{categoria.id}}">
+            <input type="hidden" name="categoria_id" value="{{categoria.id}}">
             <img src="{{categoria.img.url}}" class="w-100 h-100 object-fit-cover" onclick="this.closest('form').submit()">
             <span onclick="this.closest('form').submit()">
                   {{categoria.name}} 
