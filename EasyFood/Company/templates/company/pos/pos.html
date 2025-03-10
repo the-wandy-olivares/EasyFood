@@ -34,11 +34,12 @@
             {% if platos %}
                   {% include "company/pos/cp/platos.html" %}
                   {% else %}
-                  <h5 class="text-white text-center mt-4">No hay platos en esta categoria</h5>
+                  <h5 class="text-white text-center mt-4">
+                        No hay platos en esta categoria -> <strong class="text-warning"> {{categoria_show}} </strong>
+                   </h5>
                   <p class="text-center">
                         Debes agregar platos a esta categoria, para que los clientes puedan verlos
                   </p>
-              
             {% endif %}
             {% include "company/pos/cp/panel-lateral.html" %}
       </div>

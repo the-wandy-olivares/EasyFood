@@ -1066,6 +1066,7 @@ class POS(TemplateView):
             context['list_categorias'] = models.Category.objects.filter(is_active=True)
             if self.request.GET.get('categoria_id'):
                   context['platos'] = models.Plato.objects.filter(category_id=int(self.request.GET.get('categoria_id')))
+                  context['categoria_show'] = models.Category.objects.get(pk=int(self.request.GET.get('categoria_id')))
             else:
                   context['platos'] = models.Plato.objects.all()[:10]
             return context
