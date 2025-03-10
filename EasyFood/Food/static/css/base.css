@@ -36,7 +36,7 @@ td {
       
 .section-base     {
       background-color: var(--bg-secundary); transition: 0.9s !important;
-      border-radius: 1.5rem !important;   width: 100%; height: 100%; overflow: auto;
+      border-radius: 2rem !important;   width: 100%; height: 100%; overflow: auto;
 }
 
 /* Efecto de desenfoque */
