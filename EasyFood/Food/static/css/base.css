@@ -11,7 +11,7 @@
 /* Estilos para el header */
 :root {
       /* Colores de fondo */
-      --bg-primary: #131313;  --bg-secundary: #1f1e22;
+      --bg-primary: #131313;  --bg-secundary: rgb(31, 30, 34);
 
       /* Colores de acento */
       --accent-blue: #A2C2E1;    --accent-green: #8BC34A;

@@ -6,18 +6,35 @@
             background-color: var(--bg-secundary) !important;
             transform: scale(1.1);
       }
+      .section-base {
+            padding: 0 !important;
+      }
+      .section-pos {    
+            overflow: hidden;
+            background-size: cover;
+            background-image: url("https://tuguiadominicana.com/wp-content/uploads/2023/03/ARROZ-ABICHUELA-CARNE-@eltipicodominicano-1024x582.png");
+            background-size: cover;
+            border: 0px !important;
+      }
+      .content-pos {
+            background: linear-gradient(to bottom, rgba(31, 30, 34, 0.568),
+            rgb(31, 30, 34));
+            height: 100%; 
+            padding: 2rem;
+      }
 </style>
-<section class="w-100 d-flex">
-      <button onclick="OpenPanel()" class="position-absolute top-0 end-0 btn bg-white bg-opacity-10">
-            <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-fill text-white" viewBox="0 0 16 16">
-                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
-                </svg>
-      </button>
-      <div class="w-100">
+<section class="w-100  " >
+      <div class="w-100 m  section-pos">
+            <div class="content-pos blur-5">
+            {% include "company/pos/cp/btn-superiores.html" %}
             {% include "company/pos/cp/categorias.html" %}
-            {% include "company/pos/cp/platos.html" %}
+            </div>
       </div>
-      {% include "company/pos/cp/panel-lateral.html" %}
+      <div class="p-2">
+            {% include "company/pos/cp/platos.html" %}
+            {% include "company/pos/cp/panel-lateral.html" %}
+      </div>
+  
 </section>
 <script>
       function OpenPanel() {
